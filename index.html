@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checklists PAF – Engagement &amp; Paiement</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #f4f7fc;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 30px 20px;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #0b2b4a;
+            border-left: 6px solid #2563eb;
+            padding-left: 18px;
+            margin-bottom: 12px;
+        }
+
+        .sub {
+            color: #475569;
+            margin-bottom: 28px;
+            padding-left: 24px;
+            font-size: 1rem;
+        }
+
+        /* onglets */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 0;
+            border-bottom: 2px solid #cbd5e1;
+        }
+
+        .tab-btn {
+            background: #e9eef4;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #334155;
+            border-radius: 12px 12px 0 0;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid transparent;
+            border-bottom: none;
+        }
+
+        .tab-btn:hover {
+            background: #d9e2ef;
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: #1e4c8c;
+            border-color: #cbd5e1;
+            border-bottom: 2px solid white;
+            margin-bottom: -2px;
+        }
+
+        .tab-pane {
+            display: none;
+            background: #ffffff;
+            padding: 24px 22px 32px;
+            border-radius: 0 16px 16px 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e2e8f0;
+            border-top: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        /* tableaux */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 16px 0 8px;
+            border-radius: 12px;
+            border: 1px solid #e9edf2;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            min-width: 820px;
+        }
+
+        th {
+            background: #f1f6fd;
+            color: #1e3a6b;
+            font-weight: 600;
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 2px solid #d0dae8;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px 12px;
+            border-bottom: 1px solid #e9edf2;
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e2e8f0;
+            border-radius: 40px;
+            padding: 4px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .badge.ok {
+            background: #dcfce7;
+            color: #166534;
+        }
+        .badge.nok {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .badge.na {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .status-select {
+            padding: 6px 10px;
+            border-radius: 30px;
+            border: 1px solid #d1d9e6;
+            background: white;
+            font-weight: 500;
+            font-size: 0.8rem;
+            cursor: pointer;
+            min-width: 90px;
+        }
+
+        .status-select:focus {
+            outline: 2px solid #2563eb;
+            outline-offset: 1px;
+        }
+
+        .recap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px 48px;
+            background: #f8fafc;
+            padding: 18px 22px;
+            border-radius: 16px;
+            margin: 22px 0 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .recap-item {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .recap-item strong {
+            font-weight: 600;
+            color: #1e293b;
+            min-width: 130px;
+        }
+
+        .recap-item span {
+            color: #0f3b6a;
+            font-weight: 500;
+        }
+
+        .progress-container {
+            margin: 18px 0 10px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e9edf2;
+            border-radius: 20px;
+            overflow: hidden;
+            max-width: 420px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #2563eb;
+            width: 0%;
+            border-radius: 20px;
+            transition: width 0.3s;
+        }
+
+        .checklist-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn-reset {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #1e293b;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .btn-reset:hover {
+            background: #e2e8f0;
+        }
+
+        .footnote {
+            margin-top: 18px;
+            font-size: 0.85rem;
+            color: #475569;
+            background: #f8fafc;
+            padding: 14px 20px;
+            border-radius: 12px;
+            border-left: 4px solid #94a3b8;
+        }
+
+        .footnote strong {
+            color: #0b2b4a;
+        }
+
+        .checkbox-sim {
+            display: inline-block;
+            width: 18px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        /* suivi */
+        .suivi-table th {
+            background: #eef3fa;
+        }
+
+        @media (max-width: 640px) {
+            .tab-btn {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
+            .recap-item {
+                flex-direction: column;
+                gap: 4px;
+            }
+            .recap-item strong {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>📋 Checklists PAF</h1>
+    <div class="sub">Manuel des procédures – Annexe 6 · Circulaire N°45/2025</div>
+
+    <!-- Onglets -->
+    <div class="tabs" id="tabHeaders">
+        <button class="tab-btn active" data-tab="tab1">📌 Engagement</button>
+        <button class="tab-btn" data-tab="tab2">💰 Paiement</button>
+        <button class="tab-btn" data-tab="tab3">📊 Suivi récapitulatif</button>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- TAB 1 : ENGAGEMENT -->
+    <!-- ========================================= -->
+    <div class="tab-pane active" id="tab1">
+        <div class="checklist-title">
+            <h2 style="font-weight:600; font-size:1.3rem;">🔹 Dossier d’engagement <span style="font-weight:400; font-size:0.9rem; color:#475569;">(avant formation)</span></h2>
+            <button class="btn-reset" onclick="resetChecklist('engagement')">⟲ Réinitialiser</button>
+        </div>
+
+        <div class="table-wrap">
+            <table id="engagementTable">
+                <thead>
+                    <tr>
+                        <th style="width:40px;">N°</th>
+                        <th>Critère / Pièce à fournir</th>
+                        <th style="min-width:150px;">Exigence</th>
+                        <th style="width:130px;">Statut</th>
+                        <th style="width:140px;">Date</th>
+                        <th style="min-width:140px;">Observations</th>
+                    </tr>
+                </thead>
+                <tbody id="engagementBody">
+                    <!-- les lignes sont générées par JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Récap engagement -->
+        <div class="recap" id="recapEngagement">
+            <div class="recap-item"><strong>Date de dépôt</strong> <span contenteditable="true" id="depotEngagement">__/__/____</span></div>
+            <div class="recap-item"><strong>Accusé réception ANAPEC</strong> <span contenteditable="true" id="accuseEngagement">☐ Oui / ☐ Non</span></div>
+            <div class="recap-item"><strong>Dossier complet</strong> <span id="completEngagement">⏳</span></div>
+            <div class="recap-item"><strong>Pièces OK</strong> <span id="countEngagement">0</span> / 13</div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar"><div class="progress-fill" id="progEngagement" style="width:0%;"></div></div>
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- TAB 2 : PAIEMENT -->
+    <!-- ========================================= -->
+    <div class="tab-pane" id="tab2">
+        <div class="checklist-title">
+            <h2 style="font-weight:600; font-size:1.3rem;">🔹 Dossier de paiement <span style="font-weight:400; font-size:0.9rem; color:#475569;">(après formation – 31 mars au 31 mai N+1)</span></h2>
+            <button class="btn-reset" onclick="resetChecklist('paiement')">⟲ Réinitialiser</button>
+        </div>
+
+        <div class="table-wrap">
+            <table id="paiementTable">
+                <thead>
+                    <tr>
+                        <th style="width:40px;">N°</th>
+                        <th>Critère / Pièce à fournir</th>
+                        <th style="min-width:150px;">Exigence</th>
+                        <th style="width:130px;">Statut</th>
+                        <th style="width:140px;">Date</th>
+                        <th style="min-width:140px;">Observations</th>
+                    </tr>
+                </thead>
+                <tbody id="paiementBody">
+                    <!-- généré par JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="recap" id="recapPaiement">
+            <div class="recap-item"><strong>Date de dépôt</strong> <span contenteditable="true" id="depotPaiement">__/__/____</span></div>
+            <div class="recap-item"><strong>Récépissé ANAPEC</strong> <span contenteditable="true" id="recuPaiement">☐ Oui / ☐ Non</span></div>
+            <div class="recap-item"><strong>Dossier complet</strong> <span id="completPaiement">⏳</span></div>
+            <div class="recap-item"><strong>Pièces OK</strong> <span id="countPaiement">0</span> / 13</div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar"><div class="progress-fill" id="progPaiement" style="width:0%;"></div></div>
+        </div>
+        <div class="footnote">
+            <strong>⏱ Délai de règlement :</strong> 60 jours ouvrables max à compter de la date du récépissé.
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- TAB 3 : SUIVI RÉCAPITULATIF -->
+    <!-- ========================================= -->
+    <div class="tab-pane" id="tab3">
+        <h2 style="font-weight:600; font-size:1.3rem; margin-bottom:16px;">📊 Suivi annuel des dossiers PAF</h2>
+        <div class="table-wrap">
+            <table class="suivi-table">
+                <thead>
+                    <tr>
+                        <th>Année</th>
+                        <th>Certificat éligibilité</th>
+                        <th>Dossier engagement déposé</th>
+                        <th>Date début formation</th>
+                        <th>Date fin formation</th>
+                        <th>Dossier paiement déposé</th>
+                        <th>Date récépissé</th>
+                        <th>Montant demandé (MAD)</th>
+                        <th>Montant versé (MAD)</th>
+                        <th>Date versement</th>
+                        <th>Observations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>2025</td><td contenteditable="true">☐</td><td contenteditable="true">☐</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true">☐</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                    <tr><td>2026</td><td contenteditable="true">☐</td><td contenteditable="true">☐</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true">☐</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                    <tr><td>2027</td><td contenteditable="true">☐</td><td contenteditable="true">☐</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true">☐</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                    <tr><td>2028</td><td contenteditable="true">☐</td><td contenteditable="true">☐</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true">☐</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                    <tr><td>2029</td><td contenteditable="true">☐</td><td contenteditable="true">☐</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true">☐</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                    <tr><td>2030</td><td contenteditable="true">☐</td><td contenteditable="true">☐</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true">☐</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="footnote">
+            <strong>✏️ Cliquez dans les cellules</strong> pour les modifier directement. Le tableau est entièrement éditable.
+        </div>
+    </div>
+
+    <!-- pied de page -->
+    <div style="margin-top:40px; border-top:1px solid #dce3ec; padding-top:20px; font-size:0.8rem; color:#64748b; text-align:center;">
+        Checklists conformes à l’Annexe 6 de la Circulaire N°45/2025 · PAF – Offshoring
+    </div>
+</div>
+
+<script>
+    // ------------------------------------------------------------
+    // DONNÉES DES CHECKLISTS
+    // ------------------------------------------------------------
+    const engagementData = [
+        { n: 1, critere: 'Certificat d\'éligibilité annuel délivré par l\'AGCTN (CTO)', exigence: 'Valide pour l\'année N' },
+        { n: 2, critere: 'Demande de bénéfice PAF (Annexe 6.1)', exigence: 'Dûment remplie, signée, cachetée' },
+        { n: 3, critere: 'Liste des salariés sélectionnés pour la formation (Annexe 6.2)', exigence: 'Remplie, signée, cachetée' },
+        { n: 4, critere: 'Copies des Cartes d\'Identité Nationale (CIN) des salariés sélectionnés', exigence: 'Lisibles, conformes' },
+        { n: 5, critere: 'Si signataire ≠ représentant légal : Délégation de pouvoir + RC', exigence: 'Pièces jointes' },
+        { n: 6, critere: 'Chiffre d\'affaires à l\'export conforme au palier (20% / 50% / 70%)', exigence: 'Justifié par attestation' },
+        { n: 7, critere: 'Nombre minimal d\'emplois atteint (selon filière)', exigence: 'Justifié par CNSS' },
+        { n: 8, critere: 'Syllabus de formation détaillé (objectifs, modules, horaires, dates, évaluation)', exigence: 'Signé conjointement E/se + OF' },
+        { n: 9, critere: 'Information à l\'ANAPEC 72h avant démarrage (dates, lieu/lien, liste stagiaires)', exigence: 'Email envoyé avec pièces' },
+        { n: 10, critere: 'Formation minimale : 18 jours / 144h par an (prorata possible)', exigence: 'Vérifié' },
+        { n: 11, critere: 'Soft skills ≤ 30% du volume horaire total', exigence: 'Vérifié' },
+        { n: 12, critere: 'Opérateur de formation : statut conforme (public/privé accrédité/cabinet/centre interne)', exigence: 'Justifié' },
+        { n: 13, critere: 'Si formation par centre interne : taux de contribution ≤ 80% du coût TTC', exigence: 'Vérifié' }
+    ];
+
+    const paiementData = [
+        { n: 1, critere: 'Dossier d\'engagement original (Annexe 6.1 + 6.2) + copies CIN', exigence: 'Déjà déposé' },
+        { n: 2, critere: 'Liste des salariés bénéficiaires de la formation (Annexe 6.3)', exigence: 'Remplie, signée, cachetée' },
+        { n: 3, critere: 'Attestation CNSS des déclarations de salaires – 6 mois consécutifs', exigence: 'Original récent' },
+        { n: 4, critere: 'Duplicata facture OF + Avis de débit justifiant règlement', exigence: 'Conforme' },
+        { n: 5, critere: 'Attestation sur l\'honneur (Annexe 6.4)', exigence: 'Datée, signée, cachetée' },
+        { n: 6, critere: 'Déclaration des traitements et salaires (état 9421) certifiée', exigence: 'Pages de garde, totaux, détail IR' },
+        { n: 7, critere: 'Attestation du CA global + Attestation du CA à l\'export', exigence: 'Originales' },
+        { n: 8, critere: 'Attestation d\'identité bancaire (RIB / IBAN)', exigence: 'Originale' },
+        { n: 9, critere: 'Attestation de régularité fiscale + Attestation de régularité TGR', exigence: 'Valides' },
+        { n: 10, critere: 'Vérification : chaque salarié n\'a pas consommé son crédit DAF / PAF', exigence: 'Contrôle effectué' },
+        { n: 11, critere: 'Pas de cumul avec OFPPT / ANAPEC / conventions spécifiques Etat', exigence: 'Contrôle effectué' },
+        { n: 12, critere: 'Formation réalisée : attestations co-signées, émargements, suivi présences', exigence: 'Archivés et disponibles' },
+        { n: 13, critere: 'Dossier complet et conforme', exigence: 'Toutes pièces réunies' }
+    ];
+
+    // ------------------------------------------------------------
+    // GÉNÉRATION DES TABLEAUX
+    // ------------------------------------------------------------
+    function buildTable(data, tbodyId) {
+        const tbody = document.getElementById(tbodyId);
+        tbody.innerHTML = '';
+        data.forEach((item, idx) => {
+            const tr = document.createElement('tr');
+            tr.dataset.index = idx;
+
+            // N°
+            const tdN = document.createElement('td');
+            tdN.textContent = item.n;
+            tdN.style.fontWeight = '600';
+            tr.appendChild(tdN);
+
+            // Critère
+            const tdC = document.createElement('td');
+            tdC.textContent = item.critere;
+            tr.appendChild(tdC);
+
+            // Exigence
+            const tdE = document.createElement('td');
+            tdE.textContent = item.exigence;
+            tdE.style.fontSize = '0.85rem';
+            tr.appendChild(tdE);
+
+            // Statut (select)
+            const tdS = document.createElement('td');
+            const select = document.createElement('select');
+            select.className = 'status-select';
+            select.dataset.type = 'status';
+            ['À vérifier', 'OK', 'NOK', 'N/A'].forEach(opt => {
+                const option = document.createElement('option');
+                option.value = opt;
+                option.textContent = opt;
+                if (opt === 'À vérifier') option.selected = true;
+                select.appendChild(option);
+            });
+            select.addEventListener('change', function() {
+                updateRecap(tbodyId);
+            });
+            tdS.appendChild(select);
+            tr.appendChild(tdS);
+
+            // Date (input type date)
+            const tdDate = document.createElement('td');
+            const dateInput = document.createElement('input');
+            dateInput.type = 'date';
+            dateInput.style.padding = '4px 6px';
+            dateInput.style.border = '1px solid #d1d9e6';
+            dateInput.style.borderRadius = '6px';
+            dateInput.style.fontSize = '0.8rem';
+            dateInput.style.background = 'white';
+            dateInput.dataset.type = 'date';
+            tdDate.appendChild(dateInput);
+            tr.appendChild(tdDate);
+
+            // Observations (input text)
+            const tdObs = document.createElement('td');
+            const obsInput = document.createElement('input');
+            obsInput.type = 'text';
+            obsInput.placeholder = '…';
+            obsInput.style.width = '100%';
+            obsInput.style.border = '1px solid #d1d9e6';
+            obsInput.style.borderRadius = '6px';
+            obsInput.style.padding = '4px 6px';
+            obsInput.style.fontSize = '0.8rem';
+            obsInput.dataset.type = 'obs';
+            tdObs.appendChild(obsInput);
+            tr.appendChild(tdObs);
+
+            tbody.appendChild(tr);
+        });
+        updateRecap(tbodyId);
+    }
+
+    // ------------------------------------------------------------
+    // MISE À JOUR DES RÉCAPITULATIFS
+    // ------------------------------------------------------------
+    function updateRecap(tbodyId) {
+        const tbody = document.getElementById(tbodyId);
+        const rows = tbody.querySelectorAll('tr');
+        let okCount = 0;
+        let total = rows.length;
+
+        rows.forEach(row => {
+            const select = row.querySelector('select[data-type="status"]');
+            if (select) {
+                const val = select.value;
+                if (val === 'OK') okCount++;
+            }
+        });
+
+        const isEngagement = (tbodyId === 'engagementBody');
+        const countSpan = document.getElementById(isEngagement ? 'countEngagement' : 'countPaiement');
+        const completSpan = document.getElementById(isEngagement ? 'completEngagement' : 'completPaiement');
+        const progBar = document.getElementById(isEngagement ? 'progEngagement' : 'progPaiement');
+
+        if (countSpan) countSpan.textContent = okCount;
+        if (completSpan) {
+            completSpan.textContent = (okCount === total) ? '✅ Oui' : '⏳ En cours (' + okCount + '/' + total + ')';
+            completSpan.style.color = (okCount === total) ? '#166534' : '#b45309';
+        }
+        if (progBar) {
+            const pct = total > 0 ? Math.round((okCount / total) * 100) : 0;
+            progBar.style.width = pct + '%';
+        }
+    }
+
+    // ------------------------------------------------------------
+    // RÉINITIALISATION
+    // ------------------------------------------------------------
+    function resetChecklist(type) {
+        const tbodyId = (type === 'engagement') ? 'engagementBody' : 'paiementBody';
+        const tbody = document.getElementById(tbodyId);
+        const rows = tbody.querySelectorAll('tr');
+        rows.forEach(row => {
+            const select = row.querySelector('select[data-type="status"]');
+            if (select) {
+                select.value = 'À vérifier';
+            }
+            const dateInput = row.querySelector('input[type="date"]');
+            if (dateInput) dateInput.value = '';
+            const obsInput = row.querySelector('input[type="text"][data-type="obs"]');
+            if (obsInput) obsInput.value = '';
+        });
+        updateRecap(tbodyId);
+        // Réinitialiser les champs contenteditable de recap
+        if (type === 'engagement') {
+            document.getElementById('depotEngagement').textContent = '__/__/____';
+            document.getElementById('accuseEngagement').textContent = '☐ Oui / ☐ Non';
+        } else {
+            document.getElementById('depotPaiement').textContent = '__/__/____';
+            document.getElementById('recuPaiement').textContent = '☐ Oui / ☐ Non';
+        }
+    }
+
+    // ------------------------------------------------------------
+    // ONGLETS
+    // ------------------------------------------------------------
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const panes = {
+        tab1: document.getElementById('tab1'),
+        tab2: document.getElementById('tab2'),
+        tab3: document.getElementById('tab3')
+    };
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            Object.keys(panes).forEach(key => {
+                panes[key].classList.toggle('active', key === this.dataset.tab);
+            });
+        });
+    });
+
+    // ------------------------------------------------------------
+    // INIT
+    // ------------------------------------------------------------
+    buildTable(engagementData, 'engagementBody');
+    buildTable(paiementData, 'paiementBody');
+</script>
+</body>
+</html>
