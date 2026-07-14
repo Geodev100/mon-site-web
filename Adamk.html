@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Révision Mathématiques – Première Générale</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background: #fff;
+            color: #1a1a1a;
+            padding: 40px 60px;
+            line-height: 1.6;
+            font-size: 11pt;
+        }
+        h1 {
+            font-size: 22pt;
+            text-align: center;
+            border-bottom: 3px solid #1a3a6b;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            color: #1a3a6b;
+        }
+        h2 {
+            font-size: 16pt;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            color: #1a3a6b;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 4px;
+        }
+        h3 {
+            font-size: 13pt;
+            margin-top: 18px;
+            margin-bottom: 6px;
+            color: #2a4a7b;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 18px 0;
+            font-size: 10pt;
+        }
+        th {
+            background: #e6edf6;
+            border: 1px solid #999;
+            padding: 6px 8px;
+            text-align: left;
+            font-weight: bold;
+            color: #1a3a6b;
+        }
+        td {
+            border: 1px solid #999;
+            padding: 5px 8px;
+            vertical-align: top;
+        }
+        .exemple {
+            font-style: italic;
+            color: #2a5a2a;
+        }
+        .footer {
+            text-align: center;
+            font-size: 9pt;
+            color: #666;
+            margin-top: 30px;
+            border-top: 1px solid #ccc;
+            padding-top: 12px;
+        }
+        ul {
+            padding-left: 22px;
+            margin: 6px 0 12px 0;
+        }
+        li {
+            margin-bottom: 3px;
+        }
+        .page-break {
+            page-break-before: always;
+            margin-top: 30px;
+            border-top: 2px dashed #ccc;
+            padding-top: 30px;
+        }
+        @media print {
+            body { padding: 30px 40px; }
+            .page-break { border-top: none; }
+        }
+        .math {
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>&#128218; RÉVISION MATHÉMATIQUES – PREMIÈRE GÉNÉRALE</h1>
+    <p style="text-align:center; font-size:12pt; margin-bottom:20px;">
+        Programme officiel – Toutes les compétences attendues avec exemples
+    </p>
+
+    <!-- ============================================================ -->
+    <h2>1. ALGÈBRE – SUITES NUMÉRIQUES</h2>
+
+    <table>
+        <thead>
+            <tr><th style="width:60%;">Compétence</th><th style="width:40%;">Exemple très court</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Utiliser les registres naturel, algébrique, graphique et passer de l'un à l'autre</td><td><span class="exemple">u<sub>n</sub> = 2n + 3 → représenter les premiers termes → décrire la croissance</span></td></tr>
+            <tr><td>Proposer un modèle générant une suite</td><td><span class="exemple">Chaque jour, une population double : u<sub>n+1</sub> = 2u<sub>n</sub></span></td></tr>
+            <tr><td>Déterminer une relation explicite ou récurrente à partir d'un motif géométrique</td><td><span class="exemple">Nombre de carrés à l'étape n → u<sub>n</sub> = n<sup>2</sup></span></td></tr>
+            <tr><td>Calculer des termes (explicite, récurrence, algorithme)</td><td><span class="exemple">u<sub>n+1</sub> = 3u<sub>n</sub> + 1, u<sub>0</sub> = 2 → u<sub>3</sub> = 67</span></td></tr>
+            <tr><td>Suite arithmétique : terme général, somme, sens de variation</td><td><span class="exemple">u<sub>n</sub> = 3n − 2, S<sub>10</sub> = 145, croissante (r = 3 &gt; 0)</span></td></tr>
+            <tr><td>Suite géométrique : terme général, somme, sens de variation</td><td><span class="exemple">u<sub>n</sub> = 5 × 2<sup>n</sup>, S<sub>10</sub> = 10235, croissante (q = 2 &gt; 1)</span></td></tr>
+            <tr><td>Modéliser une croissance linéaire (suite arithmétique)</td><td><span class="exemple">Salaire +100 €/an → u<sub>n</sub> = u<sub>0</sub> + 100n</span></td></tr>
+            <tr><td>Modéliser une croissance exponentielle (suite géométrique)</td><td><span class="exemple">Capital +5 %/an → u<sub>n</sub> = u<sub>0</sub> × 1,05<sup>n</sup></span></td></tr>
+            <tr><td>Conjecturer une limite simple</td><td><span class="exemple">u<sub>n</sub> = 1/n → tend vers 0</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>&#128204; Algorithmique associée aux suites</h3>
+    <table>
+        <thead>
+            <tr><th style="width:60%;">Compétence</th><th style="width:40%;">Exemple très court</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Calcul de termes, sommes, seuil</td><td><span class="exemple">Algorithme : plus petit n tel que u<sub>n</sub> &gt; 1000</span></td></tr>
+            <tr><td>Calcul de factorielle</td><td><span class="exemple">F ← 1 ; pour i de 1 à n : F ← F × i</span></td></tr>
+            <tr><td>Liste des premiers termes (Syracuse, Fibonacci)</td><td><span class="exemple">Fibonacci : 0, 1, 1, 2, 3, 5, 8, 13…</span></td></tr>
+        </tbody>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>2. ALGÈBRE – POLYNÔMES DU SECOND DEGRÉ</h2>
+
+    <table>
+        <thead>
+            <tr><th style="width:60%;">Compétence</th><th style="width:40%;">Exemple très court</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Étudier le signe d'un polynôme donné sous forme factorisée</td><td><span class="exemple">(x − 2)(x + 3) &gt; 0 sur ]−∞;−3[ ∪ ]2;+∞[</span></td></tr>
+            <tr><td>Déterminer un polynôme s'annulant en deux réels distincts</td><td><span class="exemple">Si racines 2 et 5 → f(x) = a(x − 2)(x − 5), a ≠ 0</span></td></tr>
+            <tr><td>Factoriser (racine évidente, somme/produit, identité, formules générales)</td><td><span class="exemple">x<sup>2</sup> − 5x + 6 = (x − 2)(x − 3) ; x<sup>2</sup> − 9 = (x − 3)(x + 3)</span></td></tr>
+            <tr><td>Choisir la forme adaptée (développée, canonique, factorisée)</td><td><span class="exemple">Optimisation → forme canonique −2(x − 3)<sup>2</sup> + 18 ; équation → factorisée (x − 2)(x + 2) = 0</span></td></tr>
+        </tbody>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>3. ANALYSE – DÉRIVATION</h2>
+
+    <table>
+        <thead>
+            <tr><th style="width:60%;">Compétence</th><th style="width:40%;">Exemple très court</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Calculer un taux de variation, pente d'une sécante</td><td><span class="exemple">f(x) = x<sup>2</sup>, entre 1 et 3 → (9 − 1)/(3 − 1) = 4</span></td></tr>
+            <tr><td>Interpréter le nombre dérivé (pente, vitesse, coût marginal)</td><td><span class="exemple">f '(t) = 3 m/s → vitesse instantanée</span></td></tr>
+            <tr><td>Déterminer graphiquement un nombre dérivé</td><td><span class="exemple">Tangente passant par (1;2) et (3;6) → f '(a) = 2</span></td></tr>
+            <tr><td>Construire la tangente connaissant le nombre dérivé</td><td><span class="exemple">f(1) = 3, f '(1) = 2 → droite de pente 2 passant par (1;3)</span></td></tr>
+            <tr><td>Déterminer l'équation de la tangente</td><td><span class="exemple">f(x) = x<sup>2</sup>, a = 1 → y = 2x − 1</span></td></tr>
+            <tr><td>Calculer le nombre dérivé (carré, inverse) à partir de la définition</td><td><span class="exemple">f(x) = x<sup>2</sup>, f '(1) = lim((1+h)<sup>2</sup>−1)/h = 2</span></td></tr>
+            <tr><td>Calculer une fonction dérivée (opérations)</td><td><span class="exemple">f(x) = 3x<sup>2</sup> + 1/x → f '(x) = 6x − 1/x<sup>2</sup></span></td></tr>
+            <tr><td>Étudier les variations d'une fonction</td><td><span class="exemple">f '(x) = x − 2 → décroît sur ]−∞;2[, croît sur ]2;+∞[</span></td></tr>
+            <tr><td>Déterminer les extremums</td><td><span class="exemple">f '(x) = 0 en x = 2 → minimum local</span></td></tr>
+            <tr><td>Résoudre un problème d'optimisation</td><td><span class="exemple">Aire max d'un rectangle de périmètre 20 → x = 5</span></td></tr>
+            <tr><td>Exploiter les variations pour établir une inégalité</td><td><span class="exemple">f croissante sur [0;+∞[ → f(x) ≥ f(0) pour x ≥ 0</span></td></tr>
+            <tr><td>Étudier la position relative de deux courbes</td><td><span class="exemple">Étudier le signe de f(x) − g(x)</span></td></tr>
+            <tr><td>Étudier un polynôme du second degré par la dérivation</td><td><span class="exemple">f(x) = 2x<sup>2</sup> − 8x + 3, f '(x) = 4x − 8 → minimum en x = 2</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>&#128204; Démonstrations exigibles</h3>
+    <table>
+        <thead>
+            <tr><th style="width:60%;">Démonstration</th><th style="width:40%;">Contexte / exemple</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Équation de la tangente</td><td><span class="exemple">y = f(a) + f '(a)(x − a)</span></td></tr>
+            <tr><td>La fonction racine carrée n'est pas dérivable en 0</td><td><span class="exemple">(&#8730;h − 0)/h = 1/&#8730;h → +∞</span></td></tr>
+            <tr><td>Fonction dérivée de la fonction carrée</td><td><span class="exemple">f '(x) = 2x</span></td></tr>
+            <tr><td>Fonction dérivée de la fonction inverse</td><td><span class="exemple">f '(x) = −1/x<sup>2</sup></span></td></tr>
+            <tr><td>Fonction dérivée d'un produit</td><td><span class="exemple">(uv)' = u'v + uv'</span></td></tr>
+        </tbody>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>4. ANALYSE – FONCTION EXPONENTIELLE</h2>
+
+    <table>
+        <thead>
+            <tr><th style="width:60%;">Compétence</th><th style="width:40%;">Exemple très court</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Transformer une expression exponentielle</td><td><span class="exemple">e<sup>2x</sup> × e<sup>−x</sup> = e<sup>x</sup></span></td></tr>
+            <tr><td>Représenter graphiquement e<sup>−kt</sup> et e<sup>kt</sup> (k &gt; 0)</td><td><span class="exemple">e<sup>0,5t</sup> croissante ; e<sup>−0,5t</sup> décroissante</span></td></tr>
+            <tr><td>Modéliser une croissance/décroissance exponentielle</td><td><span class="exemple">N(t) = N<sub>0</sub> e<sup>−0,01t</sup> (radioactivité)</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>&#128204; Algorithmique associée</h3>
+    <table>
+        <thead>
+            <tr><th style="width:60%;">Compétence</th><th style="width:40%;">Exemple très court</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Méthode d'Euler</td><td><span class="exemple">y<sub>n+1</sub> = y<sub>n</sub> + h × y<sub>n</sub>, y<sub>0</sub> = 1, h = 0,1</span></td></tr>
+            <tr><td>Approximation de e par (1 + 1/n)<sup>n</sup></td><td><span class="exemple">n = 100 → (1,01)<sup>100</sup> ≈ 2,7048</span></td></tr>
+        </tbody>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>5. ANALYSE – FONCTIONS TRIGONOMÉTRIQUES</h2>
+
+    <table>
+        <thead>
+            <tr><th style="width:60%;">Compétence</th><th style="width:40%;">Exemple très court</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Utiliser le cercle trigonométrique et le radian</td><td><span class="exemple">180° = π rad, 90° = π/2 rad</span></td></tr>
+            <tr><td>Lien avec le triangle rectangle</td><td><span class="exemple">cos(θ) = adjacent/hypoténuse, sin(θ) = opposé/hypoténuse</span></td></tr>
+            <tr><td>Valeurs remarquables</td><td><span class="exemple">cos(0) = 1, sin(π/2) = 1, cos(π/3) = 1/2</span></td></tr>
+            <tr><td>Parité et périodicité</td><td><span class="exemple">sin(−x) = −sin(x), cos(x + 2π) = cos(x)</span></td></tr>
+            <tr><td>Courbes représentatives</td><td><span class="exemple">cos : paire, max 1, min −1, période 2π</span></td></tr>
+        </tbody>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>6. MÉTHODE DE NEWTON (algorithmique)</h2>
+
+    <table>
+        <thead>
+            <tr><th style="width:60%;">Compétence</th><th style="width:40%;">Exemple très court</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Appliquer la méthode de Newton (cas favorables)</td><td><span class="exemple">f(x) = x<sup>2</sup> − 2, x<sub>0</sub> = 1,5 → x<sub>1</sub> = 1,5 − 0,25/3 ≈ 1,4167</span></td></tr>
+        </tbody>
+    </table>
+
+    <!-- ============================================================ -->
+    <div class="page-break"></div>
+
+    <h2>7. APPROFONDISSEMENTS POSSIBLES (non obligatoires)</h2>
+
+    <table>
+        <thead>
+            <tr><th style="width:60%;">Approfondissement</th><th style="width:40%;">Exemple / contexte</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Tour de Hanoï</td><td><span class="exemple">u<sub>n+1</sub> = 2u<sub>n</sub> + 1, u<sub>0</sub> = 0</span></td></tr>
+            <tr><td>Somme des n premiers carrés / cubes</td><td><span class="exemple">&#931;k<sup>2</sup> = n(n+1)(2n+1)/6</span></td></tr>
+            <tr><td>Remboursement d'emprunt par annuités constantes</td><td><span class="exemple">Suite géométrique modélisant le capital restant dû</span></td></tr>
+            <tr><td>Factorisation d'un polynôme du troisième degré admettant une racine</td><td><span class="exemple">x<sup>3</sup> − 6x<sup>2</sup> + 11x − 6 = (x − 1)(x − 2)(x − 3)</span></td></tr>
+            <tr><td>Factorisation de x<sup>n</sup> − 1 par x − 1</td><td><span class="exemple">x<sup>3</sup> − 1 = (x − 1)(x<sup>2</sup> + x + 1)</span></td></tr>
+            <tr><td>Déterminer deux nombres connaissant leur somme s et leur produit p</td><td><span class="exemple">x<sup>2</sup> − sx + p = 0</span></td></tr>
+            <tr><td>Unicité de f telle que f ' = f et f(0) = 1</td><td><span class="exemple">Étude de g(x) = f(x)e<sup>−x</sup></span></td></tr>
+            <tr><td>Démonstration de exp(x + y) = exp(x)exp(y)</td><td><span class="exemple">Fixer y et dériver par rapport à x</span></td></tr>
+            <tr><td>Démonstration que exp est strictement positive et croissante</td><td><span class="exemple">exp(x)exp(−x) = 1 et exp(x) &gt; 0</span></td></tr>
+        </tbody>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>8. RÉSUMÉ DES DÉMONSTRATIONS EXIGIBLES</h2>
+
+    <ul>
+        <li><strong>Suites arithmétiques :</strong> terme général u<sub>n</sub> = u<sub>0</sub> + nr</li>
+        <li><strong>Suites géométriques :</strong> terme général u<sub>n</sub> = u<sub>0</sub> × q<sup>n</sup></li>
+        <li><strong>Somme des entiers :</strong> 1 + 2 + … + n = n(n+1)/2</li>
+        <li><strong>Somme géométrique :</strong> 1 + q + … + q<sup>n</sup> = (1 − q<sup>n+1</sup>)/(1 − q) (pour q ≠ 1)</li>
+        <li><strong>Équation du second degré :</strong> x = (−b ± &#8730;&#916;)/(2a)</li>
+        <li><strong>Équation de la tangente :</strong> y = f(a) + f '(a)(x − a)</li>
+        <li><strong>Racine carrée non dérivable en 0 :</strong> &#8730;h/h = 1/&#8730;h → +∞</li>
+        <li><strong>Dérivée de la fonction carrée :</strong> f '(x) = 2x</li>
+        <li><strong>Dérivée de la fonction inverse :</strong> f '(x) = −1/x<sup>2</sup></li>
+        <li><strong>Dérivée d'un produit :</strong> (uv)' = u'v + uv'</li>
+    </ul>
+
+    <!-- ============================================================ -->
+    <h2>9. ORGANISATION DES RÉVISIONS – 4 SEMAINES</h2>
+
+    <ul>
+        <li><strong>Semaine 1 :</strong> Suites numériques (arithmétiques, géométriques, algorithmique)</li>
+        <li><strong>Semaine 2 :</strong> Polynômes du second degré + géométrie analytique</li>
+        <li><strong>Semaine 3 :</strong> Dérivation, tangentes, variations, optimisation géométrique, méthode de Newton</li>
+        <li><strong>Semaine 4 :</strong> Exponentielle, trigonométrie, cercle trigonométrique, synthèse</li>
+    </ul>
+
+    <!-- ============================================================ -->
+    <div class="footer">
+        Fiche de révision – Programme officiel de mathématiques – Première générale<br>
+        Baccalauréat français – Toutes les compétences attendues avec exemples
+    </div>
+
+</body>
+</html>
