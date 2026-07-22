@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Circuit Pays-Bas - Septembre</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7fa;
+    color:#333;
+    line-height:1.5;
+
+}
+
+.container{
+
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+
+}
+
+header{
+
+    text-align:center;
+    margin-bottom:25px;
+
+}
+
+header h1{
+
+    color:#005792;
+    margin-bottom:8px;
+
+}
+
+header h2{
+
+    color:#2e7d32;
+    font-size:18px;
+    font-weight:normal;
+
+}
+
+.resume{
+
+    display:flex;
+    gap:15px;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+
+}
+
+.resume div{
+
+    flex:1;
+    min-width:220px;
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+
+}
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+
+}
+
+th{
+
+    background:#005792;
+    color:white;
+    padding:12px;
+
+}
+
+td{
+
+    border:1px solid #ddd;
+    padding:10px;
+    vertical-align:top;
+
+}
+
+tr:nth-child(even){
+
+    background:#fafafa;
+
+}
+
+.hostel{
+
+    color:#008c45;
+    font-weight:bold;
+
+}
+
+.transport{
+
+    color:#005792;
+    font-weight:bold;
+
+}
+
+.budget{
+
+    margin-top:30px;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+
+}
+
+.budget table{
+
+    box-shadow:none;
+
+}
+
+.total{
+
+    background:#d9f5df;
+    font-weight:bold;
+    font-size:18px;
+
+}
+
+.conseils{
+
+    margin-top:25px;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+
+}
+
+.conseils li{
+
+    margin-left:20px;
+    margin-bottom:8px;
+
+}
+
+.footer-image{
+
+    margin-top:40px;
+    text-align:center;
+
+}
+
+.footer-image img{
+
+    width:100%;
+    max-width:1000px;
+    border-radius:12px;
+    box-shadow:0 4px 20px rgba(0,0,0,.15);
+
+}
+
+/**********************
+MOBILE
+**********************/
+
+.cards{
+
+    display:none;
+
+}
+
+@media(max-width:900px){
+
+table{
+
+display:none;
+
+}
+
+.cards{
+
+display:block;
+
+}
+
+.card{
+
+background:white;
+
+margin-bottom:18px;
+
+padding:18px;
+
+border-radius:12px;
+
+box-shadow:0 3px 12px rgba(0,0,0,.08);
+
+}
+
+.card h3{
+
+color:#005792;
+
+margin-bottom:10px;
+
+}
+
+.card p{
+
+margin:6px 0;
+
+}
+
+.resume{
+
+flex-direction:column;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+<h1>🇳🇱 Circuit Pays-Bas</h1>
+
+<h2>10 → 17 Septembre • Voyage Solo • Budget Minimum</h2>
+
+</header>
+
+<div class="resume">
+
+<div>
+<b>✈ Aller</b><br>
+10 Septembre<br>
+Marrakech 05h45<br>
+Eindhoven 10h25
+</div>
+
+<div>
+<b>✈ Retour</b><br>
+17 Septembre<br>
+Eindhoven 10h50<br>
+Marrakech 13h35
+</div>
+
+<div>
+<b>🏨 Hébergement</b><br>
+2 nuits Eindhoven<br>
+3 nuits Amsterdam<br>
+2 nuits Utrecht
+</div>
+
+</div>
+
+<!-- TABLEAU PC -->
+
+<table>
+
+<tr>
+<th>Ville</th>
+<th>Date</th>
+<th>Transport</th>
+<th>Hostel</th>
+<th>Programme</th>
+<th>Budget</th>
+</tr>
+
+<tr>
+
+<td>Eindhoven</td>
+
+<td>10 Sept.</td>
+
+<td class="transport">
+✈ Arrivée 10h25<br>
+🚌 Bus 400/401 (20 min)
+</td>
+
+<td class="hostel">
+Blue Collar Hostel<br>
+3BE Backpackers
+</td>
+
+<td>
+Strijp-S<br>
+Philips Museum<br>
+Centre-ville
+</td>
+
+<td>35-50 €</td>
+
+</tr>
+
+<tr>
+
+<td>Eindhoven</td>
+
+<td>11 Sept.</td>
+
+<td>🚶 À pied</td>
+
+<td>Même hostel</td>
+
+<td>Van Abbemuseum<br>Shopping</td>
+
+<td>35-50 €</td>
+
+</tr>
+
+<tr>
+
+<td>Amsterdam</td>
+
+<td>12 Sept.</td>
+
+<td class="transport">
+🚆 1h20
+</td>
+
+<td class="hostel">
+ClinkNOORD ⭐<br>
+Stayokay
+</td>
+
+<td>
+Dam Square<br>
+Jordaan<br>
+Canaux
+</td>
+
+<td>45-70 €</td>
+
+</tr>
+
+<tr>
+
+<td>Amsterdam</td>
+
+<td>13 Sept.</td>
+
+<td>🚋 Tram</td>
+
+<td>Même hostel</td>
+
+<td>
+Rijksmuseum<br>
+Vondelpark
+</td>
+
+<td>45-70 €</td>
+
+</tr>
+
+<tr>
+
+<td>Amsterdam</td>
+
+<td>14 Sept.</td>
+
+<td>🚋 Tram</td>
+
+<td>Même hostel</td>
+
+<td>
+Anne Frank<br>
+Croisière
+</td>
+
+<td>45-70 €</td>
+
+</tr>
+
+<tr>
+
+<td>Utrecht</td>
+
+<td>15 Sept.</td>
+
+<td>🚆 25 min</td>
+
+<td class="hostel">
+Stayokay<br>
+BUNK
+</td>
+
+<td>
+Dom Tower<br>
+Oudegracht
+</td>
+
+<td>40-60 €</td>
+
+</tr>
+
+<tr>
+
+<td>Utrecht</td>
+
+<td>16 Sept.</td>
+
+<td>🚆 Retour Eindhoven</td>
+
+<td>Même hostel</td>
+
+<td>
+Balade<br>
+Shopping
+</td>
+
+<td>40-60 €</td>
+
+</tr>
+
+<tr>
+
+<td>Eindhoven</td>
+
+<td>17 Sept.</td>
+
+<td>
+🚌 Bus Aéroport
+</td>
+
+<td>-</td>
+
+<td>Vol 10h50</td>
+
+<td>-</td>
+
+</tr>
+
+</table>
+
+<!-- VERSION MOBILE -->
+
+<div class="cards">
+
+<div class="card">
+<h3>📍 Eindhoven (10-11 Sept.)</h3>
+<p><b>Transport :</b> Bus 400/401 (20 min)</p>
+<p><b>Hostel :</b> Blue Collar Hostel / 3BE Backpackers</p>
+<p><b>À visiter :</b> Strijp-S, Philips Museum, Van Abbemuseum</p>
+<p><b>Budget :</b> 35–50 €/nuit</p>
+</div>
+
+<div class="card">
+<h3>📍 Amsterdam (12-14 Sept.)</h3>
+<p><b>Train :</b> Eindhoven → Amsterdam (1h20)</p>
+<p><b>Hostel :</b> ClinkNOORD ⭐</p>
+<p><b>À visiter :</b> Dam Square, Rijksmuseum, Anne Frank, Canaux</p>
+<p><b>Budget :</b> 45–70 €/nuit</p>
+</div>
+
+<div class="card">
+<h3>📍 Utrecht (15-16 Sept.)</h3>
+<p><b>Train :</b> Amsterdam → Utrecht (25 min)</p>
+<p><b>Hostel :</b> Stayokay / BUNK</p>
+<p><b>À visiter :</b> Dom Tower, Oudegracht</p>
+<p><b>Budget :</b> 40–60 €/nuit</p>
+</div>
+
+</div>
+
+<div class="budget">
+
+<h2>💰 Budget Total</h2>
+
+<table>
+
+<tr><td>Hostels</td><td align="right">280–420 €</td></tr>
+
+<tr><td>Transports</td><td align="right">90–120 €</td></tr>
+
+<tr><td>Repas</td><td align="right">120–180 €</td></tr>
+
+<tr><td>Visites</td><td align="right">60–100 €</td></tr>
+
+<tr class="total">
+
+<td>Total estimé</td>
+
+<td align="right">550–820 €</td>
+
+</tr>
+
+</table>
+
+</div>
+
+<div class="conseils">
+
+<h2>💡 Conseils</h2>
+
+<ul>
+
+<li>🎒 Voyager uniquement avec un bagage cabine.</li>
+
+<li>🥪 Courses chez Albert Heijn, Lidl ou Jumbo.</li>
+
+<li>🚶 Tout faire à pied lorsque c'est possible.</li>
+
+<li>💳 Utiliser une carte bancaire sans contact pour les transports.</li>
+
+<li>📅 Réserver les hostels et la Maison d'Anne Frank à l'avance.</li>
+
+</ul>
+
+</div>
+
+<div class="footer-image">
+
+<h2>Aperçu du circuit</h2>
+
+<img
+src="https://geodev100.github.io/mon-site-web/preview2.png"
+alt="Circuit Pays-Bas">
+
+</div>
+
+</div>
+
+</body>
+
+</html>
