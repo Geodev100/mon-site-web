@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cahier des charges — Monsite.ma</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a1a1a;
+    background: #f5f7fa;
+    padding: 40px 20px;
+  }
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 60px 70px;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+  header {
+    border-bottom: 3px solid #0A66C2;
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  header h1 {
+    font-size: 32px;
+    color: #0A66C2;
+    margin-bottom: 8px;
+  }
+  header .subtitle {
+    font-size: 16px;
+    color: #666;
+  }
+  header .meta {
+    margin-top: 16px;
+    font-size: 13px;
+    color: #888;
+  }
+  h2 {
+    font-size: 22px;
+    color: #0A66C2;
+    margin-top: 48px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e0e6ed;
+  }
+  h3 {
+    font-size: 17px;
+    color: #1a1a1a;
+    margin-top: 28px;
+    margin-bottom: 12px;
+  }
+  h4 {
+    font-size: 15px;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+  p, li {
+    font-size: 14.5px;
+    color: #333;
+  }
+  p { margin-bottom: 12px; }
+  ul, ol { margin-left: 24px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px 0;
+    font-size: 14px;
+  }
+  th {
+    background: #0A66C2;
+    color: #fff;
+    text-align: left;
+    padding: 10px 12px;
+    font-weight: 600;
+  }
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e0e6ed;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #f8fafc; }
+  code, .code {
+    background: #eef2f7;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: "SF Mono", Monaco, Consolas, monospace;
+    font-size: 13px;
+    color: #0A66C2;
+  }
+  pre {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 12px 0 20px 0;
+  }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .badge-critical { background: #fee2e2; color: #991b1b; }
+  .badge-high { background: #fef3c7; color: #92400e; }
+  .badge-medium { background: #dbeafe; color: #1e40af; }
+  .badge-low { background: #e5e7eb; color: #374151; }
+  .box {
+    background: #f0f7ff;
+    border-left: 4px solid #0A66C2;
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin: 16px 0;
+  }
+  .box-warning {
+    background: #fffbeb;
+    border-left-color: #f59e0b;
+  }
+  .box-danger {
+    background: #fef2f2;
+    border-left-color: #dc2626;
+  }
+  .checklist { list-style: none; margin-left: 0; }
+  .checklist li::before {
+    content: "☐ ";
+    color: #0A66C2;
+    font-weight: bold;
+    margin-right: 6px;
+  }
+  .toc {
+    background: #f8fafc;
+    padding: 20px 24px;
+    border-radius: 8px;
+    margin-bottom: 32px;
+  }
+  .toc h3 { margin-top: 0; }
+  .toc ol { margin-bottom: 0; }
+  .toc a { color: #0A66C2; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  footer {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e6ed;
+    font-size: 13px;
+    color: #888;
+    text-align: center;
+  }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .container { box-shadow: none; padding: 20px; }
+    h2 { page-break-after: avoid; }
+    table, .box { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Cahier des charges — Monsite.ma</h1>
+  <div class="subtitle">Plateforme d'hébergement de mini-boutiques e-commerce au Maroc</div>
+  <div class="meta">
+    Version 1.0 — Document destiné au développement<br>
+    Date : Octobre 2026 — Confidentiel
+  </div>
+</header>
+
+<!-- ===================== SOMMAIRE ===================== -->
+<div class="toc">
+  <h3>Sommaire</h3>
+  <ol>
+    <li><a href="#contexte">Contexte et vision</a></li>
+    <li><a href="#modele">Modèle économique et juridique</a></li>
+    <li><a href="#architecture">Architecture technique</a></li>
+    <li><a href="#roles">Rôles et acteurs</a></li>
+    <li><a href="#modules">Modules fonctionnels</a></li>
+    <li><a href="#modele-donnees">Modèle de données</a></li>
+    <li><a href="#securite">Sécurité et conformité</a></li>
+    <li><a href="#livrables">Livrables attendus</a></li>
+    <li><a href="#planning">Planning et budget</a></li>
+  </ol>
+</div>
+
+<!-- ===================== 1. CONTEXTE ===================== -->
+<h2 id="contexte">1. Contexte et vision</h2>
+
+<h3>1.1 Présentation du projet</h3>
+<p>
+<strong>Monsite.ma</strong> est une plateforme SaaS marocaine qui permet à des vendeurs (sociétés ou particuliers) 
+de créer et gérer leur propre boutique e-commerce, accessible via une <strong>URL unique sous forme de sous-domaine</strong> 
+(ex : <code>vendeur1.monsite.ma</code>).
+</p>
+
+<h3>1.2 Positionnement</h3>
+<p>
+Monsite.ma se positionne comme un <strong>hébergeur de mini-boutiques</strong>, et non comme une marketplace. 
+Chaque boutique est <strong>indépendante</strong> : design propre, catalogue propre, moteur de recherche propre, 
+clients propres. La plateforme mutualise uniquement l'infrastructure, le code, la base de données et la maintenance.
+</p>
+
+<div class="box">
+<strong>Ce que Monsite.ma n'est PAS :</strong>
+<ul style="margin-top:8px;">
+  <li>❌ Une marketplace (pas d'annuaire central, pas de moteur global)</li>
+  <li>❌ Un intermédiaire financier (aucun flux d'argent ne transite par la plateforme)</li>
+  <li>❌ Un logisticien (le vendeur gère sa propre livraison)</li>
+  <li>❌ Un gestionnaire de stock (le vendeur est seul responsable)</li>
+</ul>
+</div>
+
+<h3>1.3 Objectif du MVP</h3>
+<p>
+Livrer une première version fonctionnelle permettant à un vendeur de :
+</p>
+<ol>
+  <li>S'inscrire, payer son abonnement annuel et uploader son KYC</li>
+  <li>Préparer sa boutique (produits, template, paiements) en mode invisible</li>
+  <li>Être validé manuellement par le super-admin</li>
+  <li>Vendre en ligne (paiement en ligne ou COD)</li>
+  <li>Gérer commandes, stock, avis et statistiques depuis son backoffice</li>
+</ol>
+
+<!-- ===================== 2. MODELE ===================== -->
+<h2 id="modele">2. Modèle économique et juridique</h2>
+
+<h3>2.1 Modèle économique</h3>
+<table>
+  <tr><th>Élément</th><th>Décision</th></tr>
+  <tr><td>Abonnement annuel</td><td><strong>1800 DH/an</strong> par boutique</td></tr>
+  <tr><td>Option domaine custom</td><td><strong>+200 DH/an</strong> (CNAME + SSL Let's Encrypt)</td></tr>
+  <tr><td>Commission sur ventes</td><td>Aucune</td></tr>
+  <tr><td>Frais d'inscription</td><td>Aucun</td></tr>
+  <tr><td>Moyens de paiement abonnement</td><td>CMI, virement bancaire</td></tr>
+  <tr><td>Facturation</td><td>PDF automatique par email (Resend)</td></tr>
+</table>
+
+<h3>2.2 Modèle juridique</h3>
+<div class="box-warning box">
+<strong>Point critique :</strong> Monsite.ma est un <strong>prestataire technique</strong>. 
+Elle ne vend aucun produit, ne détient aucun stock, n'encaisse aucun paiement client final. 
+Les paiements en ligne sont opérés par les PSP configurés par chaque vendeur (CMI, Stripe, PayPal). 
+Le paiement à la livraison est géré exclusivement par le vendeur.
+</div>
+
+<!-- ===================== 3. ARCHITECTURE ===================== -->
+<h2 id="architecture">3. Architecture technique</h2>
+
+<h3>3.1 Stack recommandée</h3>
+<table>
+  <tr><th>Couche</th><th>Technologie</th><th>Justification</th></tr>
+  <tr><td>Frontend vendeur (backoffice)</td><td>Next.js 14+ (App Router) + TypeScript</td><td>Moderne, SSR, SEO, écosystème riche</td></tr>
+  <tr><td>Frontend client (boutiques)</td><td>Next.js 14+ (multi-tenant)</td><td>Rendu dynamique par sous-domaine</td></tr>
+  <tr><td>Backend / API</td><td>Next.js API Routes ou NestJS</td><td>Unifié avec le front ou séparé selon préférence</td></tr>
+  <tr><td>Base de données</td><td>PostgreSQL (via Supabase ou Neon)</td><td>Robuste, relationnel, JSON supporté</td></tr>
+  <tr><td>ORM</td><td>Prisma</td><td>Type-safe, migrations claires</td></tr>
+  <tr><td>Stockage images</td><td>S3-compatible (Backblaze B2, Cloudflare R2)</td><td>Économique, scalable</td></tr>
+  <tr><td>CDN</td><td>Cloudflare</td><td>Performance + cache par sous-domaine</td></tr>
+  <tr><td>Emails transactionnels</td><td>Resend (MVP) → Amazon SES (scale)</td><td>Gratuit jusqu'à 3000 emails/mois</td></tr>
+  <tr><td>Hébergement</td><td>Vercel (front) + Railway/Render (services)</td><td>Déploiement rapide, CI/CD intégré</td></tr>
+  <tr><td>Authentification</td><td>NextAuth.js ou Supabase Auth</td><td>Sessions sécurisées, multi-rôles</td></tr>
+  <tr><td>DNS wildcard</td><td><code>*.monsite.ma</code> → application</td><td>Routage automatique par sous-domaine</td></tr>
+</table>
+
+<h3>3.2 Architecture multi-tenant</h3>
+<p>
+Chaque boutique est identifiée par son <strong>sous-domaine</strong>. Le middleware Next.js détecte 
+le sous-domaine dans la requête HTTP et charge la configuration de la boutique correspondante.
+</p>
+<pre>Requête : https://vendeur1.monsite.ma/produit/123
+     ↓
+Middleware Next.js → extrait "vendeur1"
+     ↓
+Requête DB : SELECT * FROM shops WHERE subdomain = 'vendeur1'
+     ↓
+Charge template + produits + config paiement de la boutique
+     ↓
+Rendu SSR de la page boutique</pre>
+
+<h3>3.3 Environnements</h3>
+<ul>
+  <li><strong>Development</strong> : local</li>
+  <li><strong>Staging</strong> : <code>staging.monsite.ma</code> + <code>*.staging.monsite.ma</code></li>
+  <li><strong>Production</strong> : <code>monsite.ma</code> + <code>*.monsite.ma</code></li>
+</ul>
+
+<!-- ===================== 4. ROLES ===================== -->
+<h2 id="roles">4. Rôles et acteurs</h2>
+
+<table>
+  <tr><th>Rôle</th><th>Description</th><th>Accès</th></tr>
+  <tr>
+    <td><strong>Visiteur</strong></td>
+    <td>Non inscrit, navigue sur les boutiques</td>
+    <td>Front public uniquement</td>
+  </tr>
+  <tr>
+    <td><strong>Vendeur candidat</strong></td>
+    <td>A payé, en attente de validation KYC</td>
+    <td>Backoffice en mode brouillon</td>
+  </tr>
+  <tr>
+    <td><strong>Vendeur validé (propriétaire)</strong></td>
+    <td>Boutique active</td>
+    <td>Backoffice complet</td>
+  </tr>
+  <tr>
+    <td><strong>Employé vendeur</strong></td>
+    <td>Compte secondaire (max 2 par boutique)</td>
+    <td>Produits + commandes (pas de stats financières)</td>
+  </tr>
+  <tr>
+    <td><strong>Client</strong></td>
+    <td>Acheteur sur une boutique</td>
+    <td>Espace client (créé après commande)</td>
+  </tr>
+  <tr>
+    <td><strong>Super-admin</strong></td>
+    <td>Vous — gestion de la plateforme</td>
+    <td>Backoffice admin total</td>
+  </tr>
+</table>
+
+<!-- ===================== 5. MODULES ===================== -->
+<h2 id="modules">5. Modules fonctionnels</h2>
+
+<h3>Module 1 — Inscription, KYC et validation <span class="badge badge-critical">Critique</span></h3>
+
+<h4>1.1 Parcours vendeur</h4>
+<ol>
+  <li><strong>Landing page</strong> <code>monsite.ma/inscription</code> : formulaire en 3 étapes</li>
+  <li><strong>Étape 1 — Compte</strong> : email, mot de passe, téléphone, nom, type (société / particulier)</li>
+  <li><strong>Étape 2 — Boutique</strong> :
+    <ul>
+      <li>Société : nom boutique (= nom RC), slug auto-généré, upload RC, ICE, adresse, ville</li>
+      <li>Particulier : nom boutique libre, slug auto, upload CIN, adresse, ville</li>
+    </ul>
+  </li>
+  <li><strong>Étape 3 — Paiement</strong> : 1800 DH/an (CMI ou virement) + option domaine custom (+200 DH)</li>
+  <li><strong>Post-paiement</strong> : statut "en attente KYC", accès backoffice brouillon</li>
+  <li><strong>Validation</strong> : sous 48h par super-admin → boutique activée ou rejetée</li>
+</ol>
+
+<h4>1.2 File d'attente super-admin</h4>
+<p>Écran <code>admin.monsite.ma/validations</code> avec :</p>
+<ul>
+  <li>Liste filtrable (statut, type, date, ville)</li>
+  <li>Fiche détaillée : infos vendeur + visualiseur KYC + checklist 5 points</li>
+  <li>Actions : Valider / Demander complément / Rejeter</li>
+</ul>
+
+<h4>1.3 Checklist de validation (5 points)</h4>
+<ul class="checklist">
+  <li>Nom boutique correspond au RC (sociétés)</li>
+  <li>RC valide (date, numéro, lisibilité)</li>
+  <li>ICE renseigné et cohérent</li>
+  <li>Sous-domaine disponible et conforme</li>
+  <li>Aucun signalement (nom suspect, doublon, activité illégale)</li>
+</ul>
+
+<h4>1.4 Workflow des statuts</h4>
+<pre>[En attente] → [Validé] → Boutique activée
+     ↓
+[À compléter] → Vendeur re-uploade → [En attente]
+     ↓
+[Rejeté] → Remboursement auto sous 7j → [Remboursé]</pre>
+
+<h4>1.5 Règles de gestion</h4>
+<ul>
+  <li>Unicité : nom boutique, slug, email</li>
+  <li>Délai validation : 48h ouvrées — alerte admin si dépassé 36h</li>
+  <li>Remboursement sous 7 jours si rejet définitif</li>
+  <li>Suspension après validation (fraude) → page "site en maintenance"</li>
+  <li>Renouvellement : relance J-7, suspension auto J-0, suppression J+30</li>
+</ul>
+
+<h3>Module 2 — Gestion produits <span class="badge badge-critical">Critique</span></h3>
+<ul>
+  <li>CRUD produit (titre, description, prix, promo %, stock, images, catégorie imposée)</li>
+  <li><strong>Variantes</strong> : liste défilante, visible uniquement sur la fiche produit front</li>
+  <li><strong>Images</strong> : 5 max, 0.5 Mo chacune, compression auto côté serveur (WebP + 3 tailles)</li>
+  <li><strong>Catégories</strong> : imposées par la plateforme (10 catégories niveau 1 validées)</li>
+  <li><strong>Import/Export CSV</strong> : modèle fourni par la plateforme, gestion des erreurs ligne par ligne</li>
+  <li><strong>Backoffice</strong> : pagination 50/page, recherche, filtres, actions groupées (prix, publication, suppression)</li>
+</ul>
+
+<h3>Module 3 — Templates et personnalisation <span class="badge badge-high">Haute</span></h3>
+<ul>
+  <li><strong>5 templates figés</strong> (structure non modifiable)</li>
+  <li>Personnalisation : logo, couleurs, bannière, contenu texte, images</li>
+  <li>Changement de template possible à tout moment sans perte de contenu</li>
+  <li>Responsive mobile obligatoire (priorité mobile Maroc)</li>
+</ul>
+
+<h3>Module 4 — Tunnel de commande et paiements <span class="badge badge-critical">Critique</span></h3>
+
+<h4>4.1 Tunnel</h4>
+<p>Panier → Coordonnées → Livraison → Paiement → Confirmation</p>
+<ul>
+  <li><strong>Achat invité</strong> autorisé (désactivable par le vendeur)</li>
+  <li>Compte créé automatiquement après commande (email + mot de passe)</li>
+  <li>Panier persistant (cookie)</li>
+  <li>Mode de livraison imposé par le vendeur</li>
+</ul>
+
+<h4>4.2 Multi-PSP dans le backoffice vendeur</h4>
+<p>Page "Paiements" avec 4 onglets :</p>
+<table>
+  <tr><th>PSP</th><th>Configuration</th></tr>
+  <tr><td>CMI</td><td>Clé marchand + clé API + test de connexion</td></tr>
+  <tr><td>Stripe</td><td>Publishable key + Secret key + test</td></tr>
+  <tr><td>PayPal</td><td>Client ID + Secret + mode sandbox/live</td></tr>
+  <tr><td>Virement</td><td>RIB, nom bénéficiaire, instructions, référence commande</td></tr>
+</table>
+<p>Activation sélective par PSP. Clés chiffrées <strong>AES-256</strong> en base.</p>
+
+<h4>4.3 COD (paiement à la livraison)</h4>
+<ul>
+  <li>Confirmation téléphonique obligatoire avant expédition</li>
+  <li>Statut commande mis à jour manuellement par le vendeur</li>
+</ul>
+
+<h3>Module 5 — Commandes et stock <span class="badge badge-high">Haute</span></h3>
+<ul>
+  <li>Statuts : En attente → Confirmée → Expédiée → Livrée → Annulée / Retour</li>
+  <li>Décrément automatique du stock à chaque commande</li>
+  <li>Alertes rupture (seuil configurable par produit)</li>
+  <li>Bon de livraison + facture générés automatiquement (PDF)</li>
+  <li>Retours/remboursements gérés dans le backoffice</li>
+  <li>Création manuelle de compte client (pas de commande manuelle)</li>
+</ul>
+
+<h3>Module 6 — Compte client <span class="badge badge-high">Haute</span></h3>
+<ul>
+  <li>Achat invité (email + téléphone + adresse)</li>
+  <li>Création auto du compte après commande (mot de passe par email)</li>
+  <li>Réclamation du compte possible plus tard</li>
+  <li>Espace client : historique commandes, suivi, adresses</li>
+</ul>
+
+<h3>Module 7 — Avis clients <span class="badge badge-medium">Moyenne</span></h3>
+<ul>
+  <li>Modération par le vendeur avant publication</li>
+  <li>Réponse du vendeur possible sous l'avis</li>
+  <li>Note globale de la boutique affichée</li>
+  <li>Filtres côté client : note, date, avec photo</li>
+</ul>
+
+<h3>Module 8 — Notifications email <span class="badge badge-medium">Moyenne</span></h3>
+<ul>
+  <li>Provider : Resend au lancement (3000 emails/mois gratuits)</li>
+  <li>Préférences configurables (vendeur + client)</li>
+  <li>Vendeur : nouvelle commande, rupture stock, avis client, paiement reçu</li>
+  <li>Client : confirmation commande, expédition, livraison</li>
+</ul>
+
+<h3>Module 9 — Statistiques <span class="badge badge-medium">Moyenne</span></h3>
+<ul>
+  <li>KPIs : CA, nb commandes, panier moyen, produits vus, taux de conversion</li>
+  <li>Périodes : jour / semaine / mois / année avec comparatifs</li>
+  <li>Export CSV</li>
+</ul>
+
+<h3>Module 10 — Multi-utilisateurs <span class="badge badge-medium">Moyenne</span></h3>
+<ul>
+  <li>2 utilisateurs max par boutique</li>
+  <li>Rôles : propriétaire (tout) + employé (produits + commandes)</li>
+  <li>Employé : pas d'accès aux statistiques financières</li>
+</ul>
+
+<h3>Module 11 — Facturation annuelle <span class="badge badge-critical">Critique</span></h3>
+<ul>
+  <li>1800 DH/an — CMI ou virement</li>
+  <li>Facture PDF automatique (Resend)</li>
+  <li>Relance J-7 avant expiration</li>
+  <li>Suspension auto à J-0 (page maintenance)</li>
+  <li>Suppression à J+30 (données conservées 90 jours)</li>
+</ul>
+
+<h3>Module 12 — Domaine custom <span class="badge badge-low">Basse</span></h3>
+<ul>
+  <li>Sur demande + 200 DH/an</li>
+  <li>Vendeur achète son domaine chez un registraire</li>
+  <li>Pointe un CNAME vers <code>vendeur1.monsite.ma</code></li>
+  <li>SSL Let's Encrypt automatique</li>
+</ul>
+
+<!-- ===================== 6. MODELE DE DONNEES ===================== -->
+<h2 id="modele-donnees">6. Modèle de données</h2>
+
+<h3>6.1 Tables principales</h3>
+
+<h4>vendors</h4>
+<pre>id, email, password_hash, phone, full_name,
+type (societe|particulier),
+status (pending_payment|pending_kyc|to_complete|validated|rejected|refunded|suspended),
+created_at, validated_at, validated_by, rejection_reason</pre>
+
+<h4>shops</h4>
+<pre>id, vendor_id, name, slug, subdomain, custom_domain (nullable),
+address, city, ice (nullable), rc_url (nullable), cin_url (nullable),
+template_id, status, created_at, activated_at</pre>
+
+<h4>subscriptions</h4>
+<pre>id, shop_id, amount (1800), currency (MAD), start_date, end_date,
+payment_method (cmi|virement), payment_status, invoice_url,
+custom_domain_option (bool), refunded_at</pre>
+
+<h4>kyc_validations</h4>
+<pre>id, shop_id, submitted_at, reviewed_at, reviewed_by,
+checklist (json: 5 points), decision (validated|rejected|to_complete),
+admin_note, vendor_response_at</pre>
+
+<h4>products</h4>
+<pre>id, shop_id, title, description, price, promo_percent (nullable),
+stock, category_id, images (json), status (draft|published|out_of_stock),
+created_at, updated_at</pre>
+
+<h4>product_variants</h4>
+<pre>id, product_id, name, value, price_delta, stock</pre>
+
+<h4>categories</h4>
+<pre>id, name, slug, parent_id (nullable), position, is_active</pre>
+
+<h4>orders</h4>
+<pre>id, shop_id, customer_id (nullable), guest_email (nullable),
+status (pending|confirmed|shipped|delivered|cancelled|returned),
+total_amount, payment_method (cmi|stripe|paypal|virement|cod),
+payment_status, shipping_address (json), created_at, updated_at</pre>
+
+<h4>order_items</h4>
+<pre>id, order_id, product_id, variant_id (nullable),
+quantity, unit_price, total_price</pre>
+
+<h4>customers</h4>
+<pre>id, shop_id, email, password_hash (nullable), phone,
+full_name, addresses (json), created_at</pre>
+
+<h4>reviews</h4>
+<pre>id, shop_id, product_id, customer_id, rating (1-5),
+comment, status (pending|approved|rejected),
+vendor_response (nullable), created_at</pre>
+
+<h4>psp_configs</h4>
+<pre>id, shop_id, provider (cmi|stripe|paypal),
+api_key_encrypted, api_secret_encrypted,
+is_active, test_status, created_at</pre>
+
+<h4>notifications</h4>
+<pre>id, shop_id, recipient_type (vendor|customer),
+recipient_id, type, subject, body, sent_at, status</pre>
+
+<!-- ===================== 7. SECURITE ===================== -->
+<h2 id="securite">7. Sécurité et conformité</h2>
+
+<h3>7.1 Sécurité technique</h3>
+<ul>
+  <li><strong>HTTPS obligatoire</strong> (SSL auto via Let's Encrypt sur tous les sous-domaines)</li>
+  <li><strong>Chiffrement AES-256</strong> des clés API PSP en base de données</li>
+  <li><strong>Hashage bcrypt</strong> (coût 12+) des mots de passe</li>
+  <li><strong>Rate limiting</strong> sur les endpoints sensibles (inscription, login, paiement)</li>
+  <li><strong>CSRF protection</strong> sur tous les formulaires</li>
+  <li><strong>Validation stricte</strong> des inputs (Zod ou similaire)</li>
+  <li><strong>Sauvegardes quotidiennes</strong> de la base de données (rétention 30 jours)</li>
+  <li><strong>Logs d'audit</strong> pour les actions super-admin (validation, rejet, suspension)</li>
+</ul>
+
+<h3>7.2 Conformité</h3>
+<ul>
+  <li>Conformité <strong>loi 09-08</strong> (protection des données personnelles au Maroc)</li>
+  <li>Déclaration <strong>CNDP</strong> obligatoire avant lancement</li>
+  <li>Mentions légales sur <code>monsite.ma</code> (CGU, CGV, politique de confidentialité)</li>
+  <li>Conservation des documents KYC : 90 jours après rejet, durée légale après validation</li>
+</ul>
+
+<h3>7.3 Isolation des données (multi-tenant)</h3>
+<div class="box-danger box">
+<strong>Point critique :</strong> chaque requête en base doit être filtrée par <code>shop_id</code> pour empêcher 
+tout accès croisé entre boutiques. Une couche d'abstraction (repository pattern) est fortement recommandée.
+</div>
+
+<!-- ===================== 8. LIVRABLES ===================== -->
+<h2 id="livrables">8. Livrables attendus</h2>
+
+<h3>8.1 Livrables techniques</h3>
+<ul class="checklist">
+  <li>Code source complet (Git, dépôt privé)</li>
+  <li>Schéma de base de données + migrations Prisma</li>
+  <li>Documentation API (OpenAPI / Swagger)</li>
+  <li>Guide de déploiement (README)</li>
+  <li>Variables d'environnement documentées (.env.example)</li>
+  <li>Tests unitaires (couverture ≥ 60% sur logique métier)</li>
+  <li>Tests d'intégration sur les flux critiques (inscription, paiement, commande)</li>
+</ul>
+
+<h3>8.2 Livrables fonctionnels</h3>
+<ul class="checklist">
+  <li>Landing page publique + inscription</li>
+  <li>Backoffice vendeur complet (tous les modules 2 à 11)</li>
+  <li>Front boutique (5 templates responsive)</li>
+  <li>Tunnel de commande (invité + connecté)</li>
+  <li>Backoffice super-admin (validation KYC + gestion plateforme)</li>
+  <li>Système d'emails transactionnels</li>
+</ul>
+
+<h3>8.3 Livrables de documentation</h3>
+<ul class="checklist">
+  <li>Manuel utilisateur vendeur (PDF ou Notion)</li>
+  <li>Manuel super-admin</li>
+  <li>Documentation technique (architecture, choix)</li>
+</ul>
+
+<!-- ===================== 9. PLANNING ===================== -->
+<h2 id="planning">9. Planning et budget</h2>
+
+<h3>9.1 Phasage proposé (MVP en 4 mois)</h3>
+<table>
+  <tr><th>Phase</th><th>Contenu</th><th>Durée</th></tr>
+  <tr>
+    <td><strong>Phase 1</strong></td>
+    <td>Setup technique + auth + multi-tenant + inscription/KYC/paiement</td>
+    <td>4 semaines</td>
+  </tr>
+  <tr>
+    <td><strong>Phase 2</strong></td>
+    <td>Backoffice vendeur : produits, catégories, import CSV, templates</td>
+    <td>4 semaines</td>
+  </tr>
+  <tr>
+    <td><strong>Phase 3</strong></td>
+    <td>Front boutique + tunnel commande + multi-PSP + COD</td>
+    <td>4 semaines</td>
+  </tr>
+  <tr>
+    <td><strong>Phase 4</strong></td>
+    <td>Commandes, stock, avis, stats, notifications, super-admin complet</td>
+    <td>4 semaines</td>
+  </tr>
+  <tr>
+    <td><strong>Phase 5</strong></td>
+    <td>Tests, corrections, déploiement, documentation</td>
+    <td>2 semaines</td>
+  </tr>
+</table>
+
+<h3>9.2 Budget indicatif</h3>
+<div class="box">
+<strong>Fourchette selon profil développeur :</strong>
+<ul style="margin-top:8px;">
+  <li>Développeur freelance senior Maroc : 80 000 – 150 000 DH</li>
+  <li>Agence Maroc : 150 000 – 300 000 DH</li>
+  <li>Freelance international : 300 000 – 600 000 DH</li>
+</ul>
+</div>
+
+<h3>9.3 Coûts récurrents (mensuels)</h3>
+<table>
+  <tr><th>Poste</th><th>Coût estimé</th></tr>
+  <tr><td>Hébergement (Vercel Pro)</td><td>~200 DH</td></tr>
+  <tr><td>Base de données (Supabase Pro)</td><td>~250 DH</td></tr>
+  <tr><td>Stockage images (Cloudflare R2 / Backblaze)</td><td>~50 DH</td></tr>
+  <tr><td>Emails (Resend puis SES)</td><td>0 → ~100 DH</td></tr>
+  <tr><td>Nom de domaine + SSL</td><td>~100 DH/an</td></tr>
+  <tr><td><strong>Total mensuel</strong></td><td><strong>~500 – 600 DH</strong></td></tr>
+</table>
+
+<h3>9.4 Seuil de rentabilité</h3>
+<p>
+Avec un abonnement à <strong>1800 DH/an</strong>, il faut <strong>4 boutiques actives</strong> 
+pour couvrir les coûts récurrents annuels. À 100 boutiques = <strong>180 000 DH/an de CA brut</strong>.
+</p>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  Cahier des charges Monsite.ma — Version 1.0 — Octobre 2026<br>
+  Document confidentiel — Toute reproduction interdite sans autorisation
+</footer>
+
+</div>
+</body>
+</html>
