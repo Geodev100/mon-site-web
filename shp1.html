@@ -1,0 +1,1946 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>monsite.ma — Simulation complète</title>
+<style>
+  :root {
+    --primary: #0A66C2;
+    --primary-dark: #004182;
+    --secondary: #F3F2EF;
+    --accent: #E7A33E;
+    --text: #1D2226;
+    --muted: #56687A;
+    --border: #E0E0E0;
+    --success: #057642;
+    --danger: #CC1016;
+    --warning: #E7A33E;
+    --white: #FFFFFF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text); background: var(--secondary); line-height: 1.5;
+  }
+  a { cursor: pointer; }
+
+  /* TOPBAR */
+  .topbar {
+    background: var(--text); color: #CCC; font-size: 12px;
+    padding: 6px 24px; display: flex; justify-content: space-between;
+    align-items: center; position: relative; z-index: 100;
+  }
+  .topbar a {
+    color: #FFF; text-decoration: none; padding: 4px 10px;
+    border-radius: 4px; background: rgba(255,255,255,0.1); font-size: 11px; margin-left: 6px;
+  }
+  .topbar a:hover { background: rgba(255,255,255,0.25); }
+  .demo-badge {
+    background: var(--accent); color: #000; padding: 2px 8px;
+    border-radius: 10px; font-weight: 600; font-size: 10px;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--white); border-bottom: 1px solid var(--border);
+    padding: 16px 24px; position: sticky; top: 0; z-index: 90;
+  }
+  .header-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; align-items: center; gap: 24px;
+  }
+  .logo {
+    font-size: 22px; font-weight: 800; color: var(--primary);
+    text-decoration: none; letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--text); }
+  .search-bar { flex: 1; max-width: 500px; position: relative; }
+  .search-bar input {
+    width: 100%; padding: 10px 16px 10px 40px;
+    border: 1px solid var(--border); border-radius: 24px;
+    font-size: 14px; background: var(--secondary); outline: none;
+  }
+  .search-bar input:focus { border-color: var(--primary); background: var(--white); }
+  .search-bar::before {
+    content: "🔍"; position: absolute; left: 14px; top: 50%;
+    transform: translateY(-50%); font-size: 14px;
+  }
+  .header-actions { display: flex; gap: 12px; align-items: center; }
+  .header-actions a {
+    color: var(--text); text-decoration: none; font-size: 14px;
+    font-weight: 500; padding: 8px 12px; border-radius: 6px; position: relative;
+  }
+  .header-actions a:hover { background: var(--secondary); }
+  .cart-badge {
+    position: absolute; top: 2px; right: 2px; background: var(--danger);
+    color: white; font-size: 10px; font-weight: 700; border-radius: 10px;
+    padding: 2px 6px; min-width: 18px; text-align: center;
+  }
+
+  /* NAV */
+  nav.main-nav {
+    background: var(--white); border-bottom: 1px solid var(--border); padding: 0 24px;
+  }
+  .nav-inner { max-width: 1280px; margin: 0 auto; display: flex; gap: 4px; }
+  .nav-inner a {
+    color: var(--text); text-decoration: none; padding: 14px 16px;
+    font-size: 14px; font-weight: 500; border-bottom: 2px solid transparent;
+  }
+  .nav-inner a:hover { color: var(--primary); }
+  .nav-inner a.active {
+    color: var(--primary); border-bottom-color: var(--primary); font-weight: 600;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white; padding: 60px 24px; text-align: center;
+  }
+  .hero-inner { max-width: 900px; margin: 0 auto; }
+  .hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 16px; letter-spacing: -1px; }
+  .hero p { font-size: 18px; opacity: 0.9; margin-bottom: 28px; }
+  .hero-btn {
+    display: inline-block; background: white; color: var(--primary);
+    padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 700;
+    border: none; cursor: pointer;
+  }
+  .hero-btn:hover { transform: translateY(-2px); }
+
+  /* CONTAINER */
+  .container { max-width: 1280px; margin: 0 auto; padding: 40px 24px; }
+  .section-title {
+    font-size: 24px; font-weight: 700; margin-bottom: 24px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .section-title a { color: var(--primary); font-size: 14px; text-decoration: none; font-weight: 500; }
+
+  /* CATEGORIES */
+  .categories {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-bottom: 48px;
+  }
+  .category-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px 12px; text-align: center; color: var(--text); cursor: pointer;
+  }
+  .category-card:hover { border-color: var(--primary); transform: translateY(-3px); }
+  .category-icon { font-size: 32px; margin-bottom: 8px; display: block; }
+  .category-name { font-size: 13px; font-weight: 600; }
+
+  /* PRODUCTS */
+  .products-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 48px;
+  }
+  .product-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; transition: all 0.2s; position: relative;
+  }
+  .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.08); }
+  .product-badge {
+    position: absolute; top: 12px; left: 12px; background: var(--accent);
+    color: white; font-size: 10px; font-weight: 700; padding: 4px 10px;
+    border-radius: 12px; text-transform: uppercase; z-index: 2;
+  }
+  .product-badge.promo { background: var(--danger); }
+  .product-image {
+    height: 180px; background: var(--secondary); display: flex;
+    align-items: center; justify-content: center; font-size: 60px; cursor: pointer;
+  }
+  .product-info { padding: 16px; }
+  .product-name {
+    font-size: 14px; font-weight: 600; margin-bottom: 6px; min-height: 40px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden; cursor: pointer;
+  }
+  .product-name:hover { color: var(--primary); }
+  .product-price { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
+  .price-current { font-size: 18px; font-weight: 800; color: var(--primary); }
+  .price-old { font-size: 13px; color: var(--muted); text-decoration: line-through; }
+  .product-stock { font-size: 11px; color: var(--success); margin-bottom: 12px; font-weight: 600; }
+  .product-stock.low { color: var(--warning); }
+  .product-stock.out { color: var(--danger); }
+  .add-to-cart {
+    width: 100%; background: var(--primary); color: white; border: none;
+    padding: 10px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .add-to-cart:hover { background: var(--primary-dark); }
+  .add-to-cart:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+
+  /* PROMO */
+  .promo-banner {
+    background: linear-gradient(90deg, var(--accent) 0%, #D4913A 100%);
+    color: white; padding: 20px 32px; border-radius: 12px;
+    margin-bottom: 48px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .promo-banner h3 { font-size: 20px; font-weight: 700; }
+  .promo-code {
+    background: rgba(255,255,255,0.25); padding: 8px 16px;
+    border-radius: 6px; font-weight: 700; letter-spacing: 1px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--text); color: #AAA; padding: 48px 24px 24px; margin-top: 60px;
+  }
+  .footer-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 32px;
+  }
+  .footer-col h4 { color: white; font-size: 14px; margin-bottom: 16px; font-weight: 700; }
+  .footer-col a {
+    display: block; color: #AAA; text-decoration: none; font-size: 13px; padding: 4px 0;
+  }
+  .footer-col a:hover { color: white; }
+  .footer-bottom {
+    max-width: 1280px; margin: 0 auto; padding-top: 24px; border-top: 1px solid #333;
+    font-size: 12px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+
+  /* FLOATING */
+  .floating-cart {
+    position: fixed; bottom: 24px; right: 24px; background: var(--primary);
+    color: white; width: 60px; height: 60px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 24px;
+    cursor: pointer; box-shadow: 0 8px 24px rgba(10,102,194,0.4); z-index: 200;
+  }
+  .floating-cart:hover { transform: scale(1.1); }
+  .floating-cart .badge {
+    position: absolute; top: -4px; right: -4px; background: var(--danger);
+    font-size: 11px; font-weight: 700; border-radius: 12px;
+    padding: 3px 8px; min-width: 22px; text-align: center;
+  }
+  .floating-whatsapp {
+    position: fixed; bottom: 24px; left: 24px; background: #25D366;
+    color: white; width: 60px; height: 60px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 28px;
+    cursor: pointer; box-shadow: 0 8px 24px rgba(37,211,102,0.4); z-index: 200;
+  }
+
+  /* DEMO PANEL */
+  .demo-panel {
+    position: fixed; top: 50%; right: 0; transform: translateY(-50%);
+    background: var(--text); color: white; border-radius: 8px 0 0 8px;
+    z-index: 300; overflow: hidden; box-shadow: -4px 0 12px rgba(0,0,0,0.2);
+  }
+  .demo-panel button {
+    display: block; background: transparent; border: none; color: white;
+    padding: 10px 14px; font-size: 11px; cursor: pointer; width: 100%;
+    text-align: left; border-bottom: 1px solid #333;
+  }
+  .demo-panel button:last-child { border-bottom: none; }
+  .demo-panel button:hover { background: var(--primary); }
+  .demo-panel button.active { background: var(--primary); font-weight: 700; }
+
+  /* VIEWS */
+  .view { display: none; }
+  .view.active { display: block; }
+  #view-back.active, #view-super.active { display: flex; }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ADMIN */
+  .admin-layout { display: flex; min-height: 100vh; width: 100%; }
+  .admin-sidebar {
+    width: 240px; background: var(--text); color: white; padding: 20px 0;
+    flex-shrink: 0; height: 100vh; overflow-y: auto; position: sticky; top: 0;
+  }
+  .admin-logo {
+    padding: 0 20px 20px; border-bottom: 1px solid #333;
+    margin-bottom: 16px; font-weight: 800; color: white; font-size: 15px;
+  }
+  .admin-logo span { color: var(--accent); }
+  .admin-sidebar nav a {
+    display: block; color: #CCC; padding: 10px 20px; text-decoration: none;
+    font-size: 13px; border-left: 3px solid transparent; cursor: pointer;
+  }
+  .admin-sidebar nav a:hover { background: rgba(255,255,255,0.05); color: white; }
+  .admin-sidebar nav a.active {
+    background: rgba(10,102,194,0.2); border-left-color: var(--primary);
+    color: white; font-weight: 600;
+  }
+  .admin-main { flex: 1; padding: 24px 32px; background: var(--secondary); }
+  .admin-header {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;
+  }
+  .admin-header h1 { font-size: 22px; font-weight: 700; }
+  .admin-header .user { font-size: 13px; color: var(--muted); }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .kpi-card { background: white; border-radius: 10px; padding: 20px; border: 1px solid var(--border); }
+  .kpi-label {
+    font-size: 12px; color: var(--muted); margin-bottom: 6px;
+    text-transform: uppercase; font-weight: 600; letter-spacing: 0.4px;
+  }
+  .kpi-value { font-size: 26px; font-weight: 800; }
+  .kpi-trend { font-size: 12px; margin-top: 6px; font-weight: 600; }
+  .kpi-trend.up { color: var(--success); }
+  .kpi-trend.down { color: var(--danger); }
+
+  .admin-card {
+    background: white; border-radius: 10px; border: 1px solid var(--border);
+    padding: 20px; margin-bottom: 20px;
+  }
+  .admin-card h3 {
+    font-size: 16px; margin-bottom: 16px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  table.admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.admin-table th {
+    text-align: left; padding: 10px 12px; background: var(--secondary);
+    font-weight: 600; color: var(--muted); font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.3px;
+  }
+  table.admin-table td { padding: 12px; border-bottom: 1px solid var(--border); }
+  table.admin-table tr:hover td { background: #FAFAFA; }
+
+  .status {
+    padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; display: inline-block;
+  }
+  .status-pending { background: #FFF3CD; color: #856404; }
+  .status-confirmed { background: #D1ECF1; color: #0C5460; }
+  .status-shipped { background: #CCE5FF; color: #004085; }
+  .status-delivered { background: #D4EDDA; color: #155724; }
+  .status-cancelled { background: #F8D7DA; color: #721C24; }
+  .status-validated { background: #D4EDDA; color: #155724; }
+  .status-tocomplete { background: #FFF3CD; color: #856404; }
+  .status-rejected { background: #F8D7DA; color: #721C24; }
+
+  /* FORMS */
+  .form-group { margin-bottom: 16px; }
+  .form-group label {
+    display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--border);
+    border-radius: 6px; font-size: 14px; font-family: inherit;
+    background: white; outline: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--primary);
+  }
+  .form-group input:disabled { background: var(--secondary); cursor: not-allowed; }
+
+  .btn {
+    display: inline-block; padding: 10px 20px; border-radius: 6px;
+    font-size: 14px; font-weight: 600; cursor: pointer; border: none;
+    text-decoration: none; transition: all 0.2s;
+  }
+  .btn-primary { background: var(--primary); color: white; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-secondary { background: var(--secondary); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--border); }
+  .btn-danger { background: var(--danger); color: white; }
+  .btn-danger:hover { background: #A50D12; }
+  .btn-success { background: var(--success); color: white; }
+  .btn-success:hover { background: #045D33; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .page-card {
+    background: white; border-radius: 10px; padding: 32px;
+    border: 1px solid var(--border); max-width: 800px; margin: 0 auto;
+  }
+  .page-card h1 {
+    font-size: 24px; color: var(--primary); margin-bottom: 20px;
+    padding-bottom: 16px; border-bottom: 2px solid var(--primary);
+  }
+  .page-card h2 { font-size: 18px; margin-top: 24px; margin-bottom: 12px; }
+  .page-card p { margin-bottom: 12px; font-size: 14px; line-height: 1.7; }
+  .page-card ul, .page-card ol { margin-left: 24px; margin-bottom: 12px; }
+  .page-card li { font-size: 14px; margin-bottom: 6px; }
+
+  /* PRODUIT DETAIL */
+  .product-detail {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+    background: white; padding: 40px; border-radius: 12px; border: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .product-detail-image {
+    height: 400px; background: var(--secondary); border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 120px;
+  }
+  .product-detail-info h1 { font-size: 28px; margin-bottom: 16px; }
+  .product-detail-price { font-size: 32px; font-weight: 800; color: var(--primary); margin-bottom: 16px; }
+  .variants-group { margin-bottom: 20px; }
+  .variants-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+  .variant-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+  .variant-btn {
+    padding: 8px 16px; border: 1px solid var(--border); background: white;
+    border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500;
+  }
+  .variant-btn:hover { border-color: var(--primary); }
+  .variant-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+  .qty-selector { display: flex; align-items: center; gap: 12px; margin: 16px 0; }
+  .qty-selector button {
+    width: 36px; height: 36px; border: 1px solid var(--border); background: white;
+    border-radius: 6px; font-size: 18px; cursor: pointer; font-weight: 700;
+  }
+  .qty-selector button:hover { background: var(--secondary); }
+  .qty-selector span { font-size: 18px; font-weight: 700; min-width: 40px; text-align: center; }
+
+  /* CHECKOUT */
+  .checkout-steps {
+    display: flex; justify-content: center; gap: 12px; margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+  .checkout-step {
+    display: flex; align-items: center; gap: 8px; padding: 10px 20px;
+    background: white; border: 1px solid var(--border); border-radius: 24px;
+    font-size: 13px; color: var(--muted); font-weight: 500;
+  }
+  .checkout-step.active { background: var(--primary); color: white; border-color: var(--primary); }
+  .checkout-step .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; background: var(--secondary); color: var(--text);
+    border-radius: 50%; font-size: 11px; font-weight: 700;
+  }
+  .checkout-step.active .num { background: rgba(255,255,255,0.3); color: white; }
+
+  .payment-options { display: grid; gap: 12px; margin: 16px 0; }
+  .payment-option {
+    display: flex; align-items: center; gap: 12px; padding: 16px;
+    border: 1px solid var(--border); border-radius: 8px; cursor: pointer;
+    transition: all 0.2s; background: white;
+  }
+  .payment-option:hover { border-color: var(--primary); }
+  .payment-option.selected { border-color: var(--primary); background: #EAF3FB; }
+  .payment-option input[type="radio"] { width: 20px; height: 20px; accent-color: var(--primary); }
+  .payment-option-info { flex: 1; }
+  .payment-option-info strong { display: block; font-size: 14px; margin-bottom: 2px; }
+  .payment-option-info span { font-size: 12px; color: var(--muted); }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 100px; right: 24px; background: var(--success);
+    color: white; padding: 14px 20px; border-radius: 8px; font-size: 14px;
+    font-weight: 600; box-shadow: 0 8px 24px rgba(0,0,0,0.2); z-index: 500;
+    opacity: 0; transform: translateY(20px); transition: all 0.3s;
+    pointer-events: none; max-width: 340px;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 400;
+    display: none; align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: white; border-radius: 12px; padding: 32px;
+    max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto;
+  }
+  .modal h2 { font-size: 20px; margin-bottom: 16px; color: var(--primary); }
+  .modal-actions { display: flex; gap: 12px; margin-top: 20px; justify-content: flex-end; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 11px; top: 0; bottom: 0;
+    width: 2px; background: var(--border);
+  }
+  .timeline-item { position: relative; padding-bottom: 20px; }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -26px; top: 4px; width: 12px; height: 12px;
+    border-radius: 50%; background: var(--primary); border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+  .timeline-item.done::before { background: var(--success); box-shadow: 0 0 0 2px var(--success); }
+  .timeline-item.pending::before { background: var(--border); box-shadow: 0 0 0 2px var(--border); }
+  .timeline-item .tl-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .timeline-item .tl-date { font-size: 12px; color: var(--muted); }
+
+  /* KYC DOCS */
+  .kyc-docs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .kyc-doc {
+    border: 2px dashed var(--border); border-radius: 8px; padding: 24px;
+    text-align: center; background: var(--secondary);
+  }
+  .kyc-doc .icon { font-size: 40px; margin-bottom: 8px; }
+  .kyc-doc .name { font-size: 13px; font-weight: 600; }
+  .kyc-doc .status { margin-top: 8px; }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; margin-left: 0; }
+  .checklist li {
+    padding: 10px 0; border-bottom: 1px solid var(--border); display: flex;
+    align-items: center; gap: 10px; font-size: 14px;
+  }
+  .checklist input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .products-grid { grid-template-columns: repeat(3, 1fr); }
+    .categories { grid-template-columns: repeat(3, 1fr); }
+    .footer-inner { grid-template-columns: repeat(2, 1fr); }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .admin-sidebar { width: 180px; }
+    .product-detail { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .products-grid { grid-template-columns: 1fr; }
+    .categories { grid-template-columns: repeat(2, 1fr); }
+    .hero h1 { font-size: 28px; }
+    .header-inner { flex-wrap: wrap; gap: 12px; }
+    .search-bar { order: 3; width: 100%; max-width: 100%; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .admin-sidebar { display: none; }
+    .kpi-grid { grid-template-columns: 1fr; }
+    .demo-panel { display: none; }
+    .topbar { flex-direction: column; gap: 6px; text-align: center; }
+    .kyc-docs { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div>
+    <span class="demo-badge">DÉMO</span>
+    &nbsp; <strong>monsite.ma</strong> — Simulation complète : inscription vendeur → boutique → achat → backoffice → validation
+  </div>
+  <div>
+    <a onclick="goTo('home')">🛍️ Front</a>
+    <a onclick="goTo('admin-dashboard')">⚙️ Vendeur</a>
+    <a onclick="goTo('super-dashboard')">🛡️ Super-admin</a>
+    <a onclick="goTo('register-vendor')">📝 Inscription</a>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- FRONT OFFICE                                                 -->
+<!-- ============================================================ -->
+<div id="view-front" class="view active">
+  <header>
+    <div class="header-inner">
+      <a class="logo" onclick="goTo('home')">Atlas<span>Tech</span></a>
+      <div class="search-bar">
+        <input type="text" placeholder="Rechercher un produit..." id="search-input" onkeydown="if(event.key==='Enter') searchProduct()">
+      </div>
+      <div class="header-actions">
+        <a onclick="goTo('account')">👤 Mon compte</a>
+        <a onclick="goTo('cart')">
+          🛒 Panier
+          <span class="cart-badge" id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <div class="nav-inner">
+      <a onclick="goTo('home')" class="nav-link" data-page="home">Accueil</a>
+      <a onclick="goTo('shop')" class="nav-link" data-page="shop">Boutique</a>
+      <a onclick="goTo('about')" class="nav-link" data-page="about">À propos</a>
+      <a onclick="goTo('contact')" class="nav-link" data-page="contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HOME -->
+  <div class="page" data-page-id="home">
+    <section class="hero">
+      <div class="hero-inner">
+        <h1>Bienvenue chez AtlasTech</h1>
+        <p>Votre spécialiste high-tech au Maroc — Livraison partout, paiement à la livraison disponible</p>
+        <button class="hero-btn" onclick="goTo('shop')">Découvrir nos produits</button>
+      </div>
+    </section>
+    <div class="container">
+      <div class="section-title">
+        <span>Nos catégories</span>
+        <a onclick="goTo('shop')">Voir tout →</a>
+      </div>
+      <div class="categories">
+        <div class="category-card" onclick="goTo('shop')"><span class="category-icon">📱</span><span class="category-name">Téléphones</span></div>
+        <div class="category-card" onclick="goTo('shop')"><span class="category-icon">💻</span><span class="category-name">Ordinateurs</span></div>
+        <div class="category-card" onclick="goTo('shop')"><span class="category-icon">🎧</span><span class="category-name">Audio</span></div>
+        <div class="category-card" onclick="goTo('shop')"><span class="category-icon">⌚</span><span class="category-name">Montres</span></div>
+        <div class="category-card" onclick="goTo('shop')"><span class="category-icon">🎮</span><span class="category-name">Gaming</span></div>
+        <div class="category-card" onclick="goTo('shop')"><span class="category-icon">🔌</span><span class="category-name">Accessoires</span></div>
+      </div>
+      <div class="section-title">
+        <span>Produits populaires</span>
+        <a onclick="goTo('shop')">Voir tout →</a>
+      </div>
+      <div class="products-grid" id="home-products"></div>
+      <div class="promo-banner">
+        <div>
+          <h3>🔥 Livraison gratuite dès 500 DH</h3>
+          <p>Paiement à la livraison disponible partout au Maroc</p>
+        </div>
+        <div class="promo-code">LIVRAISON2025</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHOP -->
+  <div class="page" data-page-id="shop">
+    <div class="container">
+      <div class="section-title"><span>Tous nos produits</span></div>
+      <div class="products-grid" id="shop-products"></div>
+    </div>
+  </div>
+
+  <!-- PRODUCT DETAIL -->
+  <div class="page" data-page-id="product-detail">
+    <div class="container">
+      <a onclick="goTo('shop')" style="color:var(--primary);font-size:14px;display:inline-block;margin-bottom:16px;">← Retour à la boutique</a>
+      <div id="product-detail-content"></div>
+    </div>
+  </div>
+
+  <!-- CART -->
+  <div class="page" data-page-id="cart">
+    <div class="container">
+      <div class="page-card">
+        <h1>Mon panier</h1>
+        <div id="cart-content"><p>Votre panier est vide.</p></div>
+        <div id="cart-footer" style="display:none; margin-top:24px; padding-top:24px; border-top:1px solid var(--border);">
+          <div style="display:flex; justify-content:space-between; font-size:18px; font-weight:700; margin-bottom:16px;">
+            <span>Total :</span>
+            <span id="cart-total">0 DH</span>
+          </div>
+          <button class="btn btn-primary" style="width:100%;" onclick="goTo('checkout')">Passer commande →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT -->
+  <div class="page" data-page-id="checkout">
+    <div class="container">
+      <h1 style="text-align:center;font-size:24px;margin-bottom:24px;">Finaliser ma commande</h1>
+      <div class="checkout-steps" id="checkout-steps">
+        <div class="checkout-step active" data-step="1"><span class="num">1</span> Coordonnées</div>
+        <div class="checkout-step" data-step="2"><span class="num">2</span> Livraison</div>
+        <div class="checkout-step" data-step="3"><span class="num">3</span> Paiement</div>
+        <div class="checkout-step" data-step="4"><span class="num">4</span> Confirmation</div>
+      </div>
+
+      <!-- Étape 1 -->
+      <div class="page-card checkout-step-content" data-step-content="1">
+        <h1>Vos coordonnées</h1>
+        <div class="form-group"><label>Nom complet *</label><input type="text" id="co-name" placeholder="Votre nom"></div>
+        <div class="form-group"><label>Email *</label><input type="email" id="co-email" placeholder="votre@email.com"></div>
+        <div class="form-group"><label>Téléphone *</label><input type="tel" id="co-phone" placeholder="+212 6XX XX XX XX"></div>
+        <p style="font-size:13px;color:var(--muted);margin-top:16px;">💡 Vous pouvez commander sans créer de compte (achat invité).</p>
+        <button class="btn btn-primary" style="margin-top:16px;width:100%;" onclick="checkoutNext(2)">Continuer →</button>
+      </div>
+
+      <!-- Étape 2 -->
+      <div class="page-card checkout-step-content" data-step-content="2" style="display:none;">
+        <h1>Adresse de livraison</h1>
+        <div class="form-group"><label>Adresse complète *</label><input type="text" id="co-address" placeholder="N°, rue, quartier"></div>
+        <div class="form-group"><label>Ville *</label>
+          <select id="co-city">
+            <option>Casablanca</option><option>Rabat</option><option>Marrakech</option>
+            <option>Fès</option><option>Tanger</option><option>Agadir</option><option>Autre</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Instructions de livraison</label><textarea rows="2" placeholder="Optionnel"></textarea></div>
+        <div style="display:flex;gap:12px;margin-top:16px;">
+          <button class="btn btn-secondary" onclick="checkoutPrev(1)">← Retour</button>
+          <button class="btn btn-primary" style="flex:1;" onclick="checkoutNext(3)">Continuer →</button>
+        </div>
+      </div>
+
+      <!-- Étape 3 -->
+      <div class="page-card checkout-step-content" data-step-content="3" style="display:none;">
+        <h1>Mode de paiement</h1>
+        <div class="payment-options">
+          <label class="payment-option" onclick="selectPayment(this,'cmi')">
+            <input type="radio" name="payment" value="cmi">
+            <div class="payment-option-info"><strong>💳 Carte bancaire (CMI)</strong><span>Paiement sécurisé immédiat</span></div>
+          </label>
+          <label class="payment-option" onclick="selectPayment(this,'cod')">
+            <input type="radio" name="payment" value="cod">
+            <div class="payment-option-info"><strong>📦 Paiement à la livraison (COD)</strong><span>Vous payez en espèces au livreur</span></div>
+          </label>
+          <label class="payment-option" onclick="selectPayment(this,'virement')">
+            <input type="radio" name="payment" value="virement">
+            <div class="payment-option-info"><strong>🏦 Virement bancaire</strong><span>RIB communiqué après validation</span></div>
+          </label>
+        </div>
+
+        <div id="payment-note" style="display:none;padding:12px;background:var(--secondary);border-radius:6px;font-size:13px;margin-top:12px;"></div>
+
+        <div style="background:var(--secondary);padding:16px;border-radius:8px;margin-top:16px;">
+          <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;"><span>Sous-total HT :</span><span id="co-subtotal">0 DH</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;"><span>TVA (20%) :</span><span id="co-tva">0 DH</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;"><span>Livraison :</span><span id="co-shipping">30 DH</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:18px;font-weight:700;padding-top:10px;border-top:1px solid var(--border);"><span>Total TTC :</span><span id="co-total">0 DH</span></div>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:16px;">
+          <button class="btn btn-secondary" onclick="checkoutPrev(2)">← Retour</button>
+          <button class="btn btn-primary" style="flex:1;" onclick="checkoutNext(4)">Confirmer la commande ✓</button>
+        </div>
+      </div>
+
+      <!-- Étape 4 -->
+      <div class="page-card checkout-step-content" data-step-content="4" style="display:none;">
+        <div style="text-align:center;padding:20px 0;">
+          <div style="font-size:64px;margin-bottom:16px;">✅</div>
+          <h1 style="border:none;padding:0;">Commande confirmée !</h1>
+          <p style="font-size:16px;">Merci pour votre achat. Un email de confirmation vous a été envoyé.</p>
+          <div style="background:var(--secondary);padding:20px;border-radius:8px;margin:24px 0;">
+            <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Numéro de commande</div>
+            <div style="font-size:20px;font-weight:800;color:var(--primary);" id="co-order-number">CMD-2025-0235</div>
+          </div>
+          <button class="btn btn-primary" onclick="goTo('order-tracking')">📦 Suivre ma commande</button>
+          <button class="btn btn-secondary" style="margin-left:8px;" onclick="goTo('home')">Retour à l'accueil</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORDER TRACKING -->
+  <div class="page" data-page-id="order-tracking">
+    <div class="container">
+      <div class="page-card">
+        <h1>Suivi de commande</h1>
+        <div style="background:var(--secondary);padding:16px;border-radius:8px;margin-bottom:24px;">
+          <div style="font-size:12px;color:var(--muted);">Numéro de commande</div>
+          <div style="font-size:18px;font-weight:800;color:var(--primary);" id="track-order-number">CMD-2025-0235</div>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item done">
+            <div class="tl-title">✓ Commande passée</div>
+            <div class="tl-date">Aujourd'hui à l'instant</div>
+          </div>
+          <div class="timeline-item done">
+            <div class="tl-title">✓ Commande confirmée</div>
+            <div class="tl-date">Aujourd'hui à l'instant</div>
+          </div>
+          <div class="timeline-item pending">
+            <div class="tl-title">⏳ En cours d'expédition</div>
+            <div class="tl-date">En attente</div>
+          </div>
+          <div class="timeline-item pending">
+            <div class="tl-title">⏳ Livrée</div>
+            <div class="tl-date">En attente</div>
+          </div>
+        </div>
+        <p style="margin-top:24px;font-size:13px;color:var(--muted);">💡 Un lien de suivi unique vous a été envoyé par email pour consulter l'état de votre commande à tout moment.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCOUNT -->
+  <div class="page" data-page-id="account">
+    <div class="container">
+      <div class="page-card">
+        <h1>Mon compte</h1>
+        <h2>Se connecter</h2>
+        <div class="form-group"><label>Email</label><input type="email" placeholder="votre@email.com"></div>
+        <div class="form-group"><label>Mot de passe</label><input type="password" placeholder="••••••••"></div>
+        <button class="btn btn-primary" onclick="showToast('✓ Connexion réussie !')">Se connecter</button>
+
+        <h2 style="margin-top:32px;">Créer un compte</h2>
+        <div class="form-group"><label>Nom complet</label><input type="text"></div>
+        <div class="form-group"><label>Email</label><input type="email"></div>
+        <div class="form-group"><label>Mot de passe</label><input type="password"></div>
+        <button class="btn btn-secondary" onclick="showToast('✓ Compte créé ! Vérifiez votre email.')">Créer mon compte</button>
+
+        <h2 style="margin-top:32px;">Mes commandes</h2>
+        <p>Aucune commande enregistrée. <a onclick="goTo('shop')" style="color:var(--primary);">Commencer mes achats →</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="page" data-page-id="about">
+    <div class="container">
+      <div class="page-card">
+        <h1>À propos d'AtlasTech</h1>
+        <p>Fondée en 2020 à Casablanca, <strong>AtlasTech</strong> est spécialisée dans la vente de produits high-tech au Maroc.</p>
+        <h2>Nos engagements</h2>
+        <ul>
+          <li>Produits 100 % authentiques et garantis</li>
+          <li>Livraison rapide dans tout le Maroc</li>
+          <li>Paiement à la livraison disponible</li>
+          <li>Retour sous 7 jours</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="page" data-page-id="contact">
+    <div class="container">
+      <div class="page-card">
+        <h1>Contactez-nous</h1>
+        <div class="form-group"><label>Nom</label><input type="text"></div>
+        <div class="form-group"><label>Email</label><input type="email"></div>
+        <div class="form-group"><label>Message</label><textarea rows="5"></textarea></div>
+        <button class="btn btn-primary" onclick="showToast('✓ Message envoyé !')">Envoyer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVRAISON -->
+  <div class="page" data-page-id="shipping">
+    <div class="container"><div class="page-card">
+      <h1>Livraison</h1>
+      <h2>Zones et délais</h2>
+      <ul><li>Grandes villes : 24-48h</li><li>Autres villes : 2-4 jours</li></ul>
+      <h2>Frais</h2>
+      <ul><li>Standard : 30 DH</li><li>Gratuit dès 500 DH</li></ul>
+    </div></div>
+  </div>
+
+  <!-- RETOURS -->
+  <div class="page" data-page-id="returns">
+    <div class="container"><div class="page-card">
+      <h1>Politique de retour</h1>
+      <h2>Conditions</h2>
+      <ul><li>Retour sous 7 jours après livraison</li><li>Produit non utilisé, emballage d'origine</li></ul>
+      <h2>Procédure</h2>
+      <ol><li>Contactez-nous via le formulaire</li><li>Recevez un numéro de retour</li><li>Renvoyez le produit</li><li>Remboursement sous 7 jours</li></ol>
+    </div></div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="page" data-page-id="faq">
+    <div class="container"><div class="page-card">
+      <h1>FAQ</h1>
+      <h2>Comment commander ?</h2><p>Ajoutez au panier puis "Passer commande".</p>
+      <h2>Modes de paiement ?</h2><p>CMI, virement, COD.</p>
+      <h2>Délais de livraison ?</h2><p>24-48h grandes villes, 2-5 jours ailleurs.</p>
+      <h2>Retour possible ?</h2><p>Oui, sous 7 jours.</p>
+    </div></div>
+  </div>
+
+  <!-- CGV -->
+  <div class="page" data-page-id="cgv">
+    <div class="container"><div class="page-card">
+      <h1>CGV</h1>
+      <p><em>Dernière mise à jour : Janvier 2025</em></p>
+      <h2>1. Objet</h2><p>Ventes conclues entre AtlasTech et ses clients.</p>
+      <h2>2. Prix</h2><p>En DH, TTC.</p>
+      <h2>3. Paiement</h2><p>CMI, virement, COD.</p>
+      <h2>4. Rétractation</h2><p>7 jours après réception.</p>
+    </div></div>
+  </div>
+
+  <!-- LEGAL -->
+  <div class="page" data-page-id="legal">
+    <div class="container"><div class="page-card">
+      <h1>Mentions légales</h1>
+      <h2>Éditeur</h2>
+      <p><strong>AtlasTech SARL</strong></p>
+      <p>RC : 123456 — ICE : 001234567890123</p>
+      <p>Email : contact@atlastech.ma</p>
+      <h2>Hébergement</h2>
+      <p>monsite.ma — sous-domaine atlastech.monsite.ma</p>
+    </div></div>
+  </div>
+
+  <!-- REGISTER VENDOR -->
+  <div class="page" data-page-id="register-vendor">
+    <div class="container">
+      <div class="page-card" style="max-width:700px;">
+        <h1>Créer ma boutique</h1>
+        <p style="margin-bottom:24px;">1800 DH/an — Sous-domaine inclus, paiement en ligne, COD, sans commission</p>
+
+        <div class="checkout-steps" style="justify-content:flex-start;">
+          <div class="checkout-step active" data-vstep="1"><span class="num">1</span> Compte</div>
+          <div class="checkout-step" data-vstep="2"><span class="num">2</span> Boutique</div>
+          <div class="checkout-step" data-vstep="3"><span class="num">3</span> KYC</div>
+          <div class="checkout-step" data-vstep="4"><span class="num">4</span> Paiement</div>
+        </div>
+
+        <!-- Étape 1 -->
+        <div class="vendor-step" data-vstep-content="1">
+          <h2 style="margin-top:0;">Créer mon compte</h2>
+          <div class="form-group"><label>Email *</label><input type="email" id="v-email" placeholder="vendeur@email.com"></div>
+          <div class="form-group"><label>Mot de passe *</label><input type="password" placeholder="8 caractères min."></div>
+          <div class="form-group"><label>Nom complet *</label><input type="text" id="v-name" placeholder="Votre nom"></div>
+          <div class="form-group"><label>Téléphone *</label><input type="tel" placeholder="+212 6XX XX XX XX"></div>
+          <div class="form-group"><label>Type de compte *</label>
+            <select id="v-type" onchange="toggleVendorType()">
+              <option value="societe">Société (RC obligatoire)</option>
+              <option value="particulier">Particulier / Indépendant</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" style="width:100%;" onclick="vendorNext(2)">Continuer →</button>
+        </div>
+
+        <!-- Étape 2 -->
+        <div class="vendor-step" data-vstep-content="2" style="display:none;">
+          <h2 style="margin-top:0;">Informations boutique</h2>
+          <div class="form-group"><label>Nom de la boutique *</label><input type="text" id="v-shop-name" placeholder="Ex : Atlas Électronique" oninput="updateSlug()"></div>
+          <div class="form-group"><label>Sous-domaine *</label>
+            <input type="text" id="v-slug" placeholder="atlas-electronique" oninput="updateSlugPreview()">
+            <div style="font-size:12px;color:var(--muted);margin-top:6px;">→ <strong id="slug-preview">votre-boutique</strong>.monsite.ma</div>
+          </div>
+          <div class="form-group"><label>Ville *</label>
+            <select><option>Casablanca</option><option>Rabat</option><option>Marrakech</option><option>Fès</option><option>Tanger</option></select>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:16px;">
+            <button class="btn btn-secondary" onclick="vendorPrev(1)">← Retour</button>
+            <button class="btn btn-primary" style="flex:1;" onclick="vendorNext(3)">Continuer →</button>
+          </div>
+        </div>
+
+        <!-- Étape 3 -->
+        <div class="vendor-step" data-vstep-content="3" style="display:none;">
+          <h2 style="margin-top:0;">Vérification KYC</h2>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Documents obligatoires pour valider votre boutique.</p>
+
+          <div class="kyc-docs" id="kyc-docs">
+            <div class="kyc-doc" id="kyc-rc">
+              <div class="icon">📄</div>
+              <div class="name">Registre de Commerce (RC)</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:4px;">PDF ou JPG — 5 Mo max</div>
+              <button class="btn btn-secondary" style="margin-top:12px;font-size:12px;padding:6px 12px;" onclick="uploadKyc('rc',this)">Uploader</button>
+            </div>
+            <div class="kyc-doc" id="kyc-ice">
+              <div class="icon">🆔</div>
+              <div class="name">ICE (15 chiffres)</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:4px;">Numéro d'identification</div>
+              <button class="btn btn-secondary" style="margin-top:12px;font-size:12px;padding:6px 12px;" onclick="uploadKyc('ice',this)">Renseigner</button>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:12px;margin-top:16px;">
+            <button class="btn btn-secondary" onclick="vendorPrev(2)">← Retour</button>
+            <button class="btn btn-primary" style="flex:1;" onclick="vendorNext(4)">Continuer →</button>
+          </div>
+        </div>
+
+        <!-- Étape 4 -->
+        <div class="vendor-step" data-vstep-content="4" style="display:none;">
+          <h2 style="margin-top:0;">Paiement de l'abonnement</h2>
+          <div style="background:var(--secondary);padding:20px;border-radius:8px;margin-bottom:20px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span>Abonnement annuel</span><span>1800 DH</span></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span>Domaine custom (option)</span><span>+200 DH</span></div>
+            <div style="display:flex;justify-content:space-between;padding-top:8px;border-top:1px solid var(--border);font-weight:700;font-size:18px;"><span>Total</span><span>2000 DH</span></div>
+          </div>
+
+          <div class="payment-options">
+            <label class="payment-option selected">
+              <input type="radio" name="vendor-payment" checked>
+              <div class="payment-option-info"><strong>💳 Carte bancaire (CMI)</strong><span>Paiement immédiat</span></div>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="vendor-payment">
+              <div class="payment-option-info"><strong>🏦 Virement bancaire</strong><span>RIB envoyé par email</span></div>
+            </label>
+          </div>
+
+          <div style="display:flex;gap:12px;margin-top:16px;">
+            <button class="btn btn-secondary" onclick="vendorPrev(3)">← Retour</button>
+            <button class="btn btn-primary" style="flex:1;" onclick="submitVendorRegistration()">Payer et finaliser ✓</button>
+          </div>
+        </div>
+
+        <!-- Confirmation -->
+        <div class="vendor-step" data-vstep-content="5" style="display:none;text-align:center;padding:20px 0;">
+          <div style="font-size:64px;margin-bottom:16px;">🎉</div>
+          <h2 style="color:var(--success);">Inscription enregistrée !</h2>
+          <p>Votre boutique <strong id="confirm-shop-url">votre-boutique.monsite.ma</strong> est en cours de validation.</p>
+          <p style="font-size:13px;color:var(--muted);margin-top:16px;">Validation sous 48h ouvrées. Vous pouvez préparer votre boutique dès maintenant.</p>
+          <div style="background:var(--secondary);padding:16px;border-radius:8px;margin:24px 0;text-align:left;">
+            <div style="font-size:12px;font-weight:700;margin-bottom:8px;">📋 Checklist de progression</div>
+            <ul class="checklist">
+              <li>✅ Compte créé</li>
+              <li>✅ Paiement reçu</li>
+              <li>⏳ KYC en cours de validation</li>
+              <li>⬜ Boutique activée</li>
+            </ul>
+          </div>
+          <button class="btn btn-primary" onclick="goTo('admin-dashboard')">Accéder à mon backoffice →</button>
+          <button class="btn btn-secondary" style="margin-left:8px;" onclick="goTo('super-dashboard')">Voir la validation (super-admin)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>AtlasTech</h4>
+        <a onclick="goTo('home')">Accueil</a>
+        <a onclick="goTo('about')">À propos</a>
+        <a onclick="goTo('contact')">Contact</a>
+        <a onclick="goTo('cgv')">CGV</a>
+        <a onclick="goTo('legal')">Mentions légales</a>
+      </div>
+      <div class="footer-col">
+        <h4>Aide</h4>
+        <a onclick="goTo('shipping')">Livraison</a>
+        <a onclick="goTo('returns')">Retours</a>
+        <a onclick="goTo('faq')">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h4>Mon compte</h4>
+        <a onclick="goTo('account')">Se connecter</a>
+        <a onclick="goTo('account')">Créer un compte</a>
+        <a onclick="goTo('account')">Mes commandes</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a>📞 +212 5XX XX XX XX</a>
+        <a>✉ contact@atlastech.ma</a>
+        <a onclick="showToast('💬 WhatsApp ouvert !')">💬 WhatsApp</a>
+        <a>📍 Casablanca, Maroc</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2025 AtlasTech · RC : 123456 · ICE : 001234567890123</div>
+      <div>Propulsé par monsite.ma</div>
+    </div>
+  </footer>
+
+  <div class="floating-whatsapp" onclick="showToast('💬 WhatsApp ouvert !')">💬</div>
+  <div class="floating-cart" onclick="goTo('cart')">🛒<span class="badge" id="cart-count-float">0</span></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- BACKOFFICE VENDEUR                                           -->
+<!-- ============================================================ -->
+<div id="view-back" class="view">
+  <aside class="admin-sidebar">
+    <div class="admin-logo">Atlas<span>Tech</span> · Admin</div>
+    <nav>
+      <a onclick="goTo('admin-dashboard')" class="admin-link" data-page="admin-dashboard">📊 Tableau de bord</a>
+      <a onclick="goTo('admin-products')" class="admin-link" data-page="admin-products">📦 Produits</a>
+      <a onclick="goTo('admin-orders')" class="admin-link" data-page="admin-orders">📋 Commandes</a>
+      <a onclick="goTo('admin-customers')" class="admin-link" data-page="admin-customers">👥 Clients</a>
+      <a onclick="goTo('admin-stats')" class="admin-link" data-page="admin-stats">📈 Statistiques</a>
+      <a onclick="goTo('admin-appearance')" class="admin-link" data-page="admin-appearance">🎨 Apparence</a>
+      <a onclick="goTo('admin-payments')" class="admin-link" data-page="admin-payments">💳 Paiements</a>
+      <a onclick="goTo('admin-settings')" class="admin-link" data-page="admin-settings">⚙️ Paramètres</a>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <!-- Dashboard -->
+    <div class="page" data-page-id="admin-dashboard">
+      <div class="admin-header">
+        <h1>Tableau de bord</h1>
+        <div class="user">Connecté : <strong>Ahmed B.</strong> (Propriétaire)</div>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-label">CA du jour</div><div class="kpi-value">12 450 DH</div><div class="kpi-trend up">↑ +18%</div></div>
+        <div class="kpi-card"><div class="kpi-label">Commandes</div><div class="kpi-value">23</div><div class="kpi-trend up">↑ +5</div></div>
+        <div class="kpi-card"><div class="kpi-label">Panier moyen</div><div class="kpi-value">541 DH</div><div class="kpi-trend down">↓ -3%</div></div>
+        <div class="kpi-card"><div class="kpi-label">Produits</div><div class="kpi-value">147</div><div class="kpi-trend">3 en rupture</div></div>
+      </div>
+      <div class="admin-card">
+        <h3>Commandes récentes</h3>
+        <table class="admin-table">
+          <thead><tr><th>N° commande</th><th>Client</th><th>Total</th><th>Paiement</th><th>Statut</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><strong>CMD-2025-0235</strong></td><td>Vous (démo)</td><td id="demo-order-total">— DH</td><td>—</td><td><span class="status status-pending">En attente</span></td><td><a onclick="confirmOrder(this)" style="color:var(--primary);">Confirmer</a></td></tr>
+            <tr><td><strong>CMD-2025-0234</strong></td><td>Youssef A.</td><td>890 DH</td><td>COD</td><td><span class="status status-pending">En attente</span></td><td><a onclick="confirmOrder(this)" style="color:var(--primary);">Confirmer</a></td></tr>
+            <tr><td><strong>CMD-2025-0233</strong></td><td>Salma K.</td><td>4 200 DH</td><td>CMI</td><td><span class="status status-confirmed">Confirmée</span></td><td><a onclick="shipOrder(this)" style="color:var(--primary);">Expédier</a></td></tr>
+            <tr><td><strong>CMD-2025-0232</strong></td><td>Karim M.</td><td>1 250 DH</td><td>COD</td><td><span class="status status-shipped">Expédiée</span></td><td><a onclick="deliverOrder(this)" style="color:var(--primary);">Livrer</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="admin-card">
+        <h3>⚠ Alertes stock</h3>
+        <table class="admin-table">
+          <thead><tr><th>Produit</th><th>Stock</th><th>Seuil</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>Casque Bluetooth Premium</td><td><strong style="color:#E7A33E;">3</strong></td><td>5</td><td><a onclick="showToast('✓ Produit réapprovisionné')" style="color:var(--primary);">Réapprovisionner</a></td></tr>
+            <tr><td>Souris sans fil</td><td><strong style="color:#CC1016;">0</strong></td><td>5</td><td><a onclick="showToast('✓ Produit réapprovisionné')" style="color:var(--primary);">Réapprovisionner</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Produits -->
+    <div class="page" data-page-id="admin-products">
+      <div class="admin-header">
+        <h1>Produits</h1>
+        <button class="btn btn-primary" onclick="openProductModal()">+ Ajouter un produit</button>
+      </div>
+      <div class="admin-card">
+        <table class="admin-table">
+          <thead><tr><th>Image</th><th>Nom</th><th>SKU</th><th>Prix</th><th>Stock</th><th>Statut</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr><td>📱</td><td>Smartphone Galaxy Pro 5G</td><td>SP-GP-256</td><td>4 200 DH</td><td>12</td><td><span class="status status-delivered">Publié</span></td><td><a onclick="showToast('✓ Produit modifié')" style="color:var(--primary);">Modifier</a></td></tr>
+            <tr><td>🎧</td><td>Casque Bluetooth Premium</td><td>CS-BT-ANC</td><td>890 DH</td><td>3</td><td><span class="status status-delivered">Publié</span></td><td><a onclick="showToast('✓ Produit modifié')" style="color:var(--primary);">Modifier</a></td></tr>
+            <tr><td>⌚</td><td>Montre connectée Sport GPS</td><td>MT-SP-GPS</td><td>1 250 DH</td><td>8</td><td><span class="status status-delivered">Publié</span></td><td><a onclick="showToast('✓ Produit modifié')" style="color:var(--primary);">Modifier</a></td></tr>
+            <tr><td>💻</td><td>Ordinateur portable 15"</td><td>PC-15-I5</td><td>7 500 DH</td><td>5</td><td><span class="status status-delivered">Publié</span></td><td><a onclick="showToast('✓ Produit modifié')" style="color:var(--primary);">Modifier</a></td></tr>
+            <tr><td>🖱️</td><td>Souris sans fil</td><td>SR-SF-ERG</td><td>180 DH</td><td>0</td><td><span class="status status-cancelled">Rupture</span></td><td><a onclick="showToast('✓ Produit modifié')" style="color:var(--primary);">Modifier</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Commandes -->
+    <div class="page" data-page-id="admin-orders">
+      <div class="admin-header">
+        <h1>Commandes</h1>
+        <div class="user">23 aujourd'hui · 5 en attente</div>
+      </div>
+      <div class="admin-card">
+        <table class="admin-table">
+          <thead><tr><th>N°</th><th>Client</th><th>Total</th><th>Paiement</th><th>Statut</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr><td><strong>CMD-2025-0235</strong></td><td>Vous (démo)</td><td>— DH</td><td>—</td><td><span class="status status-pending">En attente</span></td><td><a onclick="confirmOrder(this)" style="color:var(--primary);">Confirmer</a></td></tr>
+            <tr><td><strong>CMD-2025-0234</strong></td><td>Youssef A.</td><td>890 DH</td><td>COD</td><td><span class="status status-pending">En attente</span></td><td><a onclick="confirmOrder(this)" style="color:var(--primary);">Confirmer</a></td></tr>
+            <tr><td><strong>CMD-2025-0233</strong></td><td>Salma K.</td><td>4 200 DH</td><td>CMI</td><td><span class="status status-confirmed">Confirmée</span></td><td><a onclick="shipOrder(this)" style="color:var(--primary);">Expédier</a></td></tr>
+            <tr><td><strong>CMD-2025-0232</strong></td><td>Karim M.</td><td>1 250 DH</td><td>COD</td><td><span class="status status-shipped">Expédiée</span></td><td><a onclick="deliverOrder(this)" style="color:var(--primary);">Livrer</a></td></tr>
+            <tr><td><strong>CMD-2025-0231</strong></td><td>Fatima Z.</td><td>450 DH</td><td>Virement</td><td><span class="status status-delivered">Livrée</span></td><td><a onclick="showToast('✓ Facture téléchargée')" style="color:var(--primary);">Facture</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Clients -->
+    <div class="page" data-page-id="admin-customers">
+      <div class="admin-header"><h1>Clients</h1><div class="user">47 clients</div></div>
+      <div class="admin-card">
+        <table class="admin-table">
+          <thead><tr><th>Nom</th><th>Email</th><th>Commandes</th><th>CA total</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr><td>Vous (démo)</td><td id="demo-customer-email">—</td><td>1</td><td>—</td><td><a onclick="showToast('✓ Fiche ouverte')" style="color:var(--primary);">Voir</a></td></tr>
+            <tr><td>Youssef A.</td><td>youssef@email.com</td><td>3</td><td>2 340 DH</td><td><a onclick="showToast('✓ Fiche ouverte')" style="color:var(--primary);">Voir</a></td></tr>
+            <tr><td>Salma K.</td><td>salma@email.com</td><td>5</td><td>8 900 DH</td><td><a onclick="showToast('✓ Fiche ouverte')" style="color:var(--primary);">Voir</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="page" data-page-id="admin-stats">
+      <div class="admin-header">
+        <h1>Statistiques</h1>
+        <select style="padding:8px 12px;border-radius:6px;border:1px solid var(--border);">
+          <option>7 jours</option><option selected>30 jours</option><option>Année</option>
+        </select>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-label">CA (30j)</div><div class="kpi-value">142 500 DH</div><div class="kpi-trend up">↑ +22%</div></div>
+        <div class="kpi-card"><div class="kpi-label">Commandes</div><div class="kpi-value">263</div><div class="kpi-trend up">↑ +15%</div></div>
+        <div class="kpi-card"><div class="kpi-label">Conversion</div><div class="kpi-value">3,8 %</div><div class="kpi-trend up">↑ +0,5pt</div></div>
+        <div class="kpi-card"><div class="kpi-label">Panier moyen</div><div class="kpi-value">542 DH</div><div class="kpi-trend up">↑ +6%</div></div>
+      </div>
+      <div class="admin-card">
+        <h3>Top produits</h3>
+        <table class="admin-table">
+          <thead><tr><th>Produit</th><th>Ventes</th><th>CA</th></tr></thead>
+          <tbody>
+            <tr><td>Smartphone Galaxy Pro 5G</td><td>42</td><td>176 400 DH</td></tr>
+            <tr><td>Montre connectée Sport GPS</td><td>38</td><td>47 500 DH</td></tr>
+            <tr><td>Casque Bluetooth Premium</td><td>35</td><td>31 150 DH</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Apparence -->
+    <div class="page" data-page-id="admin-appearance">
+      <div class="admin-header">
+        <h1>Apparence</h1>
+        <button class="btn btn-primary" onclick="showToast('✓ Modifications publiées')">Publier</button>
+      </div>
+      <div class="admin-card">
+        <h3>🎨 Template</h3>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;">
+          <div style="border:2px solid var(--primary);border-radius:8px;padding:16px;text-align:center;background:#EAF3FB;cursor:pointer;" onclick="showToast('✓ Template Sobre sélectionné')"><div style="font-size:32px;">⬜</div><div style="font-size:12px;font-weight:700;margin-top:6px;color:var(--primary);">Sobre ✓</div></div>
+          <div style="border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;cursor:pointer;" onclick="showToast('✓ Template Élégant sélectionné')"><div style="font-size:32px;">⬛</div><div style="font-size:12px;font-weight:600;margin-top:6px;">Élégant</div></div>
+          <div style="border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;cursor:pointer;" onclick="showToast('✓ Template Urbain sélectionné')"><div style="font-size:32px;">🟦</div><div style="font-size:12px;font-weight:600;margin-top:6px;">Urbain</div></div>
+          <div style="border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;cursor:pointer;" onclick="showToast('✓ Template Nature sélectionné')"><div style="font-size:32px;">🟩</div><div style="font-size:12px;font-weight:600;margin-top:6px;">Nature</div></div>
+          <div style="border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;cursor:pointer;" onclick="showToast('✓ Template Classique sélectionné')"><div style="font-size:32px;">🟨</div><div style="font-size:12px;font-weight:600;margin-top:6px;">Classique</div></div>
+        </div>
+      </div>
+      <div class="admin-card">
+        <h3>🎨 Couleurs</h3>
+        <div class="form-group"><label>Couleur principale</label><input type="color" value="#0A66C2" style="width:80px;height:40px;"></div>
+        <div class="form-group"><label>Couleur secondaire</label><input type="color" value="#F3F2EF" style="width:80px;height:40px;"></div>
+        <div class="form-group"><label>Couleur d'accent</label><input type="color" value="#E7A33E" style="width:80px;height:40px;"></div>
+      </div>
+      <div class="admin-card">
+        <h3>✏️ Textes</h3>
+        <div class="form-group"><label>Nom de la boutique</label><input type="text" value="AtlasTech"></div>
+        <div class="form-group"><label>Slogan</label><input type="text" value="Votre spécialiste high-tech au Maroc"></div>
+      </div>
+    </div>
+
+    <!-- Paiements -->
+    <div class="page" data-page-id="admin-payments">
+      <div class="admin-header"><h1>Paiements</h1></div>
+      <div class="admin-card">
+        <h3>💳 CMI</h3>
+        <div class="form-group"><label>Statut</label><select><option>Actif</option><option>Désactivé</option></select></div>
+        <div class="form-group"><label>Merchant ID</label><input type="text" value="ATLASTECH_001"></div>
+        <div class="form-group"><label>Clé API</label><input type="password" value="••••••••"></div>
+        <button class="btn btn-secondary" onclick="showToast('✓ Connexion CMI réussie')">Tester la clé</button>
+      </div>
+      <div class="admin-card">
+        <h3>💰 Virement bancaire</h3>
+        <div class="form-group"><label>Statut</label><select><option>Actif</option><option>Désactivé</option></select></div>
+        <div class="form-group"><label>Banque</label><input type="text" value="Attijariwafa Bank"></div>
+        <div class="form-group"><label>RIB</label><input type="text" value="007 780 0001234567890123 45"></div>
+      </div>
+      <div class="admin-card">
+        <h3>📦 Paiement à la livraison (COD)</h3>
+        <div class="form-group"><label>Statut</label><select><option>Actif</option><option>Désactivé</option></select></div>
+        <p style="font-size:13px;color:var(--muted);">Confirmation téléphonique obligatoire avant expédition.</p>
+      </div>
+    </div>
+
+    <!-- Paramètres -->
+    <div class="page" data-page-id="admin-settings">
+      <div class="admin-header">
+        <h1>Paramètres</h1>
+        <button class="btn btn-primary" onclick="showToast('✓ Enregistré')">Enregistrer</button>
+      </div>
+      <div class="admin-card">
+        <h3>🏪 Informations boutique</h3>
+        <div class="form-group"><label>Nom</label><input type="text" value="AtlasTech"></div>
+        <div class="form-group"><label>Sous-domaine</label><input type="text" value="atlastech.monsite.ma" disabled></div>
+        <div class="form-group"><label>Email</label><input type="email" value="contact@atlastech.ma"></div>
+      </div>
+      <div class="admin-card">
+        <h3>🚚 Livraison</h3>
+        <div class="form-group"><label>Frais standard (DH)</label><input type="number" value="30"></div>
+        <div class="form-group"><label>Gratuit dès (DH)</label><input type="number" value="500"></div>
+      </div>
+      <div class="admin-card">
+        <h3>👥 Utilisateurs (2 max)</h3>
+        <table class="admin-table">
+          <thead><tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr><td>Ahmed B.</td><td>ahmed@atlastech.ma</td><td>Propriétaire</td><td>—</td></tr>
+            <tr><td>Sara L.</td><td>sara@atlastech.ma</td><td>Employé</td><td><a onclick="showToast('✓ Modifié')" style="color:var(--primary);">Modifier</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ============================================================ -->
+<!-- SUPER-ADMIN                                                  -->
+<!-- ============================================================ -->
+<div id="view-super" class="view">
+  <aside class="admin-sidebar" style="background:#004182;">
+    <div class="admin-logo" style="color:white;">🛡️ monsite<span>.ma</span> · Super-admin</div>
+    <nav>
+      <a onclick="goTo('super-dashboard')" class="super-link" data-page="super-dashboard">📊 Vue globale</a>
+      <a onclick="goTo('super-validations')" class="super-link" data-page="super-validations">✅ Validations KYC <span style="background:var(--danger);color:white;padding:1px 8px;border-radius:10px;font-size:10px;margin-left:6px;">1</span></a>
+      <a onclick="goTo('super-shops')" class="super-link" data-page="super-shops">🏪 Boutiques</a>
+      <a onclick="goTo('super-revenue')" class="super-link" data-page="super-revenue">💰 Revenus</a>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <!-- Vue globale -->
+    <div class="page" data-page-id="super-dashboard">
+      <div class="admin-header">
+        <h1>Vue globale — Super-admin</h1>
+        <div class="user">Connecté : <strong>Admin monsite.ma</strong></div>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-label">Boutiques actives</div><div class="kpi-value">127</div><div class="kpi-trend up">↑ +8 ce mois</div></div>
+        <div class="kpi-card"><div class="kpi-label">En attente validation</div><div class="kpi-value" style="color:var(--warning);">1</div><div class="kpi-trend">à traiter sous 48h</div></div>
+        <div class="kpi-card"><div class="kpi-label">CA plateforme (annuel)</div><div class="kpi-value">228 600 DH</div><div class="kpi-trend up">↑ +22%</div></div>
+        <div class="kpi-card"><div class="kpi-label">Revenus récurrents</div><div class="kpi-value">19 050 DH</div><div class="kpi-trend">/mois (MRR)</div></div>
+      </div>
+      <div class="admin-card">
+        <h3>📋 Demandes récentes de validation</h3>
+        <table class="admin-table">
+          <thead><tr><th>Boutique</th><th>Type</th><th>Sous-domaine</th><th>Soumis</th><th>Statut</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><strong id="pending-shop-name">AtlasTech</strong></td><td>Société</td><td id="pending-shop-url">atlastech.monsite.ma</td><td>À l'instant</td><td><span class="status status-pending">En attente</span></td><td><a onclick="goTo('super-validations')" style="color:var(--primary);">Traiter</a></td></tr>
+            <tr><td>Maroc Mode</td><td>Société</td><td>marocmode.monsite.ma</td><td>Il y a 2h</td><td><span class="status status-validated">Validée</span></td><td>—</td></tr>
+            <tr><td>Bijoux Sara</td><td>Particulier</td><td>bijouxsara.monsite.ma</td><td>Hier</td><td><span class="status status-validated">Validée</span></td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Validations KYC -->
+    <div class="page" data-page-id="super-validations">
+      <div class="admin-header">
+        <h1>Validation KYC</h1>
+        <div class="user">1 demande en attente</div>
+      </div>
+
+      <div class="admin-card" id="kyc-validation-card">
+        <h3>🆕 Demande à traiter : <span id="kyc-shop-name">AtlasTech</span></h3>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px;">
+          <div>
+            <h4 style="font-size:13px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;">Informations vendeur</h4>
+            <div style="font-size:14px;line-height:1.8;">
+              <div>👤 <strong id="kyc-vendor-name">Ahmed B.</strong></div>
+              <div>✉ <span id="kyc-vendor-email">ahmed@atlastech.ma</span></div>
+              <div>📞 <span id="kyc-vendor-phone">+212 6XX XX XX XX</span></div>
+              <div>🏢 Type : <strong id="kyc-vendor-type">Société</strong></div>
+              <div>🏪 Boutique : <strong id="kyc-vendor-shop">AtlasTech</strong></div>
+              <div>🌐 <span id="kyc-vendor-url">atlastech.monsite.ma</span></div>
+            </div>
+          </div>
+          <div>
+            <h4 style="font-size:13px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;">Documents KYC</h4>
+            <div class="kyc-doc" style="text-align:left;padding:16px;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="font-size:32px;">📄</div>
+                <div style="flex:1;">
+                  <div style="font-weight:600;font-size:13px;">Registre de Commerce</div>
+                  <div style="font-size:11px;color:var(--muted);">RC_AtlasTech_2025.pdf — 2,4 Mo</div>
+                </div>
+                <button class="btn btn-secondary" style="font-size:12px;padding:6px 12px;" onclick="showToast('📄 Document ouvert')">Ouvrir</button>
+              </div>
+            </div>
+            <div class="kyc-doc" style="text-align:left;padding:16px;margin-top:12px;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="font-size:32px;">🆔</div>
+                <div style="flex:1;">
+                  <div style="font-weight:600;font-size:13px;">ICE</div>
+                  <div style="font-size:11px;color:var(--muted);">001234567890123</div>
+                </div>
+                <button class="btn btn-secondary" style="font-size:12px;padding:6px 12px;" onclick="showToast('🆔 ICE vérifié')">Vérifier</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h4 style="font-size:13px;color:var(--muted);text-transform:uppercase;margin:24px 0 12px;">✅ Checklist de validation (5 points)</h4>
+        <ul class="checklist" id="kyc-checklist">
+          <li><input type="checkbox" id="check1"> <label for="check1">Le nom de la boutique correspond au RC</label></li>
+          <li><input type="checkbox" id="check2"> <label for="check2">Le RC est valide (date, numéro, lisible)</label></li>
+          <li><input type="checkbox" id="check3"> <label for="check3">L'ICE est renseigné et cohérent</label></li>
+          <li><input type="checkbox" id="check4"> <label for="check4">Le sous-domaine est disponible et conforme</label></li>
+          <li><input type="checkbox" id="check5"> <label for="check5">Aucun signalement (nom suspect, doublon)</label></li>
+        </ul>
+
+        <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+          <button class="btn btn-success" id="btn-validate" onclick="validateKyc()" disabled>✓ Valider la boutique</button>
+          <button class="btn btn-secondary" onclick="askComplement()">⚠ Demander un complément</button>
+          <button class="btn btn-danger" onclick="rejectKyc()">✗ Rejeter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Boutiques -->
+    <div class="page" data-page-id="super-shops">
+      <div class="admin-header"><h1>Boutiques</h1><div class="user">127 boutiques actives</div></div>
+      <div class="admin-card">
+        <table class="admin-table">
+          <thead><tr><th>Boutique</th><th>Sous-domaine</th><th>Type</th><th>Ville</th><th>Statut</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr><td>AtlasTech</td><td>atlastech.monsite.ma</td><td>Société</td><td>Casablanca</td><td><span class="status status-pending" id="shop-status-1">En attente</span></td><td><a onclick="goTo('super-validations')" style="color:var(--primary);">Traiter</a></td></tr>
+            <tr><td>Maroc Mode</td><td>marocmode.monsite.ma</td><td>Société</td><td>Rabat</td><td><span class="status status-validated">Active</span></td><td><a onclick="showToast('✓ Boutique suspendue')" style="color:var(--primary);">Suspendre</a></td></tr>
+            <tr><td>Bijoux Sara</td><td>bijouxsara.monsite.ma</td><td>Particulier</td><td>Marrakech</td><td><span class="status status-validated">Active</span></td><td><a onclick="showToast('✓ Boutique suspendue')" style="color:var(--primary);">Suspendre</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Revenus -->
+    <div class="page" data-page-id="super-revenue">
+      <div class="admin-header"><h1>Revenus plateforme</h1></div>
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-label">MRR</div><div class="kpi-value">19 050 DH</div><div class="kpi-trend up">↑ +8%</div></div>
+        <div class="kpi-card"><div class="kpi-label">ARR</div><div class="kpi-value">228 600 DH</div><div class="kpi-trend up">↑ +22%</div></div>
+        <div class="kpi-card"><div class="kpi-label">Taux rétention</div><div class="kpi-value">94 %</div><div class="kpi-trend up">↑ +2pt</div></div>
+        <div class="kpi-card"><div class="kpi-label">Renouvellements 30j</div><div class="kpi-value">8</div><div class="kpi-trend">à venir</div></div>
+      </div>
+      <div class="admin-card">
+        <h3>Revenus par mois</h3>
+        <table class="admin-table">
+          <thead><tr><th>Mois</th><th>Boutiques actives</th><th>MRR</th></tr></thead>
+          <tbody>
+            <tr><td>Octobre 2025</td><td>127</td><td>19 050 DH</td></tr>
+            <tr><td>Septembre 2025</td><td>119</td><td>17 850 DH</td></tr>
+            <tr><td>Août 2025</td><td>108</td><td>16 200 DH</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- DEMO PANEL -->
+<div class="demo-panel">
+  <button id="btn-front" class="active" onclick="switchView('front')">🛍️ Front</button>
+  <button id="btn-back" onclick="switchView('back')">⚙️ Vendeur</button>
+  <button id="btn-super" onclick="switchView('super')">🛡️ Super-admin</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Action effectuée</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this) closeModal()">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<script>
+  /* ============ PRODUITS ============ */
+  const products = [
+    { id: 0, icon: '📱', name: 'Smartphone Galaxy Pro 5G 256 Go', price: 4200, old: 4800, stock: 'in', badge: 'Nouveau', variants: { 'Stockage': ['128 Go','256 Go','512 Go'], 'Couleur': ['Noir','Bleu','Argent'] } },
+    { id: 1, icon: '🎧', name: 'Casque Bluetooth Premium ANC', price: 890, old: 1190, stock: 'low', badge: 'Promo', badgeClass: 'promo', variants: { 'Couleur': ['Noir','Blanc'] } },
+    { id: 2, icon: '⌚', name: 'Montre connectée Sport GPS', price: 1250, stock: 'in', variants: { 'Bracelet': ['Silicone','Métal'], 'Taille': ['38mm','42mm'] } },
+    { id: 3, icon: '💻', name: 'Ordinateur portable 15" i5 16 Go RAM', price: 7500, stock: 'in' },
+    { id: 4, icon: '🔊', name: 'Enceinte Bluetooth Waterproof', price: 450, stock: 'in', badge: 'Nouveau' },
+    { id: 5, icon: '🖱️', name: 'Souris sans fil ergonomique', price: 180, stock: 'out' },
+    { id: 6, icon: '📷', name: 'Drone caméra 4K stabilisée', price: 3200, stock: 'in' },
+    { id: 7, icon: '🔋', name: 'Batterie externe 20 000 mAh', price: 255, old: 300, stock: 'in', badge: 'Promo', badgeClass: 'promo' }
+  ];
+
+  function renderProducts(containerId, list = products) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = list.map((p, i) => `
+      <div class="product-card">
+        ${p.badge ? `<span class="product-badge ${p.badgeClass || ''}">${p.badge}</span>` : ''}
+        <div class="product-image" onclick="openProductDetail(${p.id})">${p.icon}</div>
+        <div class="product-info">
+          <div class="product-name" onclick="openProductDetail(${p.id})">${p.name}</div>
+          <div class="product-price">
+            <span class="price-current">${p.price.toLocaleString('fr-FR')} DH</span>
+            ${p.old ? `<span class="price-old">${p.old.toLocaleString('fr-FR')} DH</span>` : ''}
+          </div>
+          <div class="product-stock ${p.stock === 'low' ? 'low' : p.stock === 'out' ? 'out' : ''}">
+            ${p.stock === 'in' ? '✓ En stock' : p.stock === 'low' ? '⚠ Plus que 3 en stock' : '✗ Rupture'}
+          </div>
+          <button class="add-to-cart" ${p.stock === 'out' ? 'disabled' : ''} onclick="addToCart(${p.id}, this)">
+            ${p.stock === 'out' ? 'Indisponible' : 'Ajouter au panier'}
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  /* ============ FICHE PRODUIT ============ */
+  function openProductDetail(id) {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+
+    const variantsHtml = p.variants ? Object.entries(p.variants).map(([name, values]) => `
+      <div class="variants-group">
+        <label>${name}</label>
+        <div class="variant-buttons">
+          ${values.map((v, i) => `<button class="variant-btn ${i === 0 ? 'active' : ''}" onclick="selectVariant(this)">${v}</button>`).join('')}
+        </div>
+      </div>
+    `).join('') : '';
+
+    document.getElementById('product-detail-content').innerHTML = `
+      <div class="product-detail">
+        <div class="product-detail-image">${p.icon}</div>
+        <div class="product-detail-info">
+          ${p.badge ? `<div style="display:inline-block;background:var(--accent);color:white;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:700;margin-bottom:12px;">${p.badge}</div>` : ''}
+          <h1>${p.name}</h1>
+          <div class="product-detail-price">${p.price.toLocaleString('fr-FR')} DH ${p.old ? `<span style="font-size:18px;color:var(--muted);text-decoration:line-through;font-weight:400;">${p.old.toLocaleString('fr-FR')} DH</span>` : ''}</div>
+          <div class="product-stock ${p.stock === 'out' ? 'out' : ''}" style="margin-bottom:20px;">
+            ${p.stock === 'in' ? '✓ En stock' : p.stock === 'low' ? '⚠ Plus que 3 en stock' : '✗ Rupture'}
+          </div>
+          ${variantsHtml}
+          <div class="qty-selector">
+            <button onclick="changeQty(-1)">−</button>
+            <span id="qty-display">1</span>
+            <button onclick="changeQty(1)">+</button>
+          </div>
+          <button class="add-to-cart" style="padding:16px;font-size:15px;" ${p.stock === 'out' ? 'disabled' : ''} onclick="addToCartWithQty(${p.id})">
+            ${p.stock === 'out' ? 'Indisponible' : '🛒 Ajouter au panier'}
+          </button>
+          <div style="margin-top:24px;padding:16px;background:var(--secondary);border-radius:8px;font-size:13px;">
+            <strong>🚚 Livraison :</strong> 24-48h — Gratuit dès 500 DH<br>
+            <strong>↩ Retour :</strong> Sous 7 jours<br>
+            <strong>✓ Garantie :</strong> 2 ans constructeur
+          </div>
+        </div>
+      </div>
+    `;
+    goTo('product-detail');
+  }
+
+  function selectVariant(btn) {
+    btn.parentElement.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  let currentQty = 1;
+  function changeQty(delta) {
+    currentQty = Math.max(1, currentQty + delta);
+    document.getElementById('qty-display').textContent = currentQty;
+  }
+
+  function addToCartWithQty(id) {
+    const p = products.find(x => x.id === id);
+    addToCartInternal(p, currentQty);
+    currentQty = 1;
+    showToast('✓ Produit ajouté au panier');
+  }
+
+  /* ============ PANIER ============ */
+  const cart = [];
+  let cartCount = 0;
+
+  function addToCart(id, btn) {
+    const p = products.find(x => x.id === id);
+    addToCartInternal(p, 1);
+    if (btn) {
+      btn.textContent = '✓ Ajouté !';
+      btn.style.background = '#057642';
+      setTimeout(() => {
+        btn.textContent = 'Ajouter au panier';
+        btn.style.background = '';
+      }, 1200);
+    }
+    showToast('✓ Produit ajouté au panier');
+  }
+
+  function addToCartInternal(p, qty) {
+    const existing = cart.find(item => item.name === p.name);
+    if (existing) existing.qty += qty;
+    else cart.push({ name: p.name, price: p.price, icon: p.icon, qty });
+    cartCount += qty;
+    updateCartUI();
+  }
+
+  function updateCartUI() {
+    document.getElementById('cart-count').textContent = cartCount;
+    document.getElementById('cart-count-float').textContent = cartCount;
+
+    const content = document.getElementById('cart-content');
+    const footer = document.getElementById('cart-footer');
+    if (cart.length === 0) {
+      content.innerHTML = '<p>Votre panier est vide.</p>';
+      footer.style.display = 'none';
+      return;
+    }
+    let total = 0;
+    content.innerHTML = cart.map((item, i) => {
+      const sub = item.price * item.qty;
+      total += sub;
+      return `
+        <div style="display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid var(--border);">
+          <div style="font-size:32px;">${item.icon}</div>
+          <div style="flex:1;">
+            <div style="font-weight:600;font-size:14px;">${item.name}</div>
+            <div style="font-size:13px;color:var(--muted);">${item.price.toLocaleString('fr-FR')} DH × ${item.qty}</div>
+          </div>
+          <div style="font-weight:700;color:var(--primary);">${sub.toLocaleString('fr-FR')} DH</div>
+          <button onclick="removeFromCart(${i})" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:18px;">✕</button>
+        </div>`;
+    }).join('');
+    document.getElementById('cart-total').textContent = total.toLocaleString('fr-FR') + ' DH';
+    footer.style.display = 'block';
+  }
+
+  function removeFromCart(index) {
+    cartCount -= cart[index].qty;
+    if (cartCount < 0) cartCount = 0;
+    cart.splice(index, 1);
+    updateCartUI();
+    showToast('✓ Article retiré');
+  }
+
+  /* ============ CHECKOUT ============ */
+  let currentCheckoutStep = 1;
+  let selectedPayment = '';
+
+  function checkoutNext(step) {
+    if (step === 2) {
+      const name = document.getElementById('co-name').value.trim();
+      const email = document.getElementById('co-email').value.trim();
+      const phone = document.getElementById('co-phone').value.trim();
+      if (!name || !email || !phone) {
+        showToast('⚠ Veuillez remplir tous les champs');
+        return;
+      }
+    }
+    if (step === 4) {
+      if (!selectedPayment) {
+        showToast('⚠ Choisissez un mode de paiement');
+        return;
+      }
+    }
+    if (step === 3) {
+      updateCheckoutTotals();
+    }
+    showCheckoutStep(step);
+  }
+
+  function checkoutPrev(step) { showCheckoutStep(step); }
+
+  function showCheckoutStep(step) {
+    currentCheckoutStep = step;
+    document.querySelectorAll('.checkout-step').forEach(el => {
+      const s = parseInt(el.dataset.step);
+      el.classList.toggle('active', s <= step);
+    });
+    document.querySelectorAll('.checkout-step-content').forEach(el => {
+      el.style.display = parseInt(el.dataset.stepContent) === step ? 'block' : 'none';
+    });
+    if (step === 4) {
+      document.getElementById('track-order-number').textContent = document.getElementById('co-order-number').textContent;
+      document.getElementById('demo-order-total').textContent = document.getElementById('co-total').textContent;
+      document.getElementById('demo-customer-email').textContent = document.getElementById('co-email').value;
+    }
+    window.scrollTo(0, 0);
+  }
+
+  function updateCheckoutTotals() {
+    let subtotalTTC = 0;
+    cart.forEach(item => { subtotalTTC += item.price * item.qty; });
+    const subtotalHT = Math.round(subtotalTTC / 1.2);
+    const tva = subtotalTTC - subtotalHT;
+    const shipping = subtotalTTC >= 500 ? 0 : 30;
+    const total = subtotalTTC + shipping;
+
+    document.getElementById('co-subtotal').textContent = subtotalHT.toLocaleString('fr-FR') + ' DH';
+    document.getElementById('co-tva').textContent = tva.toLocaleString('fr-FR') + ' DH';
+    document.getElementById('co-shipping').textContent = shipping === 0 ? 'Gratuit' : shipping + ' DH';
+    document.getElementById('co-total').textContent = total.toLocaleString('fr-FR') + ' DH';
+  }
+
+  function selectPayment(el, method) {
+    document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    el.querySelector('input[type="radio"]').checked = true;
+    selectedPayment = method;
+
+    const note = document.getElementById('payment-note');
+    note.style.display = 'block';
+    if (method === 'cod') {
+      note.innerHTML = '📦 Vous paierez <strong>en espèces au livreur</strong>. Une confirmation téléphonique sera effectuée avant expédition.';
+    } else if (method === 'virement') {
+      note.innerHTML = '🏦 Vous recevrez le <strong>RIB par email</strong> après validation. La commande sera expédiée après réception du virement.';
+    } else {
+      note.innerHTML = '💳 Paiement sécurisé via <strong>CMI</strong>. Vous serez redirigé vers la page de paiement.';
+    }
+  }
+
+  /* ============ INSCRIPTION VENDEUR ============ */
+  let currentVendorStep = 1;
+  const vendorData = { kyc: { rc: false, ice: false } };
+
+  function vendorNext(step) {
+    if (step === 2) {
+      const email = document.getElementById('v-email').value.trim();
+      const name = document.getElementById('v-name').value.trim();
+      if (!email || !name) { showToast('⚠ Remplissez tous les champs'); return; }
+      vendorData.email = email;
+      vendorData.name = name;
+    }
+    if (step === 3) {
+      const shopName = document.getElementById('v-shop-name').value.trim();
+      const slug = document.getElementById('v-slug').value.trim();
+      if (!shopName || !slug) { showToast('⚠ Remplissez le nom et le sous-domaine'); return; }
+      vendorData.shopName = shopName;
+      vendorData.slug = slug;
+    }
+    if (step === 4) {
+      if (!vendorData.kyc.rc || !vendorData.kyc.ice) {
+        showToast('⚠ Uploadez le RC et l\'ICE');
+        return;
+      }
+    }
+    showVendorStep(step);
+  }
+
+  function vendorPrev(step) { showVendorStep(step); }
+
+  function showVendorStep(step) {
+    currentVendorStep = step;
+    document.querySelectorAll('[data-vstep]').forEach(el => {
+      el.classList.toggle('active', parseInt(el.dataset.vstep) <= step);
+    });
+    document.querySelectorAll('.vendor-step').forEach(el => {
+      el.style.display = parseInt(el.dataset.vstepContent) === step ? 'block' : 'none';
+    });
+    window.scrollTo(0, 0);
+  }
+
+  function toggleVendorType() {
+    const type = document.getElementById('v-type').value;
+    const kycDocs = document.getElementById('kyc-docs');
+    if (type === 'particulier') {
+      kycDocs.innerHTML = `
+        <div class="kyc-doc" id="kyc-cin">
+          <div class="icon">🆔</div>
+          <div class="name">CIN</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">PDF ou JPG — 5 Mo max</div>
+          <button class="btn btn-secondary" style="margin-top:12px;font-size:12px;padding:6px 12px;" onclick="uploadKyc('cin',this)">Uploader</button>
+        </div>
+      `;
+    } else {
+      kycDocs.innerHTML = `
+        <div class="kyc-doc" id="kyc-rc">
+          <div class="icon">📄</div>
+          <div class="name">Registre de Commerce (RC)</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">PDF ou JPG — 5 Mo max</div>
+          <button class="btn btn-secondary" style="margin-top:12px;font-size:12px;padding:6px 12px;" onclick="uploadKyc('rc',this)">Uploader</button>
+        </div>
+        <div class="kyc-doc" id="kyc-ice">
+          <div class="icon">🆔</div>
+          <div class="name">ICE (15 chiffres)</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">Numéro d'identification</div>
+          <button class="btn btn-secondary" style="margin-top:12px;font-size:12px;padding:6px 12px;" onclick="uploadKyc('ice',this)">Renseigner</button>
+        </div>
+      `;
+    }
+    vendorData.kyc = { rc: false, ice: false, cin: false };
+  }
+
+  function uploadKyc(type, btn) {
+    vendorData.kyc[type] = true;
+    btn.textContent = '✓ Uploadé';
+    btn.classList.remove('btn-secondary');
+    btn.classList.add('btn-success');
+    showToast('✓ Document uploadé');
+  }
+
+  function updateSlug() {
+    const name = document.getElementById('v-shop-name').value;
+    const slug = name.toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+    document.getElementById('v-slug').value = slug;
+    updateSlugPreview();
+  }
+
+  function updateSlugPreview() {
+    const slug = document.getElementById('v-slug').value || 'votre-boutique';
+    document.getElementById('slug-preview').textContent = slug;
+  }
+
+  function submitVendorRegistration() {
+    const url = document.getElementById('v-slug').value + '.monsite.ma';
+    document.getElementById('confirm-shop-url').textContent = url;
+
+    // Met à jour le super-admin
+    document.getElementById('pending-shop-name').textContent = document.getElementById('v-shop-name').value || 'Ma Boutique';
+    document.getElementById('pending-shop-url').textContent = url;
+    document.getElementById('kyc-shop-name').textContent = document.getElementById('v-shop-name').value || 'Ma Boutique';
+    document.getElementById('kyc-vendor-name').textContent = vendorData.name || 'Vendeur';
+    document.getElementById('kyc-vendor-email').textContent = vendorData.email || 'vendeur@email.com';
+    document.getElementById('kyc-vendor-shop').textContent = document.getElementById('v-shop-name').value || 'Ma Boutique';
+    document.getElementById('kyc-vendor-url').textContent = url;
+
+    showVendorStep(5);
+  }
+
+  /* ============ SUPER-ADMIN KYC ============ */
+  document.addEventListener('change', function(e) {
+    if (e.target.matches('#kyc-checklist input[type="checkbox"]')) {
+      const all = document.querySelectorAll('#kyc-checklist input[type="checkbox"]');
+      const checked = document.querySelectorAll('#kyc-checklist input[type="checkbox"]:checked');
+      document.getElementById('btn-validate').disabled = checked.length !== all.length;
+    }
+  });
+
+  function validateKyc() {
+    document.getElementById('kyc-validation-card').innerHTML = `
+      <div style="text-align:center;padding:40px 20px;">
+        <div style="font-size:64px;margin-bottom:16px;">✅</div>
+        <h3 style="font-size:22px;color:var(--success);margin-bottom:12px;">Boutique validée !</h3>
+        <p style="font-size:14px;color:var(--muted);">La boutique est maintenant active publiquement. Un email de confirmation a été envoyé au vendeur.</p>
+        <div style="margin-top:24px;">
+          <span class="status status-validated">Active</span>
+        </div>
+        <button class="btn btn-primary" style="margin-top:24px;" onclick="goTo('super-dashboard')">Retour au tableau</button>
+      </div>
+    `;
+    // Met à jour la liste des boutiques
+    const statusEl = document.getElementById('shop-status-1');
+    if (statusEl) statusEl.outerHTML = '<span class="status status-validated">Active</span>';
+    showToast('✓ Boutique validée et activée');
+  }
+
+  function askComplement() {
+    openModal(`
+      <h2>Demander un complément</h2>
+      <p style="font-size:14px;margin-bottom:16px;">Précisez ce qui manque au vendeur :</p>
+      <div class="form-group">
+        <textarea rows="4" id="complement-reason" placeholder="Ex : Le RC est illisible, merci de re-uploader une version nette."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+        <button class="btn btn-primary" onclick="submitComplement()">Envoyer la demande</button>
+      </div>
+    `);
+  }
+
+  function submitComplement() {
+    const reason = document.getElementById('complement-reason').value.trim();
+    if (!reason) { showToast('⚠ Précisez le motif'); return; }
+    closeModal();
+    document.getElementById('kyc-validation-card').innerHTML = `
+      <div style="text-align:center;padding:40px 20px;">
+        <div style="font-size:64px;margin-bottom:16px;">📧</div>
+        <h3 style="font-size:22px;color:var(--warning);margin-bottom:12px;">Complément demandé</h3>
+        <p style="font-size:14px;color:var(--muted);">Le vendeur a été notifié par email. Statut : "À compléter".</p>
+        <div style="margin-top:24px;"><span class="status status-tocomplete">À compléter</span></div>
+      </div>
+    `;
+    showToast('✓ Demande de complément envoyée');
+  }
+
+  function rejectKyc() {
+    openModal(`
+      <h2>Rejeter la demande</h2>
+      <p style="font-size:14px;margin-bottom:16px;">Motif obligatoire (visible par le vendeur) :</p>
+      <div class="form-group">
+        <textarea rows="4" id="reject-reason" placeholder="Ex : Documents frauduleux détectés."></textarea>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" checked> Rembourser automatiquement sous 7 jours</label>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+        <button class="btn btn-danger" onclick="submitReject()">Rejeter définitivement</button>
+      </div>
+    `);
+  }
+
+  function submitReject() {
+    const reason = document.getElementById('reject-reason').value.trim();
+    if (!reason) { showToast('⚠ Précisez le motif'); return; }
+    closeModal();
+    document.getElementById('kyc-validation-card').innerHTML = `
+      <div style="text-align:center;padding:40px 20px;">
+        <div style="font-size:64px;margin-bottom:16px;">❌</div>
+        <h3 style="font-size:22px;color:var(--danger);margin-bottom:12px;">Demande rejetée</h3>
+        <p style="font-size:14px;color:var(--muted);">Remboursement automatique déclenché sous 7 jours. Le vendeur a été notifié.</p>
+        <div style="margin-top:24px;"><span class="status status-rejected">Rejetée</span></div>
+      </div>
+    `;
+    showToast('✓ Demande rejetée — remboursement en cours');
+  }
+
+  /* ============ COMMANDES ADMIN ============ */
+  function confirmOrder(link) {
+    const row = link.closest('tr');
+    const statusCell = row.querySelector('.status');
+    statusCell.className = 'status status-confirmed';
+    statusCell.textContent = 'Confirmée';
+    link.outerHTML = '<a onclick="shipOrder(this)" style="color:var(--primary);">Expédier</a>';
+    showToast('✓ Commande confirmée');
+  }
+
+  function shipOrder(link) {
+    const row = link.closest('tr');
+    const statusCell = row.querySelector('.status');
+    statusCell.className = 'status status-shipped';
+    statusCell.textContent = 'Expédiée';
+    link.outerHTML = '<a onclick="deliverOrder(this)" style="color:var(--primary);">Livrer</a>';
+    showToast('✓ Commande expédiée');
+  }
+
+  function deliverOrder(link) {
+    const row = link.closest('tr');
+    const statusCell = row.querySelector('.status');
+    statusCell.className = 'status status-delivered';
+    statusCell.textContent = 'Livrée';
+    link.outerHTML = '<a onclick="showToast(\'✓ Facture téléchargée\')" style="color:var(--primary);">Facture</a>';
+    showToast('✓ Commande livrée');
+  }
+
+  /* ============ MODAL PRODUIT (admin) ============ */
+  function openProductModal() {
+    openModal(`
+      <h2>Ajouter un produit</h2>
+      <div class="form-group"><label>Nom du produit</label><input type="text" placeholder="Ex : Casque Bluetooth"></div>
+      <div class="form-group"><label>Catégorie</label>
+        <select><option>High-tech</option><option>Électroménager</option><option>Mode</option></select>
+      </div>
+      <div class="form-group"><label>Prix (DH)</label><input type="number" placeholder="890"></div>
+      <div class="form-group"><label>Stock</label><input type="number" placeholder="10"></div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+        <button class="btn btn-primary" onclick="closeModal(); showToast('✓ Produit ajouté');">Ajouter</button>
+      </div>
+    `);
+  }
+
+  /* ============ NAVIGATION ============ */
+  function goTo(pageId) {
+    const isAdmin = pageId.startsWith('admin-');
+    const isSuper = pageId.startsWith('super-');
+    const viewId = isSuper ? 'view-super' : isAdmin ? 'view-back' : 'view-front';
+    const otherViews = ['view-front', 'view-back', 'view-super'].filter(v => v !== viewId);
+
+    document.getElementById(viewId).classList.add('active');
+    otherViews.forEach(v => document.getElementById(v).classList.remove('active'));
+
+    const view = document.getElementById(viewId);
+    view.querySelectorAll('.page').forEach(p => {
+      p.classList.toggle('active', p.dataset.pageId === pageId);
+    });
+
+    if (!isAdmin && !isSuper) {
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.page === pageId);
+      });
+    } else if (isAdmin) {
+      document.querySelectorAll('.admin-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.page === pageId);
+      });
+    } else if (isSuper) {
+      document.querySelectorAll('.super-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.page === pageId);
+      });
+    }
+
+    document.getElementById('btn-front').classList.toggle('active', viewId === 'view-front');
+    document.getElementById('btn-back').classList.toggle('active', viewId === 'view-back');
+    document.getElementById('btn-super').classList.toggle('active', viewId === 'view-super');
+
+    window.scrollTo(0, 0);
+  }
+
+  function switchView(view) {
+    if (view === 'back') goTo('admin-dashboard');
+    else if (view === 'super') goTo('super-dashboard');
+    else goTo('home');
+  }
+
+  function searchProduct() {
+    const q = document.getElementById('search-input').value.trim();
+    goTo('shop');
+    setTimeout(() => {
+      const grid = document.getElementById('shop-products');
+      if (!q) { renderProducts('shop-products'); return; }
+      const filtered = products.filter(p => p.name.toLowerCase().includes(q.toLowerCase()));
+      grid.innerHTML = filtered.length ? '' : '<p style="grid-column:1/-1;text-align:center;padding:40px;">Aucun produit trouvé.</p>';
+      if (filtered.length) renderProducts('shop-products', filtered);
+      showToast(`🔍 ${filtered.length} résultat(s) pour "${q}"`);
+    }, 50);
+  }
+
+  /* ============ MODAL ============ */
+  function openModal(html) {
+    document.getElementById('modal-content').innerHTML = html;
+    document.getElementById('modal-overlay').classList.add('show');
+  }
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('show');
+  }
+
+  /* ============ TOAST ============ */
+  let toastTimer;
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  /* ============ INIT ============ */
+  renderProducts('home-products');
+  renderProducts('shop-products');
+  updateCartUI();
+  goTo('home');
+</script>
+
+</body>
+</html>
