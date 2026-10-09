@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AtlasTech — Boutique en ligne | monsite.ma</title>
+<style>
+  :root {
+    --primary: #0A66C2;
+    --primary-dark: #004182;
+    --secondary: #F3F2EF;
+    --accent: #E7A33E;
+    --text: #1D2226;
+    --muted: #56687A;
+    --border: #E0E0E0;
+    --success: #057642;
+    --danger: #CC1016;
+    --white: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text);
+    background: var(--secondary);
+    line-height: 1.5;
+  }
+
+  a { cursor: pointer; }
+
+  /* ===== TOP BAR ===== */
+  .topbar {
+    background: var(--text);
+    color: #CCC;
+    font-size: 12px;
+    padding: 6px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+  }
+  .topbar a {
+    color: #FFF;
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.1);
+    font-size: 11px;
+    margin-left: 6px;
+  }
+  .topbar a:hover { background: rgba(255,255,255,0.2); }
+  .demo-badge {
+    background: var(--accent);
+    color: #000;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 10px;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+  }
+  .header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .logo {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--primary);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--text); }
+
+  .search-bar {
+    flex: 1;
+    max-width: 500px;
+    position: relative;
+  }
+  .search-bar input {
+    width: 100%;
+    padding: 10px 16px 10px 40px;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    font-size: 14px;
+    background: var(--secondary);
+    outline: none;
+    transition: all 0.2s;
+  }
+  .search-bar input:focus {
+    border-color: var(--primary);
+    background: var(--white);
+  }
+  .search-bar::before {
+    content: "🔍";
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+  }
+
+  .header-actions { display: flex; gap: 16px; align-items: center; }
+  .header-actions a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 6px;
+    position: relative;
+  }
+  .header-actions a:hover { background: var(--secondary); }
+  .cart-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: var(--danger);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 2px 6px;
+    min-width: 18px;
+    text-align: center;
+  }
+
+  /* ===== NAV ===== */
+  nav.main-nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+  }
+  .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    gap: 4px;
+  }
+  .nav-inner a {
+    color: var(--text);
+    text-decoration: none;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav-inner a:hover { color: var(--primary); }
+  .nav-inner a.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    font-weight: 600;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 60px 24px;
+    text-align: center;
+  }
+  .hero-inner { max-width: 900px; margin: 0 auto; }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+  }
+  .hero p { font-size: 18px; opacity: 0.9; margin-bottom: 28px; }
+  .hero-btn {
+    display: inline-block;
+    background: white;
+    color: var(--primary);
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .hero-btn:hover { transform: translateY(-2px); }
+
+  /* ===== CONTAINER ===== */
+  .container { max-width: 1280px; margin: 0 auto; padding: 40px 24px; }
+
+  .section-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .section-title a {
+    color: var(--primary);
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  /* ===== CATEGORIES ===== */
+  .categories {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .category-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 12px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .category-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(10,102,194,0.1);
+  }
+  .category-icon { font-size: 32px; margin-bottom: 8px; display: block; }
+  .category-name { font-size: 13px; font-weight: 600; }
+
+  /* ===== PRODUCTS ===== */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+  .product-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.2s;
+    cursor: pointer;
+    position: relative;
+  }
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+  }
+  .product-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+  .product-badge.promo { background: var(--danger); }
+  .product-image {
+    height: 180px;
+    background: var(--secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+  }
+  .product-info { padding: 16px; }
+  .product-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    min-height: 40px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .product-price { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
+  .price-current { font-size: 18px; font-weight: 800; color: var(--primary); }
+  .price-old { font-size: 13px; color: var(--muted); text-decoration: line-through; }
+  .product-stock { font-size: 11px; color: var(--success); margin-bottom: 12px; font-weight: 600; }
+  .product-stock.low { color: var(--accent); }
+  .product-stock.out { color: var(--danger); }
+  .add-to-cart {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .add-to-cart:hover { background: var(--primary-dark); }
+  .add-to-cart:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+
+  /* ===== PROMO ===== */
+  .promo-banner {
+    background: linear-gradient(90deg, var(--accent) 0%, #D4913A 100%);
+    color: white;
+    padding: 20px 32px;
+    border-radius: 12px;
+    margin-bottom: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .promo-banner h3 { font-size: 20px; font-weight: 700; }
+  .promo-banner p { font-size: 14px; opacity: 0.95; margin-top: 4px; }
+  .promo-code {
+    background: rgba(255,255,255,0.25);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--text);
+    color: #AAA;
+    padding: 48px 24px 24px;
+    margin-top: 60px;
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    margin-bottom: 32px;
+  }
+  .footer-col h4 {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
+  .footer-col a {
+    display: block;
+    color: #AAA;
+    text-decoration: none;
+    font-size: 13px;
+    padding: 4px 0;
+    cursor: pointer;
+  }
+  .footer-col a:hover { color: white; }
+  .footer-bottom {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-top: 24px;
+    border-top: 1px solid #333;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  /* ===== FLOATING ===== */
+  .floating-cart {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--primary);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(10,102,194,0.4);
+    z-index: 200;
+    transition: transform 0.2s;
+  }
+  .floating-cart:hover { transform: scale(1.1); }
+  .floating-cart .badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--danger);
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 12px;
+    padding: 3px 8px;
+    min-width: 22px;
+    text-align: center;
+  }
+
+  .floating-whatsapp {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    background: #25D366;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+    z-index: 200;
+    transition: transform 0.2s;
+  }
+  .floating-whatsapp:hover { transform: scale(1.1); }
+
+  /* ===== DEMO PANEL ===== */
+  .demo-panel {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background: var(--text);
+    color: white;
+    border-radius: 8px 0 0 8px;
+    z-index: 300;
+    overflow: hidden;
+    box-shadow: -4px 0 12px rgba(0,0,0,0.2);
+  }
+  .demo-panel button {
+    display: block;
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 12px 16px;
+    font-size: 12px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid #333;
+    transition: background 0.2s;
+  }
+  .demo-panel button:last-child { border-bottom: none; }
+  .demo-panel button:hover { background: var(--primary); }
+  .demo-panel button.active { background: var(--primary); font-weight: 700; }
+
+  /* ===== VIEWS ===== */
+  .view { display: none; }
+  .view.active { display: block; }
+  #view-back.active { display: flex; }
+
+  /* ===== PAGES (dans chaque vue) ===== */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ===== BACKOFFICE ===== */
+  .admin-layout { display: flex; min-height: 100vh; width: 100%; }
+  .admin-sidebar {
+    width: 240px;
+    background: var(--text);
+    color: white;
+    padding: 20px 0;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  .admin-sidebar .admin-logo {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid #333;
+    margin-bottom: 16px;
+    font-weight: 800;
+    color: white;
+    font-size: 16px;
+  }
+  .admin-sidebar .admin-logo span { color: var(--accent); }
+  .admin-sidebar nav a {
+    display: block;
+    color: #CCC;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 13px;
+    border-left: 3px solid transparent;
+    cursor: pointer;
+  }
+  .admin-sidebar nav a:hover { background: rgba(255,255,255,0.05); color: white; }
+  .admin-sidebar nav a.active {
+    background: rgba(10,102,194,0.2);
+    border-left-color: var(--primary);
+    color: white;
+    font-weight: 600;
+  }
+
+  .admin-main { flex: 1; padding: 24px 32px; background: var(--secondary); }
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .admin-header h1 { font-size: 22px; font-weight: 700; }
+  .admin-header .user { font-size: 13px; color: var(--muted); }
+
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .kpi-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid var(--border);
+  }
+  .kpi-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+  }
+  .kpi-value { font-size: 26px; font-weight: 800; color: var(--text); }
+  .kpi-trend { font-size: 12px; margin-top: 6px; font-weight: 600; }
+  .kpi-trend.up { color: var(--success); }
+  .kpi-trend.down { color: var(--danger); }
+
+  .admin-card {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .admin-card h3 {
+    font-size: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  table.admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.admin-table th {
+    text-align: left;
+    padding: 10px 12px;
+    background: var(--secondary);
+    font-weight: 600;
+    color: var(--muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  table.admin-table td { padding: 12px; border-bottom: 1px solid var(--border); }
+  table.admin-table tr:hover td { background: #FAFAFA; }
+
+  .status {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .status-pending { background: #FFF3CD; color: #856404; }
+  .status-confirmed { background: #D1ECF1; color: #0C5460; }
+  .status-shipped { background: #CCE5FF; color: #004085; }
+  .status-delivered { background: #D4EDDA; color: #155724; }
+  .status-cancelled { background: #F8D7DA; color: #721C24; }
+
+  /* ===== FORMS ===== */
+  .form-group { margin-bottom: 16px; }
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    background: white;
+    outline: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--primary);
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: var(--primary); color: white; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-secondary { background: var(--secondary); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--border); }
+  .btn-danger { background: var(--danger); color: white; }
+  .btn-danger:hover { background: #A50D12; }
+
+  .page-card {
+    background: white;
+    border-radius: 10px;
+    padding: 32px;
+    border: 1px solid var(--border);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .page-card h1 {
+    font-size: 24px;
+    color: var(--primary);
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--primary);
+  }
+  .page-card h2 {
+    font-size: 18px;
+    margin-top: 24px;
+    margin-bottom: 12px;
+  }
+  .page-card p { margin-bottom: 12px; font-size: 14px; color: var(--text); line-height: 1.7; }
+  .page-card ul, .page-card ol { margin-left: 24px; margin-bottom: 12px; }
+  .page-card li { font-size: 14px; margin-bottom: 6px; }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    background: var(--success);
+    color: white;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    z-index: 400;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s;
+    pointer-events: none;
+    max-width: 320px;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .products-grid { grid-template-columns: repeat(3, 1fr); }
+    .categories { grid-template-columns: repeat(3, 1fr); }
+    .footer-inner { grid-template-columns: repeat(2, 1fr); }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .admin-sidebar { width: 180px; }
+  }
+  @media (max-width: 768px) {
+    .products-grid { grid-template-columns: 1fr; }
+    .categories { grid-template-columns: repeat(2, 1fr); }
+    .hero h1 { font-size: 28px; }
+    .header-inner { flex-wrap: wrap; gap: 12px; }
+    .search-bar { order: 3; width: 100%; max-width: 100%; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .admin-sidebar { display: none; }
+    .kpi-grid { grid-template-columns: 1fr; }
+    .nav-inner { overflow-x: auto; }
+    .demo-panel { display: none; }
+    .topbar { flex-direction: column; gap: 6px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<div class="topbar">
+  <div>
+    <span class="demo-badge">DÉMO</span>
+    &nbsp; Boutique propulsée par <strong>monsite.ma</strong> — sous-domaine : <strong>atlastech.monsite.ma</strong>
+  </div>
+  <div>
+    <a onclick="goTo('home')">🛍️ Voir la boutique</a>
+    <a onclick="goTo('admin-dashboard')">⚙️ Backoffice vendeur</a>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- FRONT OFFICE                                                 -->
+<!-- ============================================================ -->
+<div id="view-front" class="view active">
+
+  <header>
+    <div class="header-inner">
+      <a class="logo" onclick="goTo('home')">Atlas<span>Tech</span></a>
+      <div class="search-bar">
+        <input type="text" placeholder="Rechercher un produit... (ex : smartphone, casque, montre)" id="search-input" onkeydown="if(event.key==='Enter') searchProduct()">
+      </div>
+      <div class="header-actions">
+        <a onclick="goTo('account')">👤 Mon compte</a>
+        <a onclick="goTo('cart')">
+          🛒 Panier
+          <span class="cart-badge" id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <div class="nav-inner">
+      <a onclick="goTo('home')" class="nav-link" data-page="home">Accueil</a>
+      <a onclick="goTo('shop')" class="nav-link" data-page="shop">Boutique</a>
+      <a onclick="goTo('about')" class="nav-link" data-page="about">À propos</a>
+      <a onclick="goTo('contact')" class="nav-link" data-page="contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE : ACCUEIL ===== -->
+  <div class="page" data-page-id="home">
+    <section class="hero">
+      <div class="hero-inner">
+        <h1>Bienvenue chez AtlasTech</h1>
+        <p>Votre spécialiste high-tech au Maroc — Livraison partout, paiement à la livraison disponible</p>
+        <button class="hero-btn" onclick="goTo('shop')">Découvrir nos produits</button>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="section-title">
+        <span>Nos catégories</span>
+        <a onclick="goTo('shop')">Voir tout →</a>
+      </div>
+      <div class="categories">
+        <a class="category-card" onclick="goTo('shop')"><span class="category-icon">📱</span><span class="category-name">Téléphones</span></a>
+        <a class="category-card" onclick="goTo('shop')"><span class="category-icon">💻</span><span class="category-name">Ordinateurs</span></a>
+        <a class="category-card" onclick="goTo('shop')"><span class="category-icon">🎧</span><span class="category-name">Audio</span></a>
+        <a class="category-card" onclick="goTo('shop')"><span class="category-icon">⌚</span><span class="category-name">Montres</span></a>
+        <a class="category-card" onclick="goTo('shop')"><span class="category-icon">🎮</span><span class="category-name">Gaming</span></a>
+        <a class="category-card" onclick="goTo('shop')"><span class="category-icon">🔌</span><span class="category-name">Accessoires</span></a>
+      </div>
+
+      <div class="section-title">
+        <span>Produits populaires</span>
+        <a onclick="goTo('shop')">Voir tout →</a>
+      </div>
+      <div class="products-grid" id="home-products"></div>
+
+      <div class="promo-banner">
+        <div>
+          <h3>🔥 Livraison gratuite dès 500 DH</h3>
+          <p>Paiement à la livraison disponible partout au Maroc</p>
+        </div>
+        <div class="promo-code">LIVRAISON2025</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE : BOUTIQUE ===== -->
+  <div class="page" data-page-id="shop">
+    <div class="container">
+      <div class="section-title">
+        <span>Tous nos produits</span>
+      </div>
+      <div class="products-grid" id="shop-products"></div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE : À PROPOS ===== -->
+  <div class="page" data-page-id="about">
+    <div class="container">
+      <div class="page-card">
+        <h1>À propos d'AtlasTech</h1>
+        <p>Fondée en 2020 à Casablanca, <strong>AtlasTech</strong> est spécialisée dans la vente de produits high-tech au Maroc : smartphones, ordinateurs, audio, montres connectées, accessoires et gaming.</p>
+        <p>Notre mission : rendre la technologie accessible à tous, avec des prix compétitifs, une livraison rapide partout au Maroc, et un service client à l'écoute.</p>
+
+        <h2>Nos engagements</h2>
+        <ul>
+          <li>Produits 100 % authentiques et garantis</li>
+          <li>Livraison rapide dans tout le Maroc</li>
+          <li>Paiement à la livraison disponible</li>
+          <li>Service client 7j/7</li>
+          <li>Retour sous 7 jours</li>
+        </ul>
+
+        <h2>Nous contacter</h2>
+        <p>📍 Adresse : 123 Bd Mohammed V, Casablanca</p>
+        <p>📞 Téléphone : +212 5XX XX XX XX</p>
+        <p>✉ Email : contact@atlastech.ma</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE : CONTACT ===== -->
+  <div class="page" data-page-id="contact">
+    <div class="container">
+      <div class="page-card">
+        <h1>Contactez-nous</h1>
+        <p>Une question ? Un problème avec une commande ? Écrivez-nous, nous vous répondons sous 24h.</p>
+
+        <div class="form-group">
+          <label>Nom complet</label>
+          <input type="text" placeholder="Votre nom">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="votre@email.com">
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="tel" placeholder="+212 6XX XX XX XX">
+        </div>
+        <div class="form-group">
+          <label>Sujet</label>
+          <select>
+            <option>Question sur un produit</option>
+            <option>Suivi de commande</option>
+            <option>Retour / remboursement</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea rows="5" placeholder="Votre message..."></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="showToast('✓ Message envoyé !')">Envoyer le message</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE : MON COMPTE ===== -->
+  <div class="page" data-page-id="account">
+    <div class="container">
+      <div class="page-card">
+        <h1>Mon compte</h1>
+        <p>Connectez-vous ou créez un compte pour suivre vos commandes.</p>
+
+        <h2>Se connecter</h2>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="votre@email.com">
+        </div>
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" placeholder="••••••••">
+        </div>
+        <button class="btn btn-primary" onclick="showToast('✓ Connexion réussie !')">Se connecter</button>
+
+        <h2 style="margin-top:32px;">Créer un compte</h2>
+        <div class="form-group">
+          <label>Nom complet</label>
+          <input type="text" placeholder="Votre nom">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="votre@email.com">
+        </div>
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" placeholder="8 caractères min.">
+        </div>
+        <button class="btn btn-secondary" onclick="showToast('✓ Compte créé ! Vérifiez votre email.')">Créer mon compte</button>
+
+        <h2 style="margin-top:32px;">Mes commandes</h2>
+        <p>Aucune commande pour le moment.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE : PANIER ===== -->
+  <div class="page" data-page-id="cart">
+    <div class="container">
+      <div class="page-card">
+        <h1>Mon panier</h1>
+        <div id="cart-content">
+          <p>Votre panier est vide.</p>
+        </div>
+        <div id="cart-footer" style="display:none; margin-top:24px; padding-top:24px; border-top:1px solid var(--border);">
+          <div style="display:flex; justify-content:space-between; font-size:18px; font-weight:700; margin-bottom:16px;">
+            <span>Total :</span>
+            <span id="cart-total">0 DH</span>
+          </div>
+          <button class="btn btn-primary" style="width:100%;" onclick="showToast('✓ Commande passée ! Confirmation par email.')">Passer commande</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE : LIVRAISON ===== -->
+  <div class="page" data-page-id="shipping">
+    <div class="container">
+      <div class="page-card">
+        <h1>Livraison</h1>
+        <h2>Zones et délais</h2>
+        <ul>
+          <li><strong>Casablanca, Rabat, Marrakech, Fès, Tanger</strong> : 24-48h</li>
+          <li><strong>Autres villes</strong> : 2-4 jours ouvrables</li>
+          <li><strong>Zones rurales</strong> : 3-5 jours ouvrables</li>
+        </ul>
+        <h2>Frais de livraison</h2>
+        <ul>
+          <li>Frais standard : 30 DH</li>
+          <li><strong>Gratuit dès 500 DH d'achat</strong></li>
+        </ul>
+        <h2>Modes de paiement</h2>
+        <ul>
+          <li>Carte bancaire (CMI)</li>
+          <li>Paiement à la livraison (COD)</li>
+          <li>Virement bancaire</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE : RETOURS ===== -->
+  <div class="page" data-page-id="returns">
+    <div class="container">
+      <div class="page-card">
+        <h1>Politique de retour</h1>
+        <h2>Conditions</h2>
+        <ul>
+          <li>Retour accepté sous <strong>7 jours</strong> après livraison</li>
+          <li>Produit non utilisé, dans son emballage d'origine</li>
+          <li>Facture ou bon de livraison obligatoire</li>
+        </ul>
+        <h2>Procédure</h2>
+        <ol style="margin-left:24px;">
+          <li>Contactez-nous via le formulaire de contact</li>
+          <li>Nous vous envoyons un numéro de retour</li>
+          <li>Renvoyez le produit à l'adresse indiquée</li>
+          <li>Remboursement sous 7 jours après réception</li>
+        </ol>
+        <h2>Frais de retour</h2>
+        <p>Les frais de retour sont à la charge du vendeur en cas de produit défectueux ou non conforme.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE : FAQ ===== -->
+  <div class="page" data-page-id="faq">
+    <div class="container">
+      <div class="page-card">
+        <h1>FAQ — Questions fréquentes</h1>
+        <h2>Comment passer commande ?</h2>
+        <p>Ajoutez les produits au panier, puis cliquez sur "Passer commande". Vous pouvez commander sans créer de compte.</p>
+        <h2>Quels sont les modes de paiement ?</h2>
+        <p>Carte bancaire, virement, ou paiement à la livraison (COD).</p>
+        <h2>Combien de temps pour la livraison ?</h2>
+        <p>24-48h dans les grandes villes, 2-5 jours ailleurs.</p>
+        <h2>Puis-je retourner un produit ?</h2>
+        <p>Oui, sous 7 jours après réception.</p>
+        <h2>Comment suivre ma commande ?</h2>
+        <p>Un lien de suivi vous est envoyé par email après la commande.</p>
+        <h2>Le paiement à la livraison est-il disponible partout ?</h2>
+        <p>Oui, dans tout le Maroc.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE : CGV ===== -->
+  <div class="page" data-page-id="cgv">
+    <div class="container">
+      <div class="page-card">
+        <h1>Conditions Générales de Vente</h1>
+        <p><em>Dernière mise à jour : Janvier 2025</em></p>
+        <h2>1. Objet</h2>
+        <p>Les présentes CGV régissent les ventes conclues entre AtlasTech et ses clients via le site atlastech.monsite.ma.</p>
+        <h2>2. Prix</h2>
+        <p>Les prix sont indiqués en dirhams marocains (DH), toutes taxes comprises (TTC).</p>
+        <h2>3. Commande</h2>
+        <p>Toute commande vaut acceptation des présentes CGV.</p>
+        <h2>4. Paiement</h2>
+        <p>Modes acceptés : carte bancaire, virement, paiement à la livraison.</p>
+        <h2>5. Livraison</h2>
+        <p>Délai indicatif : 24h à 5 jours ouvrables selon la zone.</p>
+        <h2>6. Droit de rétractation</h2>
+        <p>Le client dispose de 7 jours à compter de la réception pour demander un retour.</p>
+        <h2>7. Garantie</h2>
+        <p>Les produits bénéficient de la garantie légale et constructeur selon leur nature.</p>
+        <h2>8. Litiges</h2>
+        <p>Tout litige sera soumis aux tribunaux compétents de Casablanca.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE : MENTIONS LÉGALES ===== -->
+  <div class="page" data-page-id="legal">
+    <div class="container">
+      <div class="page-card">
+        <h1>Mentions légales</h1>
+        <h2>Éditeur du site</h2>
+        <p><strong>AtlasTech SARL</strong></p>
+        <p>123 Bd Mohammed V, Casablanca, Maroc</p>
+        <p>RC : 123456 — ICE : 001234567890123</p>
+        <p>Capital social : 100 000 DH</p>
+        <p>Email : contact@atlastech.ma</p>
+        <p>Téléphone : +212 5XX XX XX XX</p>
+
+        <h2>Hébergement</h2>
+        <p>Plateforme : monsite.ma</p>
+        <p>Sous-domaine : atlastech.monsite.ma</p>
+
+        <h2>Propriété intellectuelle</h2>
+        <p>L'ensemble des contenus du site (textes, images, logos) est protégé par le droit d'auteur.</p>
+
+        <h2>Données personnelles</h2>
+        <p>Les données collectées sont utilisées uniquement pour la gestion des commandes. Conformément à la loi 09-08, vous disposez d'un droit d'accès, de rectification et de suppression.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>AtlasTech</h4>
+        <a onclick="goTo('home')">Accueil</a>
+        <a onclick="goTo('about')">À propos</a>
+        <a onclick="goTo('contact')">Contact</a>
+        <a onclick="goTo('cgv')">CGV</a>
+        <a onclick="goTo('legal')">Mentions légales</a>
+      </div>
+      <div class="footer-col">
+        <h4>Aide</h4>
+        <a onclick="goTo('shipping')">Livraison</a>
+        <a onclick="goTo('returns')">Retours</a>
+        <a onclick="goTo('faq')">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h4>Mon compte</h4>
+        <a onclick="goTo('account')">Se connecter</a>
+        <a onclick="goTo('account')">Créer un compte</a>
+        <a onclick="goTo('account')">Mes commandes</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a>📞 +212 5XX XX XX XX</a>
+        <a>✉ contact@atlastech.ma</a>
+        <a onclick="showToast('💬 WhatsApp ouvert !')">💬 WhatsApp</a>
+        <a>📍 Casablanca, Maroc</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2025 AtlasTech — Tous droits réservés · RC : 123456 · ICE : 001234567890123</div>
+      <div>Propulsé par monsite.ma</div>
+    </div>
+  </footer>
+
+  <div class="floating-whatsapp" onclick="showToast('💬 WhatsApp ouvert !')" title="Contacter via WhatsApp">💬</div>
+  <div class="floating-cart" onclick="goTo('cart')" title="Voir le panier">
+    🛒
+    <span class="badge" id="cart-count-float">0</span>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- BACKOFFICE                                                   -->
+<!-- ============================================================ -->
+<div id="view-back" class="view backoffice">
+
+  <aside class="admin-sidebar">
+    <div class="admin-logo">Atlas<span>Tech</span> · Admin</div>
+    <nav>
+      <a onclick="goTo('admin-dashboard')" class="admin-link" data-page="admin-dashboard">📊 Tableau de bord</a>
+      <a onclick="goTo('admin-products')" class="admin-link" data-page="admin-products">📦 Produits</a>
+      <a onclick="goTo('admin-orders')" class="admin-link" data-page="admin-orders">📋 Commandes</a>
+      <a onclick="goTo('admin-customers')" class="admin-link" data-page="admin-customers">👥 Clients</a>
+      <a onclick="goTo('admin-stats')" class="admin-link" data-page="admin-stats">📈 Statistiques</a>
+      <a onclick="goTo('admin-appearance')" class="admin-link" data-page="admin-appearance">🎨 Apparence</a>
+      <a onclick="goTo('admin-payments')" class="admin-link" data-page="admin-payments">💳 Paiements</a>
+      <a onclick="goTo('admin-settings')" class="admin-link" data-page="admin-settings">⚙️ Paramètres</a>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+
+    <!-- ===== DASHBOARD ===== -->
+    <div class="page" data-page-id="admin-dashboard">
+      <div class="admin-header">
+        <h1>Tableau de bord</h1>
+        <div class="user">Connecté : <strong>Ahmed B.</strong> (Propriétaire)</div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">CA du jour</div>
+          <div class="kpi-value">12 450 DH</div>
+          <div class="kpi-trend up">↑ +18% vs hier</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Commandes</div>
+          <div class="kpi-value">23</div>
+          <div class="kpi-trend up">↑ +5 vs hier</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Panier moyen</div>
+          <div class="kpi-value">541 DH</div>
+          <div class="kpi-trend down">↓ -3% vs hier</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Produits</div>
+          <div class="kpi-value">147</div>
+          <div class="kpi-trend">dont 3 en rupture</div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <h3>Commandes récentes</h3>
+        <table class="admin-table">
+          <thead>
+            <tr><th>N° commande</th><th>Client</th><th>Total</th><th>Paiement</th><th>Statut</th><th>Date</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>CMD-2025-0234</strong></td><td>Youssef A.</td><td>890 DH</td><td>COD</td><td><span class="status status-pending">En attente</span></td><td>Il y a 5 min</td></tr>
+            <tr><td><strong>CMD-2025-0233</strong></td><td>Salma K.</td><td>4 200 DH</td><td>CMI</td><td><span class="status status-confirmed">Confirmée</span></td><td>Il y a 1h</td></tr>
+            <tr><td><strong>CMD-2025-0232</strong></td><td>Karim M.</td><td>1 250 DH</td><td>COD</td><td><span class="status status-shipped">Expédiée</span></td><td>Il y a 3h</td></tr>
+            <tr><td><strong>CMD-2025-0231</strong></td><td>Fatima Z.</td><td>450 DH</td><td>Virement</td><td><span class="status status-delivered">Livrée</span></td><td>Hier</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="admin-card">
+        <h3>⚠ Alertes stock</h3>
+        <table class="admin-table">
+          <thead>
+            <tr><th>Produit</th><th>Stock actuel</th><th>Seuil</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Casque Bluetooth Premium ANC</td><td><strong style="color:#E7A33E;">3</strong></td><td>5</td><td><a onclick="showToast('✓ Produit réapprovisionné')" style="color:var(--primary);">Réapprovisionner</a></td></tr>
+            <tr><td>Souris sans fil ergonomique</td><td><strong style="color:#CC1016;">0</strong></td><td>5</td><td><a onclick="showToast('✓ Produit réapprovisionné')" style="color:var(--primary);">Réapprovisionner</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== PRODUITS ===== -->
+    <div class="page" data-page-id="admin-products">
+      <div class="admin-header">
+        <h1>Produits</h1>
+        <button class="btn btn-primary" onclick="showToast('✓ Nouveau produit ajouté')">+ Ajouter un produit</button>
+      </div>
+
+      <div class="admin-card">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Image</th><th>Nom</th><th>SKU</th><th>Prix</th><th>Stock</th><th>Statut</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>📱</td><td>Smartphone Galaxy Pro 5G</td><td>SP-GP-256</td><td>4 200 DH</td><td>12</td><td><span class="status status-delivered">Publié</span></td><td><a onclick="showToast('✓ Produit modifié')" style="color:var(--primary);">Modifier</a></td></tr>
+            <tr><td>🎧</td><td>Casque Bluetooth Premium ANC</td><td>CS-BT-ANC</td><td>890 DH</td><td><span style="color:#E7A33E;">3</span></td><td><span class="status status-delivered">Publié</span></td><td><a onclick="showToast('✓ Produit modifié')" style="color:var(--primary);">Modifier</a></td></tr>
+            <tr><td>⌚</td><td>Montre connectée Sport GPS</td><td>MT-SP-GPS</td><td>1 250 DH</td><td>8</td><td><span class="status status-delivered">Publié</span></td><td><a onclick="showToast('✓ Produit modifié')" style="color:var(--primary);">Modifier</a></td></tr>
+            <tr><td>💻</td><td>Ordinateur portable 15" i5</td><td>PC-15-I5</td><td>7 500 DH</td><td>5</td><td><span class="status status-delivered">Publié</span></td><td><a onclick="showToast('✓ Produit modifié')" style="color:var(--primary);">Modifier</a></td></tr>
+            <tr><td>🖱️</td><td>Souris sans fil ergonomique</td><td>SR-SF-ERG</td><td>180 DH</td><td><span style="color:#CC1016;">0</span></td><td><span class="status status-cancelled">Rupture</span></td><td><a onclick="showToast('✓ Produit modifié')" style="color:var(--primary);">Modifier</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== COMMANDES ===== -->
+    <div class="page" data-page-id="admin-orders">
+      <div class="admin-header">
+        <h1>Commandes</h1>
+        <div class="user">23 commandes aujourd'hui · 5 en attente</div>
+      </div>
+
+      <div class="admin-card">
+        <table class="admin-table">
+          <thead>
+            <tr><th>N° commande</th><th>Client</th><th>Articles</th><th>Total</th><th>Paiement</th><th>Statut</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>CMD-2025-0234</strong></td><td>Youssef A.</td><td>2</td><td>890 DH</td><td>COD</td><td><span class="status status-pending">En attente</span></td><td><a onclick="showToast('✓ Commande confirmée')" style="color:var(--primary);">Confirmer</a></td></tr>
+            <tr><td><strong>CMD-2025-0233</strong></td><td>Salma K.</td><td>1</td><td>4 200 DH</td><td>CMI</td><td><span class="status status-confirmed">Confirmée</span></td><td><a onclick="showToast('✓ Commande expédiée')" style="color:var(--primary);">Expédier</a></td></tr>
+            <tr><td><strong>CMD-2025-0232</strong></td><td>Karim M.</td><td>1</td><td>1 250 DH</td><td>COD</td><td><span class="status status-shipped">Expédiée</span></td><td><a onclick="showToast('✓ Commande livrée')" style="color:var(--primary);">Marquer livrée</a></td></tr>
+            <tr><td><strong>CMD-2025-0231</strong></td><td>Fatima Z.</td><td>3</td><td>450 DH</td><td>Virement</td><td><span class="status status-delivered">Livrée</span></td><td><a onclick="showToast('✓ Facture téléchargée')" style="color:var(--primary);">Facture</a></td></tr>
+            <tr><td><strong>CMD-2025-0230</strong></td><td>Omar B.</td><td>1</td><td>180 DH</td><td>COD</td><td><span class="status status-cancelled">Annulée</span></td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== CLIENTS ===== -->
+    <div class="page" data-page-id="admin-customers">
+      <div class="admin-header">
+        <h1>Clients</h1>
+        <div class="user">47 clients enregistrés</div>
+      </div>
+
+      <div class="admin-card">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Nom</th><th>Email</th><th>Téléphone</th><th>Commandes</th><th>CA total</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Youssef A.</td><td>youssef@email.com</td><td>+212 6XX XX XX 01</td><td>3</td><td>2 340 DH</td><td><a onclick="showToast('✓ Fiche client ouverte')" style="color:var(--primary);">Voir</a></td></tr>
+            <tr><td>Salma K.</td><td>salma@email.com</td><td>+212 6XX XX XX 02</td><td>5</td><td>8 900 DH</td><td><a onclick="showToast('✓ Fiche client ouverte')" style="color:var(--primary);">Voir</a></td></tr>
+            <tr><td>Karim M.</td><td>karim@email.com</td><td>+212 6XX XX XX 03</td><td>2</td><td>2 500 DH</td><td><a onclick="showToast('✓ Fiche client ouverte')" style="color:var(--primary);">Voir</a></td></tr>
+            <tr><td>Fatima Z.</td><td>fatima@email.com</td><td>+212 6XX XX XX 04</td><td>1</td><td>450 DH</td><td><a onclick="showToast('✓ Fiche client ouverte')" style="color:var(--primary);">Voir</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== STATISTIQUES ===== -->
+    <div class="page" data-page-id="admin-stats">
+      <div class="admin-header">
+        <h1>Statistiques</h1>
+        <select style="padding:8px 12px;border-radius:6px;border:1px solid var(--border);">
+          <option>7 derniers jours</option>
+          <option selected>30 derniers jours</option>
+          <option>Cette année</option>
+        </select>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">CA total (30j)</div>
+          <div class="kpi-value">142 500 DH</div>
+          <div class="kpi-trend up">↑ +22%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Commandes (30j)</div>
+          <div class="kpi-value">263</div>
+          <div class="kpi-trend up">↑ +15%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Taux conversion</div>
+          <div class="kpi-value">3,8 %</div>
+          <div class="kpi-trend up">↑ +0,5 pt</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Panier moyen</div>
+          <div class="kpi-value">542 DH</div>
+          <div class="kpi-trend up">↑ +6%</div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <h3>Produits les plus vendus</h3>
+        <table class="admin-table">
+          <thead><tr><th>Produit</th><th>Ventes</th><th>CA</th></tr></thead>
+          <tbody>
+            <tr><td>Smartphone Galaxy Pro 5G</td><td>42</td><td>176 400 DH</td></tr>
+            <tr><td>Montre connectée Sport GPS</td><td>38</td><td>47 500 DH</td></tr>
+            <tr><td>Casque Bluetooth Premium</td><td>35</td><td>31 150 DH</td></tr>
+            <tr><td>Ordinateur portable 15" i5</td><td>12</td><td>90 000 DH</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== APPARENCE ===== -->
+    <div class="page" data-page-id="admin-appearance">
+      <div class="admin-header">
+        <h1>Apparence</h1>
+        <button class="btn btn-primary" onclick="showToast('✓ Modifications publiées')">Publier</button>
+      </div>
+
+      <div class="admin-card">
+        <h3>🎨 Template</h3>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;">
+          <div style="border:2px solid var(--primary);border-radius:8px;padding:16px;text-align:center;background:#EAF3FB;cursor:pointer;">
+            <div style="font-size:32px;">⬜</div>
+            <div style="font-size:12px;font-weight:700;margin-top:6px;color:var(--primary);">Sobre ✓</div>
+          </div>
+          <div style="border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;cursor:pointer;" onclick="showToast('✓ Template Élégant sélectionné')">
+            <div style="font-size:32px;">⬛</div>
+            <div style="font-size:12px;font-weight:600;margin-top:6px;">Élégant</div>
+          </div>
+          <div style="border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;cursor:pointer;" onclick="showToast('✓ Template Urbain sélectionné')">
+            <div style="font-size:32px;">🟦</div>
+            <div style="font-size:12px;font-weight:600;margin-top:6px;">Urbain</div>
+          </div>
+          <div style="border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;cursor:pointer;" onclick="showToast('✓ Template Nature sélectionné')">
+            <div style="font-size:32px;">🟩</div>
+            <div style="font-size:12px;font-weight:600;margin-top:6px;">Nature</div>
+          </div>
+          <div style="border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;cursor:pointer;" onclick="showToast('✓ Template Classique sélectionné')">
+            <div style="font-size:32px;">🟨</div>
+            <div style="font-size:12px;font-weight:600;margin-top:6px;">Classique</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <h3>🎨 Couleurs</h3>
+        <div class="form-group">
+          <label>Couleur principale</label>
+          <input type="color" value="#0A66C2" style="width:80px;height:40px;">
+        </div>
+        <div class="form-group">
+          <label>Couleur secondaire</label>
+          <input type="color" value="#F3F2EF" style="width:80px;height:40px;">
+        </div>
+        <div class="form-group">
+          <label>Couleur d'accent</label>
+          <input type="color" value="#E7A33E" style="width:80px;height:40px;">
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <h3>✏️ Textes</h3>
+        <div class="form-group">
+          <label>Nom de la boutique</label>
+          <input type="text" value="AtlasTech">
+        </div>
+        <div class="form-group">
+          <label>Slogan</label>
+          <input type="text" value="Votre spécialiste high-tech au Maroc">
+        </div>
+        <div class="form-group">
+          <label>Texte de la bannière principale</label>
+          <textarea rows="2">Bienvenue chez AtlasTech</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAIEMENTS ===== -->
+    <div class="page" data-page-id="admin-payments">
+      <div class="admin-header">
+        <h1>Paiements</h1>
+      </div>
+
+      <div class="admin-card">
+        <h3>💳 CMI (carte bancaire marocaine)</h3>
+        <div class="form-group">
+          <label>Statut</label>
+          <select><option>Actif</option><option>Désactivé</option></select>
+        </div>
+        <div class="form-group">
+          <label>Merchant ID</label>
+          <input type="text" value="ATLASTECH_001" placeholder="Fourni par CMI">
+        </div>
+        <div class="form-group">
+          <label>Clé API</label>
+          <input type="password" value="••••••••••••••••">
+        </div>
+        <button class="btn btn-secondary" onclick="showToast('✓ Connexion CMI réussie')">Tester la clé</button>
+      </div>
+
+      <div class="admin-card">
+        <h3>💰 Virement bancaire</h3>
+        <div class="form-group">
+          <label>Statut</label>
+          <select><option>Actif</option><option>Désactivé</option></select>
+        </div>
+        <div class="form-group">
+          <label>Banque</label>
+          <input type="text" value="Attijariwafa Bank">
+        </div>
+        <div class="form-group">
+          <label>Bénéficiaire</label>
+          <input type="text" value="AtlasTech SARL">
+        </div>
+        <div class="form-group">
+          <label>RIB</label>
+          <input type="text" value="007 780 0001234567890123 45">
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <h3>📦 Paiement à la livraison (COD)</h3>
+        <div class="form-group">
+          <label>Statut</label>
+          <select><option>Actif</option><option>Désactivé</option></select>
+        </div>
+        <p style="font-size:13px;color:var(--muted);">Le client paie en espèces au livreur. Confirmation téléphonique obligatoire avant expédition.</p>
+      </div>
+
+      <div class="admin-card">
+        <h3>💳 Stripe / PayPal (optionnel)</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Disponible uniquement pour les vendeurs disposant d'une entité à l'étranger.</p>
+        <button class="btn btn-secondary" onclick="showToast('✓ Configuration à venir')">Configurer</button>
+      </div>
+    </div>
+
+    <!-- ===== PARAMÈTRES ===== -->
+    <div class="page" data-page-id="admin-settings">
+      <div class="admin-header">
+        <h1>Paramètres</h1>
+        <button class="btn btn-primary" onclick="showToast('✓ Paramètres enregistrés')">Enregistrer</button>
+      </div>
+
+      <div class="admin-card">
+        <h3>🏪 Informations boutique</h3>
+        <div class="form-group">
+          <label>Nom de la boutique</label>
+          <input type="text" value="AtlasTech">
+        </div>
+        <div class="form-group">
+          <label>Sous-domaine</label>
+          <input type="text" value="atlastech.monsite.ma" disabled style="background:var(--secondary);">
+        </div>
+        <div class="form-group">
+          <label>Email de contact</label>
+          <input type="email" value="contact@atlastech.ma">
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="tel" value="+212 5XX XX XX XX">
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <h3>🚚 Livraison</h3>
+        <div class="form-group">
+          <label>Frais de livraison standard (DH)</label>
+          <input type="number" value="30">
+        </div>
+        <div class="form-group">
+          <label>Livraison gratuite à partir de (DH)</label>
+          <input type="number" value="500">
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <h3>📧 Notifications</h3>
+        <div class="form-group">
+          <label><input type="checkbox" checked> Recevoir un email à chaque nouvelle commande</label>
+        </div>
+        <div class="form-group">
+          <label><input type="checkbox" checked> Recevoir une alerte quand un produit passe sous le seuil</label>
+        </div>
+        <div class="form-group">
+          <label><input type="checkbox"> Recevoir un digest quotidien (8h)</label>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <h3>👥 Utilisateurs</h3>
+        <table class="admin-table">
+          <thead><tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr><td>Ahmed B.</td><td>ahmed@atlastech.ma</td><td>Propriétaire</td><td>—</td></tr>
+            <tr><td>Sara L.</td><td>sara@atlastech.ma</td><td>Employé</td><td><a onclick="showToast('✓ Utilisateur modifié')" style="color:var(--primary);">Modifier</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===== DEMO PANEL ===== -->
+<div class="demo-panel">
+  <button id="btn-front" class="active" onclick="switchView('front')">🛍️ Front office</button>
+  <button id="btn-back" onclick="switchView('back')">⚙️ Backoffice</button>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast">✓ Action effectuée</div>
+
+<script>
+  /* ============ PRODUITS ============ */
+  const products = [
+    { icon: '📱', name: 'Smartphone Galaxy Pro 5G 256 Go', price: 4200, old: 4800, stock: 'in', badge: 'Nouveau' },
+    { icon: '🎧', name: 'Casque Bluetooth Premium ANC', price: 890, old: 1190, stock: 'low', badge: 'Promo', badgeClass: 'promo' },
+    { icon: '⌚', name: 'Montre connectée Sport GPS', price: 1250, stock: 'in' },
+    { icon: '💻', name: 'Ordinateur portable 15" i5 16 Go RAM', price: 7500, stock: 'in' },
+    { icon: '🔊', name: 'Enceinte Bluetooth Waterproof', price: 450, stock: 'in', badge: 'Nouveau' },
+    { icon: '🖱️', name: 'Souris sans fil ergonomique', price: 180, stock: 'out' },
+    { icon: '📷', name: 'Drone caméra 4K stabilisée', price: 3200, stock: 'in' },
+    { icon: '🔋', name: 'Batterie externe 20 000 mAh', price: 255, old: 300, stock: 'in', badge: 'Promo', badgeClass: 'promo' }
+  ];
+
+  function renderProducts(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = products.map((p, i) => `
+      <div class="product-card">
+        ${p.badge ? `<span class="product-badge ${p.badgeClass || ''}">${p.badge}</span>` : ''}
+        <div class="product-image">${p.icon}</div>
+        <div class="product-info">
+          <div class="product-name">${p.name}</div>
+          <div class="product-price">
+            <span class="price-current">${p.price.toLocaleString('fr-FR')} DH</span>
+            ${p.old ? `<span class="price-old">${p.old.toLocaleString('fr-FR')} DH</span>` : ''}
+          </div>
+          <div class="product-stock ${p.stock === 'low' ? 'low' : p.stock === 'out' ? 'out' : ''}">
+            ${p.stock === 'in' ? '✓ En stock' : p.stock === 'low' ? '⚠ Plus que 3 en stock' : '✗ Rupture de stock'}
+          </div>
+          <button class="add-to-cart" ${p.stock === 'out' ? 'disabled' : ''} onclick="addToCart(${i}, this)">
+            ${p.stock === 'out' ? 'Indisponible' : 'Ajouter au panier'}
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  /* ============ PANIER ============ */
+  const cart = [];
+  let cartCount = 0;
+
+  function addToCart(index, btn) {
+    const p = products[index];
+    const existing = cart.find(item => item.name === p.name);
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ name: p.name, price: p.price, icon: p.icon, qty: 1 });
+    }
+    cartCount++;
+    updateCartUI();
+
+    if (btn) {
+      btn.textContent = '✓ Ajouté !';
+      btn.style.background = '#057642';
+      setTimeout(() => {
+        btn.textContent = 'Ajouter au panier';
+        btn.style.background = '';
+      }, 1200);
+    }
+
+    showToast(`✓ Produit ajouté au panier`);
+  }
+
+  function updateCartUI() {
+    document.getElementById('cart-count').textContent = cartCount;
+    document.getElementById('cart-count-float').textContent = cartCount;
+
+    const content = document.getElementById('cart-content');
+    const footer = document.getElementById('cart-footer');
+
+    if (cart.length === 0) {
+      content.innerHTML = '<p>Votre panier est vide.</p>';
+      footer.style.display = 'none';
+      return;
+    }
+
+    let total = 0;
+    content.innerHTML = cart.map((item, i) => {
+      const sub = item.price * item.qty;
+      total += sub;
+      return `
+        <div style="display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid var(--border);">
+          <div style="font-size:32px;">${item.icon}</div>
+          <div style="flex:1;">
+            <div style="font-weight:600;font-size:14px;">${item.name}</div>
+            <div style="font-size:13px;color:var(--muted);">${item.price.toLocaleString('fr-FR')} DH × ${item.qty}</div>
+          </div>
+          <div style="font-weight:700;color:var(--primary);">${sub.toLocaleString('fr-FR')} DH</div>
+          <button onclick="removeFromCart(${i})" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:18px;">✕</button>
+        </div>
+      `;
+    }).join('');
+
+    document.getElementById('cart-total').textContent = total.toLocaleString('fr-FR') + ' DH';
+    footer.style.display = 'block';
+  }
+
+  function removeFromCart(index) {
+    cartCount -= cart[index].qty;
+    if (cartCount < 0) cartCount = 0;
+    cart.splice(index, 1);
+    updateCartUI();
+    showToast('✓ Article retiré');
+  }
+
+  /* ============ NAVIGATION ============ */
+  function goTo(pageId) {
+    const isAdmin = pageId.startsWith('admin-');
+    const viewId = isAdmin ? 'view-back' : 'view-front';
+    const otherViewId = isAdmin ? 'view-front' : 'view-back';
+
+    // Bascule entre les vues
+    document.getElementById(viewId).classList.add('active');
+    document.getElementById(otherViewId).classList.remove('active');
+
+    // Dans la vue active : cache toutes les pages, affiche la bonne
+    const view = document.getElementById(viewId);
+    view.querySelectorAll('.page').forEach(p => {
+      if (p.dataset.pageId === pageId) {
+        p.classList.add('active');
+      } else {
+        p.classList.remove('active');
+      }
+    });
+
+    // Met à jour le lien actif dans la nav principale (front)
+    if (!isAdmin) {
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.page === pageId);
+      });
+    } else {
+      document.querySelectorAll('.admin-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.page === pageId);
+      });
+    }
+
+    // Met à jour le bouton actif du panneau démo
+    document.getElementById('btn-front').classList.toggle('active', !isAdmin);
+    document.getElementById('btn-back').classList.toggle('active', isAdmin);
+
+    window.scrollTo(0, 0);
+  }
+
+  function switchView(view) {
+    if (view === 'back') {
+      goTo('admin-dashboard');
+    } else {
+      goTo('home');
+    }
+  }
+
+  /* ============ RECHERCHE ============ */
+  function searchProduct() {
+    const q = document.getElementById('search-input').value.trim();
+    goTo('shop');
+    setTimeout(() => {
+      const grid = document.getElementById('shop-products');
+      const cards = grid.querySelectorAll('.product-card');
+      cards.forEach(card => {
+        const name = card.querySelector('.product-name').textContent.toLowerCase();
+        card.style.display = name.includes(q.toLowerCase()) ? '' : 'none';
+      });
+      if (q) showToast(`🔍 Résultats pour "${q}"`);
+    }, 50);
+  }
+
+  /* ============ TOAST ============ */
+  let toastTimer;
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  /* ============ INIT ============ */
+  renderProducts('home-products');
+  renderProducts('shop-products');
+  updateCartUI();
+
+  // Force l'affichage de la page d'accueil au chargement
+  goTo('home');
+</script>
+
+</body>
+</html>
